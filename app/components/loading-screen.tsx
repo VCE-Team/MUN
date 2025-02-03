@@ -9,16 +9,22 @@ export function LoadingScreen() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Show loading screen only for the home page
     if (pathname === "/") {
       setIsLoading(true);
+      document.body.classList.add("overflow-hidden");
+
       const timer = setTimeout(() => {
         setIsLoading(false);
-      }, 2500); // Adjust the duration as needed
+        document.body.classList.remove("overflow-hidden");
+      }, 2500);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        document.body.classList.remove("overflow-hidden");
+      };
     } else {
       setIsLoading(false);
+      document.body.classList.remove("overflow-hidden");
     }
   }, [pathname]);
 
@@ -43,7 +49,7 @@ export function LoadingScreen() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-5xl font-bold text-white tracking-wider"
+            className="text-[8vh] font-bold text-white tracking-wider"
           >
             VCEMUN
           </motion.h1>
