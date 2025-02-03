@@ -16,7 +16,7 @@ export function LoadingScreen() {
       const timer = setTimeout(() => {
         setIsLoading(false);
         document.body.classList.remove("overflow-hidden");
-      }, 2500);
+      }, 1500);
 
       return () => {
         clearTimeout(timer);
@@ -26,7 +26,7 @@ export function LoadingScreen() {
       setIsLoading(false);
       document.body.classList.remove("overflow-hidden");
     }
-  }, [pathname]);
+  }, []);
 
   if (!isLoading) return null;
 
@@ -42,14 +42,14 @@ export function LoadingScreen() {
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: "100%" }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            className="absolute left-0 top-1/2 h-[1px] bg-white"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="absolute left-0 top-1/2 h-[3px] bg-white"
           />
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-[8vh] font-bold text-white tracking-wider"
+            transition={{ duration: 0.8 }}
+            className="text-[10vh] font-bold text-white tracking-wider"
           >
             VCEMUN
           </motion.h1>

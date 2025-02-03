@@ -46,7 +46,7 @@ export function Header() {
         </Link>
 
         <NavigationMenu>
-          <NavigationMenuList>
+          <NavigationMenuList className="flex gap-3">
             <NavigationMenuItem>
               <Link href="/" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -58,7 +58,7 @@ export function Header() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Committees</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                <ul className="grid w-[400px] gap-3 p-2 md:w-[450px] md:grid-cols-2 lg:w-[500px]">
                   {committees.map(committee => (
                     <li key={committee.title}>
                       <NavigationMenuLink asChild>
@@ -78,17 +78,17 @@ export function Header() {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/usg" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Secretariat
+                  USG
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/chairs" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Contact
+                  Chairs
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="bg-black text-white">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
             <h3 className="text-xl font-bold">
               Vardhaman College of Engineering
@@ -23,16 +23,10 @@ export function Footer() {
               <strong>Email:</strong> mun@vardhaman.org
             </p>
             <div className="flex space-x-4">
-              <a
-                href="https://instagram.com/munvce"
-                className="hover:text-primary"
-              >
+              <a href="https://instagram.com" className="hover:text-primary">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a
-                href="https://www.linkedin.com/in/munvce-517773285"
-                className="hover:text-primary"
-              >
+              <a href="https://www.linkedin.in" className="hover:text-primary">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
@@ -99,7 +93,7 @@ export function Footer() {
                   href="/committees/ecosoc"
                   className="text-gray-400 hover:text-white"
                 >
-                  Ecosoc
+                  ECOSOC
                 </Link>
               </li>
               <li>
@@ -111,13 +105,6 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Our Newsletter</h4>
-            <p className="text-gray-400 mb-4">
-              COMING SOON !! MORE UPDATES PLEASE FOLLOW
-            </p>
           </div>
         </div>
 

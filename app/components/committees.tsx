@@ -75,11 +75,11 @@ export function Committees() {
       className="relative min-h-[100vh] bg-black flex flex-col items-center justify-center overflow-hidden"
     >
       <div className="flex flex-col items-center w-full">
-        <h2 className="text-4xl font-bold text-center text-white relative z-10">
-          Committees
+        <h2 className="text-4xl font-bold text-center text-white relative z-10 mb-12">
+          COMMITTEES
         </h2>
 
-        <div className="relative w-[800px] h-[800px] flex items-center justify-center mt-0">
+        <div className="relative w-[800px] h-[800px] flex items-center justify-center">
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <div className="relative w-[220px] h-[220px] flex items-center justify-center">
               <MotionImage
@@ -106,7 +106,7 @@ export function Committees() {
           </div>
 
           {committees.map((committee, index) => {
-            const angle = 45 + index * 90;
+            const angle = (index * 360) / committees.length;
             const isActive = activeIndex === index;
 
             return (
@@ -114,7 +114,7 @@ export function Committees() {
                 key={committee.title}
                 href={committee.href}
                 className={cn(
-                  "absolute w-[300px] h-[200px] rounded-2xl overflow-hidden transform-gpu transition-all duration-700 cursor-pointer",
+                  "absolute w-[200px] h-[200px] rounded-full overflow-hidden transition-all duration-700 cursor-pointer z-30",
                   "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity",
                   isActive
                     ? "scale-110 before:opacity-30"
@@ -122,6 +122,7 @@ export function Committees() {
                 )}
                 style={{
                   transform: `rotate(${angle}deg) translateX(300px) rotate(-${angle}deg)`,
+                  pointerEvents: "auto",
                 }}
                 onMouseEnter={() => setActiveIndex(index)}
                 onMouseLeave={() => setActiveIndex(null)}
@@ -129,10 +130,15 @@ export function Committees() {
                 <Image
                   src={committee.url || "/placeholder.svg"}
                   alt={committee.title}
-                  width={300}
-                  height={200}
-                  className="object-cover w-full h-full transition-transform duration-700"
+                  fill
+                  className="object-cover transition-transform duration-700"
                 />
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <div className="text-white text-center">
+                    <h3 className="text-lg font-bold">{committee.title}</h3>
+                    <p className="text-sm">{committee.description}</p>
+                  </div>
+                </div>
               </Link>
             );
           })}

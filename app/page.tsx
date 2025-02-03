@@ -1,10 +1,9 @@
 import { Hero } from "@/app/components/hero";
 import { About } from "@/app/components/about";
-import { Partners } from "@/app/components/partners";
 import { Committees } from "@/app/components/committees";
-import { CallToAction } from "@/app/components/cta";
 import { Contact } from "@/app/components/contact";
 import { RevealAnimation } from "@/app/components/reveal-animation";
+import { SecGenDirectorGen } from "./components/sec-gen-director-gen";
 
 export default function Home() {
   return (
@@ -14,13 +13,10 @@ export default function Home() {
         <About />
       </RevealAnimation>
       <RevealAnimation>
-        <Partners />
-      </RevealAnimation>
-      <RevealAnimation>
         <Committees />
       </RevealAnimation>
       <RevealAnimation>
-        <CallToAction />
+        <SecGenDirectorGen />
       </RevealAnimation>
       <RevealAnimation>
         <Contact />

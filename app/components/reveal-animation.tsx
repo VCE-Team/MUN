@@ -19,7 +19,7 @@ export function RevealAnimation({
       <motion.div
         initial={{ y: 75, opacity: 0 }}
         animate={isInView ? { y: 0, opacity: 1 } : { y: 75, opacity: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
       >
         {children}
       </motion.div>
