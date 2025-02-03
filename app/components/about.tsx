@@ -22,7 +22,7 @@ export function About() {
           </div>
           <div className="order-1 md:order-2">
             <Image
-              src="/placeholder.svg?height=400&width=600"
+              src="/images/about.avif"
               alt="MUN Conference"
               width={600}
               height={400}

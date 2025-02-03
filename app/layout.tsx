@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
+import { Toaster } from "@/components/ui/toaster";
+import { LoadingScreen } from "@/app/components/loading-screen";
 import type React from "react";
+import { ScrollReset } from "./components/scroll-reset";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,17 +23,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <LoadingScreen />
+        <ScrollReset />
+        <div id="main-content" className="flex flex-col min-h-screen">
           <Header />
-          <main>{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
-          <Toaster />
-        </ThemeProvider>
+        </div>
+        <Toaster />
       </body>
     </html>
   );

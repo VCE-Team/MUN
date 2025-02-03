@@ -1,88 +1,141 @@
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  BanknoteIcon as Bank2,
-  ShieldIcon as ShieldShaded,
-  Flag,
-  Hospital,
-  BanknoteIcon as Bank,
-  Mic,
-} from "lucide-react";
+"use client";
+
+import { useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { motion, useInView } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const committees = [
   {
-    icon: Bank2,
-    title: "General Assembly",
-    description:
-      "The General Assembly stands as a beacon of hope and unity, providing a platform for open dialogue and the exchange of diverse perspectives on a myriad of global issues.",
-    href: "/committees/general-assembly",
+    title: "DISEC",
+    description: "Disarmament and International Security",
+    href: "/committees/disec",
+    url: "/images/committees/disec.jpg",
   },
   {
-    icon: ShieldShaded,
-    title: "UN Security Council",
-    description:
-      "The Security Council is responsible for upholding international peace and security within the United Nations and assumes a crucial role in navigating the complexities of our ever changing global landscape.",
-    href: "/committees/unsc",
-  },
-  {
-    icon: Flag,
-    title: "UN Human Rights Council",
-    description:
-      "The Model United Nations Human Rights Council is a forum dedicated to promoting and protecting the fundamental rights and dignity of every individual across the globe.",
-    href: "/committees/unhrc",
-  },
-  {
-    icon: Hospital,
-    title: "World Health Organization",
-    description:
-      "The World Health Organization (WHO) is a beacon of hope and progress, working towards achieving the highest attainable standard of health for all people & plays a pivotal role in shaping international health policies and responses.",
-    href: "/committees/who",
-  },
-  {
-    icon: Bank,
-    title: "Lok Sabha",
-    description:
-      "The Lok Sabha is a melting pot of ideas and ideologies, where the dynamic exchange of thoughts and perspectives enriches the democratic fabric of the nation.",
-    href: "/committees/lok-sabha",
-  },
-  {
-    icon: Mic,
     title: "International Press",
-    description:
-      "The Model United Nations International Press holds the power of information and communication embodying the spirit of free press, objectivity, and responsibility in reporting.",
-    href: "/committees/international-press",
+    description: "Press and Media",
+    href: "/committees/internationalpress",
+    url: "/images/committees/internationalpress.jpg",
+  },
+  {
+    title: "UNHRC",
+    description: "Human Rights Council",
+    href: "/committees/unhrc",
+    url: "/images/committees/unhrc.jpg",
+  },
+  {
+    title: "ECOSOC",
+    description: "Economic and Social Council",
+    href: "/committees/ecosoc",
+    url: "/images/committees/ecosoc.jpg",
   },
 ];
 
-export function Committees() {
-  return (
-    <section className="py-16 bg-muted/50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Committees</h2>
-          <p className="text-muted-foreground">
-            Explore our diverse range of committees
-          </p>
-        </div>
+const MotionImage = motion(Image);
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {committees.map(committee => (
-            <Link href={committee.href} key={committee.title}>
-              <Card className="h-full hover:bg-accent transition-colors">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <committee.icon className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    {committee.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {committee.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+export function Committees() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.5 });
+
+  const shieldVariants = {
+    hidden: { y: -400, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 20,
+        duration: 0.8,
+      },
+    },
+  };
+
+  const wingsVariants = {
+    hidden: { y: 400, opacity: 0 },
+    visible: {
+      y: -14,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 20,
+        duration: 0.8,
+        delay: 0.2,
+      },
+    },
+  };
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative min-h-[100vh] bg-black flex flex-col items-center justify-center overflow-hidden"
+    >
+      <div className="flex flex-col items-center w-full">
+        <h2 className="text-4xl font-bold text-center text-white relative z-10">
+          Committees
+        </h2>
+
+        <div className="relative w-[800px] h-[800px] flex items-center justify-center mt-0">
+          <div className="absolute inset-0 flex items-center justify-center z-20">
+            <div className="relative w-[220px] h-[220px] flex items-center justify-center">
+              <MotionImage
+                src="/images/logos/Shield.png"
+                alt="VCEMUN Shield"
+                width={220}
+                height={220}
+                className="absolute w-2/3 h-2/3 object-contain"
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                variants={shieldVariants}
+              />
+              <MotionImage
+                src="/images/logos/Wings.png"
+                alt="VCEMUN Wings"
+                width={300}
+                height={300}
+                className="relative w-full h-full object-contain mt-[6vh]"
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                variants={wingsVariants}
+              />
+            </div>
+          </div>
+
+          {committees.map((committee, index) => {
+            const angle = 45 + index * 90;
+            const isActive = activeIndex === index;
+
+            return (
+              <Link
+                key={committee.title}
+                href={committee.href}
+                className={cn(
+                  "absolute w-[300px] h-[200px] rounded-2xl overflow-hidden transform-gpu transition-all duration-700 cursor-pointer",
+                  "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity",
+                  isActive
+                    ? "scale-110 before:opacity-30"
+                    : "hover:scale-105 before:opacity-60"
+                )}
+                style={{
+                  transform: `rotate(${angle}deg) translateX(300px) rotate(-${angle}deg)`,
+                }}
+                onMouseEnter={() => setActiveIndex(index)}
+                onMouseLeave={() => setActiveIndex(null)}
+              >
+                <Image
+                  src={committee.url || "/placeholder.svg"}
+                  alt={committee.title}
+                  width={300}
+                  height={200}
+                  className="object-cover w-full h-full transition-transform duration-700"
+                />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

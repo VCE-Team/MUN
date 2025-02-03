@@ -1,17 +1,31 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function Hero() {
+  const [bgLoaded, setBgLoaded] = useState(false);
+
+  useEffect(() => {
+    setBgLoaded(true);
+  }, []);
+
   return (
     <section className="relative h-screen flex items-center justify-center text-center">
       <div
-        className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/hero-bg.jpg')",
-        }}
+        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
+          bgLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
       />
-      <div className="relative z-10 container mx-auto px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="relative z-10 container mx-auto px-4"
+      >
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
           Welcome to VCE Model United Nations
         </h1>
@@ -27,7 +41,7 @@ export function Hero() {
             Register Now!
           </Button>
         </Link>
-      </div>
+      </motion.div>
     </section>
   );
 }

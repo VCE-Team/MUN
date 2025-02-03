@@ -75,3 +75,8 @@
   }
 }
 
+@layer utilities {
+  .grayscale-70 {
+    filter: grayscale(70%);
+  }
+}

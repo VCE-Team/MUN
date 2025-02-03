@@ -46,9 +46,9 @@ export function Contact() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Call Us</h3>
               <p className="text-muted-foreground">
-                +91 9121890849
+                +91 7702040524
                 <br />
-                +91 9010736004
+                +91 9849583637
               </p>
             </CardContent>
           </Card>
@@ -60,7 +60,6 @@ export function Contact() {
             width="100%"
             height="450"
             style={{ border: 0 }}
-            allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="rounded-lg"

@@ -85,6 +85,7 @@ export default function RegisterPage() {
         description: "Something went wrong. Please try again later.",
         variant: "destructive",
       });
+      console.log(error);
     }
   }
 

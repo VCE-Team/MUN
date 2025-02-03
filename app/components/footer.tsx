@@ -80,18 +80,26 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/committees/general-assembly"
+                  href="/committees/internationalpress"
                   className="text-gray-400 hover:text-white"
                 >
-                  General Assembly
+                  International Press
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/committees/unsc"
+                  href="/committees/disec"
                   className="text-gray-400 hover:text-white"
                 >
-                  UN Security Council
+                  DISEC
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/committees/ecosoc"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Ecosoc
                 </Link>
               </li>
               <li>
@@ -99,31 +107,7 @@ export function Footer() {
                   href="/committees/unhrc"
                   className="text-gray-400 hover:text-white"
                 >
-                  UN Human Rights Council
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/committees/who"
-                  className="text-gray-400 hover:text-white"
-                >
-                  World Health Organization
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/committees/lok-sabha"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Lok Sabha
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/committees/international-press"
-                  className="text-gray-400 hover:text-white"
-                >
-                  International Press
+                  UNHRC
                 </Link>
               </li>
             </ul>

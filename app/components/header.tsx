@@ -14,28 +14,20 @@ import Image from "next/image";
 
 const committees = [
   {
-    title: "General Assembly",
-    href: "/committees/general-assembly",
-  },
-  {
-    title: "UN Security Council",
-    href: "/committees/unsc",
-  },
-  {
-    title: "UN Human Rights Council",
-    href: "/committees/unhrc",
-  },
-  {
-    title: "World Health Organization",
-    href: "/committees/who",
-  },
-  {
-    title: "Lok Sabha",
-    href: "/committees/lok-sabha",
-  },
-  {
     title: "International Press",
-    href: "/committees/international-press",
+    href: "/committees/internationalpress",
+  },
+  {
+    title: "DISEC",
+    href: "/committees/disec",
+  },
+  {
+    title: "ECOSOC",
+    href: "/committees/ecosoc",
+  },
+  {
+    title: "UNHRC",
+    href: "/committees/unhrc",
   },
 ];
 
@@ -45,10 +37,11 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/placeholder.svg?height=40&width=150"
+            src="/images/logos/munvcelogo.png"
             alt="VCEMUN Logo"
-            width={150}
-            height={40}
+            width={50}
+            height={50}
+            priority
           />
         </Link>
 
