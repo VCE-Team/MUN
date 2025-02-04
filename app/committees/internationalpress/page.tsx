@@ -48,17 +48,17 @@ export default function InternationalPressPage() {
             {
               name: "KUMARA SHIVANANDA",
               role: "CO-CHAIRPERSON",
-              image: "/images/board/kumara.jpg",
+              image: "/images/team/placeholder.jpg",
             },
             {
               name: "SREE VAIBHAV",
               role: "CO-CHAIRPERSON",
-              image: "/images/board/vaibhav.jpg",
+              image: "/images/team/placeholder.jpg",
             },
             {
               name: "YOGITHA",
               role: "RAPPORTEUR",
-              image: "/images/board/yogitha.jpg",
+              image: "/images/team/placeholder.jpg",
             },
           ].map(member => (
             <div key={member.name} className="text-center space-y-4">
