@@ -12,13 +12,13 @@ export default function InternationalPressLayout({
       <div className="relative h-screen">
         <div className="absolute inset-0">
           <Image
-            src="/images/committees/internationalpress.jpg"
+            src="/images/committees/internationalpresscopy.jpg"
             alt="International Press"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/10" />
         </div>
       </div>
 

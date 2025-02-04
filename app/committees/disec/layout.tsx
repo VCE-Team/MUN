@@ -12,13 +12,14 @@ export default function DISECLayout({
       <div className="relative h-screen">
         <div className="absolute inset-0">
           <Image
-            src="/images/committees/disec.jpg"
+            src="/images/committees/diseccopy.jpg"
             alt="DISEC"
             fill
             className="object-cover"
             priority
+            quality={100}
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black" />
         </div>
       </div>
 

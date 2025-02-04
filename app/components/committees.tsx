@@ -12,24 +12,32 @@ const committees = [
     description: "Disarmament and International Security",
     href: "/committees/disec",
     url: "/images/committees/disec.jpg",
+    width: "200px",
+    height: "300px",
   },
   {
     title: "International Press",
     description: "Press and Media",
     href: "/committees/internationalpress",
     url: "/images/committees/internationalpress.jpg",
+    width: "400px",
+    height: "220px",
   },
   {
     title: "UNHRC",
     description: "Human Rights Council",
     href: "/committees/unhrc",
     url: "/images/committees/unhrc.jpg",
+    width: "350px",
+    height: "200px",
   },
   {
     title: "ECOSOC",
     description: "Economic and Social Council",
     href: "/committees/ecosoc",
     url: "/images/committees/ecosoc.jpg",
+    width: "400px",
+    height: "200px",
   },
 ];
 
@@ -72,14 +80,14 @@ export function Committees() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100vh] bg-black flex flex-col items-center justify-center overflow-hidden"
+      className="relative pt-[6vh] pb-[6vh] bg-black flex flex-col items-center justify-center overflow-hidden"
     >
       <div className="flex flex-col items-center w-full">
-        <h2 className="text-4xl font-bold text-center text-white relative z-10 mb-12">
+        <h2 className="text-4xl font-bold text-center text-white relative z-10">
           COMMITTEES
         </h2>
 
-        <div className="relative w-[800px] h-[800px] flex items-center justify-center">
+        <div className="relative w-[1000px] h-[750px] flex items-center justify-center">
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <div className="relative w-[220px] h-[220px] flex items-center justify-center">
               <MotionImage
@@ -87,7 +95,7 @@ export function Committees() {
                 alt="VCEMUN Shield"
                 width={220}
                 height={220}
-                className="absolute w-2/3 h-2/3 object-contain"
+                className="absolute w-2/3 h-2/3 object-contain mb-[5vh]"
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 variants={shieldVariants}
@@ -97,7 +105,7 @@ export function Committees() {
                 alt="VCEMUN Wings"
                 width={300}
                 height={300}
-                className="relative w-full h-full object-contain mt-[6vh]"
+                className="relative w-full h-full object-contain mt-[3.2vh]"
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 variants={wingsVariants}
@@ -106,7 +114,7 @@ export function Committees() {
           </div>
 
           {committees.map((committee, index) => {
-            const angle = (index * 360) / committees.length;
+            const angle = index * 90 + 45;
             const isActive = activeIndex === index;
 
             return (
@@ -114,15 +122,17 @@ export function Committees() {
                 key={committee.title}
                 href={committee.href}
                 className={cn(
-                  "absolute w-[200px] h-[200px] rounded-full overflow-hidden transition-all duration-700 cursor-pointer z-30",
+                  "absolute overflow-hidden transition-all duration-700 cursor-pointer z-30",
                   "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity",
                   isActive
                     ? "scale-110 before:opacity-30"
-                    : "hover:scale-105 before:opacity-60"
+                    : "hover:scale-95 before:opacity-60"
                 )}
                 style={{
-                  transform: `rotate(${angle}deg) translateX(300px) rotate(-${angle}deg)`,
+                  transform: `rotate(${angle}deg) translateX(325px) rotate(-${angle}deg)`,
                   pointerEvents: "auto",
+                  width: committee.width,
+                  height: committee.height,
                 }}
                 onMouseEnter={() => setActiveIndex(index)}
                 onMouseLeave={() => setActiveIndex(null)}
@@ -133,12 +143,6 @@ export function Committees() {
                   fill
                   className="object-cover transition-transform duration-700"
                 />
-                <div className="absolute inset-0 flex items-center justify-center z-20">
-                  <div className="text-white text-center">
-                    <h3 className="text-lg font-bold">{committee.title}</h3>
-                    <p className="text-sm">{committee.description}</p>
-                  </div>
-                </div>
               </Link>
             );
           })}

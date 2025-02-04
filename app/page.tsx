@@ -4,6 +4,7 @@ import { Committees } from "@/app/components/committees";
 import { Contact } from "@/app/components/contact";
 import { RevealAnimation } from "@/app/components/reveal-animation";
 import { SecGenDirectorGen } from "./components/sec-gen-director-gen";
+import { Partners } from "./components/partners";
 
 export default function Home() {
   return (
@@ -17,6 +18,9 @@ export default function Home() {
       </RevealAnimation>
       <RevealAnimation>
         <SecGenDirectorGen />
+      </RevealAnimation>
+      <RevealAnimation>
+        <Partners />
       </RevealAnimation>
       <RevealAnimation>
         <Contact />

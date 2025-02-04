@@ -12,13 +12,13 @@ export default function UNHRCLayout({
       <div className="relative h-screen">
         <div className="absolute inset-0">
           <Image
-            src="/images/committees/unhrc.jpg"
+            src="/images/committees/unhrccopy.jpg"
             alt="UNHRC"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/10" />
         </div>
       </div>
 
