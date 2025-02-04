@@ -41,29 +41,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-white">
-                  About us
-                </Link>
-              </li>
-              <li>
                 <Link
                   href="/committees"
                   className="text-gray-400 hover:text-white"
                 >
                   Committees
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/code-of-conduct"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Code of Conduct
-                </Link>
-              </li>
-              <li>
-                <Link href="/rules" className="text-gray-400 hover:text-white">
-                  Rules of Procedure
                 </Link>
               </li>
             </ul>

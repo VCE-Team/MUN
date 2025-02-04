@@ -80,20 +80,20 @@ const itemVariants = {
 
 export default function TeamPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-black py-20">
-      <div className="container px-4 mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4">
+    <div className="min-h-screen bg-gradient-to-b from-background to-black py-10 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">
             Presenting a team of distinguished
           </h1>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-lg sm:text-xl text-muted-foreground">
             experts leading the way in their field
           </p>
         </div>
 
         {Object.entries(teamMembers).map(([section, members]) => (
-          <div key={section} className="mb-16">
-            <h2 className="text-2xl font-semibold mb-8 text-center">
+          <div key={section} className="mb-12">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-center">
               {section}
             </h2>
             <motion.div
@@ -101,27 +101,29 @@ export default function TeamPage() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
+              className="flex flex-wrap justify-center gap-8"
             >
               {members.map(member => (
                 <motion.div
                   key={member.name}
                   variants={itemVariants}
-                  className="group relative"
+                  className="flex flex-col items-center w-full sm:w-auto"
                 >
-                  <div className="relative w-64 h-64 rounded-full border-red-500 overflow-hidden mb-4 mx-auto">
+                  <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden mb-4">
                     <Image
                       src={member.image || "/placeholder.svg"}
                       alt={member.name}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="object-cover"
                     />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-xl font-semibold mb-1">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-1">
                       {member.name}
                     </h3>
-                    <p className="text-muted-foreground mb-3">{member.role}</p>
+                    <p className="text-sm sm:text-base text-muted-foreground">
+                      {member.role}
+                    </p>
                   </div>
                 </motion.div>
               ))}
