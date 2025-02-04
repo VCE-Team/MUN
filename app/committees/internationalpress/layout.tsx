@@ -17,8 +17,9 @@ export default function InternationalPressLayout({
             fill
             className="object-cover"
             priority
+            quality={100}
           />
-          <div className="absolute inset-0 bg-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black" />
         </div>
       </div>
 

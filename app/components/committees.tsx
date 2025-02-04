@@ -11,17 +11,17 @@ const committees = [
     title: "DISEC",
     description: "Disarmament and International Security",
     href: "/committees/disec",
-    url: "/images/committees/disec.jpg",
-    width: "200px",
-    height: "300px",
+    url: "/images/committees/diseccopy.jpg",
+    width: "350px",
+    height: "200px",
   },
   {
     title: "International Press",
     description: "Press and Media",
     href: "/committees/internationalpress",
     url: "/images/committees/internationalpress.jpg",
-    width: "400px",
-    height: "220px",
+    width: "350px",
+    height: "200px",
   },
   {
     title: "UNHRC",
@@ -36,7 +36,7 @@ const committees = [
     description: "Economic and Social Council",
     href: "/committees/ecosoc",
     url: "/images/committees/ecosoc.jpg",
-    width: "400px",
+    width: "350px",
     height: "200px",
   },
 ];
@@ -87,7 +87,7 @@ export function Committees() {
           COMMITTEES
         </h2>
 
-        <div className="relative w-[1000px] h-[750px] flex items-center justify-center">
+        <div className="relative w-3/4 h-[750px] flex items-center justify-center">
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <div className="relative w-[220px] h-[220px] flex items-center justify-center">
               <MotionImage
