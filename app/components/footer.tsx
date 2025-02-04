@@ -42,10 +42,20 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/committees"
+                  href="/#committees"
                   className="text-gray-400 hover:text-white"
                 >
                   Committees
+                </Link>
+              </li>
+              <li>
+                <Link href="/usg" className="text-gray-400 hover:text-white">
+                  Under Sec Gen
+                </Link>
+              </li>
+              <li>
+                <Link href="/chairs" className="text-gray-400 hover:text-white">
+                  Chairs
                 </Link>
               </li>
             </ul>
@@ -54,14 +64,6 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Our Committees</h4>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/committees/internationalpress"
-                  className="text-gray-400 hover:text-white"
-                >
-                  International Press
-                </Link>
-              </li>
               <li>
                 <Link
                   href="/committees/disec"
@@ -84,6 +86,14 @@ export function Footer() {
                   className="text-gray-400 hover:text-white"
                 >
                   UNHRC
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/committees/internationalpress"
+                  className="text-gray-400 hover:text-white"
+                >
+                  International Press
                 </Link>
               </li>
             </ul>

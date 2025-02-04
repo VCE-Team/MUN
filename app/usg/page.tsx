@@ -11,8 +11,6 @@ interface TeamMember {
 }
 
 const teamMembers: TeamMember[] = [
-  { name: "Akshay", role: "Sec Gen", image: "/images/team/akshay.jpg" },
-  { name: "Aron", role: "Director Gen", image: "/images/team/aron.jpg" },
   {
     name: "Lohith",
     role: "USG Logistics",
@@ -97,40 +95,46 @@ export default function TeamPage() {
           </p>
         </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center"
-        >
-          {teamMembers.map(member => (
-            <motion.div
-              key={member.name}
-              variants={itemVariants}
-              className="flex flex-col items-center max-w-xs"
-            >
-              <div className="relative w-48 h-48 rounded-full overflow-hidden mb-4">
-                <Image
-                  src={imageSrcs[member.name] || member.image}
-                  alt={member.name}
-                  fill
-                  className="object-cover"
-                  onError={() => {
-                    setImageSrcs(prev => ({
-                      ...prev,
-                      [member.name]: "/images/team/placeholder.jpg",
-                    }));
-                  }}
-                />
-              </div>
-              <div className="text-center">
-                <h3 className="text-lg font-semibold mb-1">{member.name}</h3>
-                <p className="text-sm text-muted-foreground">{member.role}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="flex justify-center">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full md:w-5/6 justify-items-center"
+          >
+            {teamMembers.map(member => (
+              <motion.div
+                key={member.name}
+                variants={itemVariants}
+                className="flex flex-col items-center w-full max-w-[200px]"
+              >
+                <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-full overflow-hidden mb-4">
+                  <Image
+                    src={imageSrcs[member.name] || member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                    onError={() => {
+                      setImageSrcs(prev => ({
+                        ...prev,
+                        [member.name]: "/images/team/placeholder.jpg",
+                      }));
+                    }}
+                  />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-base sm:text-lg font-semibold mb-1">
+                    {member.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    {member.role}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </div>
   );

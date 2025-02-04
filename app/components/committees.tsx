@@ -80,6 +80,7 @@ export function Committees() {
   return (
     <section
       ref={containerRef}
+      id="committees"
       className="relative pt-[6vh] pb-[6vh] bg-black flex flex-col items-center justify-center overflow-hidden"
     >
       <div className="flex flex-col items-center w-full">
