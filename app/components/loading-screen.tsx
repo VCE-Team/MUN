@@ -26,7 +26,7 @@ export function LoadingScreen() {
       setIsLoading(false);
       document.body.classList.remove("overflow-hidden");
     }
-  }, []);
+  }, [pathname]);
 
   if (!isLoading) return null;
 

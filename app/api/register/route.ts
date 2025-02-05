@@ -17,6 +17,8 @@ async function createUniqueIndex(collection: Collection): Promise<void> {
   await collection.createIndex({ email: 1 }, { unique: true });
 }
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   try {
     const client = await connectToDatabase();

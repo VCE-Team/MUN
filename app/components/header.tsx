@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const committees = [
   { title: "DISEC", href: "/committees/disec" },
@@ -26,25 +26,23 @@ export function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const controlHeader = () => {
+  const controlHeader = useCallback(() => {
     if (typeof window !== "undefined") {
       if (window.scrollY > lastScrollY) {
-        // Scrolling down
         setIsVisible(false);
       } else {
-        // Scrolling up
         setIsVisible(true);
       }
       setLastScrollY(window.scrollY);
     }
-  };
+  }, [lastScrollY]);
 
   useEffect(() => {
     window.addEventListener("scroll", controlHeader);
     return () => {
       window.removeEventListener("scroll", controlHeader);
     };
-  }, [lastScrollY]);
+  }, [controlHeader]);
 
   return (
     <AnimatePresence>
