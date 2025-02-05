@@ -63,7 +63,9 @@ export default function RegisterPage() {
 
   const checkEmailExists = async (email: string) => {
     const response = await fetch(
-      `http://localhost:5174/api/check-email?email=${encodeURIComponent(email)}`
+      `https://munvcebackend.onrender.com/api/check-email?email=${encodeURIComponent(
+        email
+      )}`
     );
     console.log(response);
     const data = await response.json();
@@ -115,13 +117,16 @@ export default function RegisterPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("http://localhost:5174/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await fetch(
+        "https://munvcebackend.onrender.com/api/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
 
       const data = await response.json();
       if (data.success) {

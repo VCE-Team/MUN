@@ -13,9 +13,6 @@ export default function Home() {
       <LoadingScreen />
       <RouteLoading />
       <Hero />
-      {/* <RevealAnimation> */}
-      {/* <CountDown /> */}
-      {/* </RevealAnimation> */}
       <RevealAnimation>
         <div>
           <h1
