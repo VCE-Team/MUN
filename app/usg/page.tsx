@@ -22,6 +22,11 @@ const teamMembers: TeamMember[] = [
     image: "/images/team/shubham.jpg",
   },
   {
+    name: "Bhavish",
+    role: "USG Logistics",
+    image: "/images/team/bhavish.jpg",
+  },
+  {
     name: "Sujeeth",
     role: "USG Outreach and marketing",
     image: "/images/team/sujeeth.jpg",

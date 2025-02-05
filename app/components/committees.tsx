@@ -8,14 +8,6 @@ import { cn } from "@/lib/utils";
 
 const committees = [
   {
-    title: "DISEC",
-    description: "Disarmament and International Security",
-    href: "/committees/disec",
-    url: "/images/committees/diseccopy.jpg",
-    width: "350px",
-    height: "200px",
-  },
-  {
     title: "International Press",
     description: "Press and Media",
     href: "/committees/internationalpress",
@@ -28,6 +20,14 @@ const committees = [
     description: "Human Rights Council",
     href: "/committees/unhrc",
     url: "/images/committees/unhrc.jpg",
+    width: "350px",
+    height: "200px",
+  },
+  {
+    title: "DISEC",
+    description: "Disarmament and International Security",
+    href: "/committees/disec",
+    url: "/images/committees/diseccopy.jpg",
     width: "350px",
     height: "200px",
   },

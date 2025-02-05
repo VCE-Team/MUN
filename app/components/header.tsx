@@ -16,20 +16,20 @@ import { useScrollDirection } from "@/hooks/use-scroll-direction";
 
 const committees = [
   {
-    title: "International Press",
-    href: "/committees/internationalpress",
-  },
-  {
     title: "DISEC",
     href: "/committees/disec",
+  },
+  {
+    title: "UNHRC",
+    href: "/committees/unhrc",
   },
   {
     title: "ECOSOC",
     href: "/committees/ecosoc",
   },
   {
-    title: "UNHRC",
-    href: "/committees/unhrc",
+    title: "International Press",
+    href: "/committees/internationalpress",
   },
 ];
 
@@ -72,13 +72,13 @@ export function Header() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Committees</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-2 md:w-[450px] md:grid-cols-2 lg:w-[500px]">
+                    <ul className="flex flex-col w-[200px] gap-1 p-2">
                       {committees.map(committee => (
                         <li key={committee.title}>
                           <NavigationMenuLink asChild>
                             <Link
                               href={committee.href}
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              className="block select-none rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                             >
                               <div className="text-sm font-medium leading-none">
                                 {committee.title}

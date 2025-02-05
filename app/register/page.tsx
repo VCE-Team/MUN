@@ -165,7 +165,7 @@ export default function RegisterPage() {
             name="committee"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Preferred Committee</FormLabel>
+                <FormLabel>Select Committee</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -176,19 +176,17 @@ export default function RegisterPage() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="general-assembly">
-                      General Assembly
+                    <SelectItem value="disec">
+                      Disarmament and International Security Committee (DISEC)
                     </SelectItem>
-                    <SelectItem value="unsc">UN Security Council</SelectItem>
                     <SelectItem value="unhrc">
-                      UN Human Rights Council
+                      United Nations Human Rights Council (UNHRC)
                     </SelectItem>
-                    <SelectItem value="who">
-                      World Health Organization
+                    <SelectItem value="ecosoc">
+                      Economic and Social Council (ECOSOC)
                     </SelectItem>
-                    <SelectItem value="lok-sabha">Lok Sabha</SelectItem>
-                    <SelectItem value="international-press">
-                      International Press
+                    <SelectItem value="lok">
+                      International Press (IP)
                     </SelectItem>
                   </SelectContent>
                 </Select>

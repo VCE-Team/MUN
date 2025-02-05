@@ -1,4 +1,4 @@
-import { Instagram, Linkedin } from "lucide-react";
+import { Instagram } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -18,7 +18,7 @@ export function Footer() {
               Telangana 501218
             </p>
             <p className="text-gray-400">
-              <strong>Phone:</strong> +91 9121890849 / +91 9010736004
+              <strong>Phone:</strong> +91 77020 40524 / +91 98495 83637
               <br />
               <strong>Email:</strong> mun@vardhaman.org
             </p>
@@ -26,9 +26,7 @@ export function Footer() {
               <a href="https://instagram.com" className="hover:text-primary">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://www.linkedin.in" className="hover:text-primary">
-                <Linkedin className="w-5 h-5" />
-              </a>
+              {/* LinkedIn item removed */}
             </div>
           </div>
 
@@ -50,7 +48,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/usg" className="text-gray-400 hover:text-white">
-                  Under Sec Gen
+                  Under Sec Gen (USGs)
                 </Link>
               </li>
               <li>

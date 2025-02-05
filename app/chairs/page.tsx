@@ -15,12 +15,78 @@ export default function Chairs() {
           className="max-w-3xl mx-auto space-y-8 flex flex-col items-center"
         >
           <h2 className="text-3xl font-serif mb-2">
+            From the Desk of the Chair, DISEC
+          </h2>
+
+          <div className="relative w-2/5 h-[200px] md:h-[300px] mb-12">
+            <Image
+              src="/images/team/sudeep.png"
+              alt="Secretary General"
+              fill
+              className="object-cover rounded-full"
+              priority
+            />
+          </div>
+
+          <div className="space-y-6 text-gray-300 leading-8">
+            <p>Greetings Esteemed Delegates,</p>
+            <p>
+              It is my honour and privilege to welcome you to the Disarmament
+              and International Security Committee (DISEC) at VCEMUN 2025. As
+              one of the principal organs of the United Nations General
+              Assembly, DISEC plays a vital role in addressing global security
+              challenges, promoting disarmament, and preventing the
+              proliferation of weapons that threaten peace and stability.
+            </p>
+            <p>
+              This year, we gather to deliberate on one of the most pressing
+              threats to international security—the use of chemical and
+              biological weapons in conflict. These weapons, capable of causing
+              widespread destruction and suffering, violate international
+              humanitarian law and undermine global efforts toward peace. While
+              significant strides have been made through international treaties,
+              recent events have demonstrated the persistent threat posed by
+              both state and non-state actors in acquiring and deploying these
+              weapons. It is now our responsibility to reinforce existing
+              frameworks, enhance compliance mechanisms, and explore innovative
+              solutions to mitigate this danger.
+            </p>
+            <p>
+              At VCEMUN, we strive to create a space for dynamic discourse,
+              critical thinking, and meaningful diplomacy. Whether you are a
+              seasoned delegate or stepping into committee for the first time, I
+              encourage you to engage with confidence, challenge perspectives,
+              and collaborate toward viable resolutions. The discussions we have
+              here will not only shape committee outcomes but also refine our
+              collective understanding of global security issues. I look forward
+              to witnessing your insights, debates, and solutions over the
+              course of the conference. Let us work together to pave the way for
+              a safer and more secure world.
+            </p>
+            <div className="pt-3">
+              <p className="pb-4">Warm regards,</p>
+              <p className="font-semibold">Sudeep Banerjee</p>
+              <p>Chair, DISEC</p>
+              <p>VCEMUN 2025</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto space-y-8 flex flex-col items-center"
+        >
+          <h2 className="text-3xl font-serif mb-2">
             From the Desk of the Chair, UNHRC
           </h2>
 
           <div className="relative w-2/5 h-[200px] md:h-[300px] mb-12">
             <Image
-              src="/images/team/dhiren.jpg"
+              src="/images/team/krunal.jpg"
               alt="Secretary General"
               fill
               className="object-cover rounded-full"
@@ -79,72 +145,6 @@ export default function Chairs() {
           </div>
         </motion.div>
       </div>
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-3xl mx-auto space-y-8 flex flex-col items-center"
-        >
-          <h2 className="text-3xl font-serif mb-2">
-            From the Desk of the Chair, DISEC
-          </h2>
-
-          <div className="relative w-2/5 h-[200px] md:h-[300px] mb-12">
-            <Image
-              src="/images/team/sudeep.png"
-              alt="Secretary General"
-              fill
-              className="object-cover rounded-full"
-              priority
-            />
-          </div>
-
-          <div className="space-y-6 text-gray-300 leading-8">
-            <p>Greetings Esteemed Delegates,</p>
-            <p>
-              It is my honour and privilege to welcome you to the Disarmament
-              and International Security Committee (DISEC) at VCEMUN 2025. As
-              one of the principal organs of the United Nations General
-              Assembly, DISEC plays a vital role in addressing global security
-              challenges, promoting disarmament, and preventing the
-              proliferation of weapons that threaten peace and stability.
-            </p>
-            <p>
-              This year, we gather to deliberate on one of the most pressing
-              threats to international security—the use of chemical and
-              biological weapons in conflict. These weapons, capable of causing
-              widespread destruction and suffering, violate international
-              humanitarian law and undermine global efforts toward peace. While
-              significant strides have been made through international treaties,
-              recent events have demonstrated the persistent threat posed by
-              both state and non-state actors in acquiring and deploying these
-              weapons. It is now our responsibility to reinforce existing
-              frameworks, enhance compliance mechanisms, and explore innovative
-              solutions to mitigate this danger.
-            </p>
-            <p>
-              At VCEMUN, we strive to create a space for dynamic discourse,
-              critical thinking, and meaningful diplomacy. Whether you are a
-              seasoned delegate or stepping into committee for the first time, I
-              encourage you to engage with confidence, challenge perspectives,
-              and collaborate toward viable resolutions. The discussions we have
-              here will not only shape committee outcomes but also refine our
-              collective understanding of global security issues. I look forward
-              to witnessing your insights, debates, and solutions over the
-              course of the conference. Let us work together to pave the way for
-              a safer and more secure world.
-            </p>
-            <div className="pt-3">
-              <p className="pb-4">Warm regards,</p>
-              <p className="font-semibold">Sudeep Banerjee</p>
-              <p>Chair, DISEC</p>
-              <p>VCEMUN 2025</p>
-            </div>
-          </div>
-        </motion.div>
-      </div>
       <div className="mt-[18vh] container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -159,7 +159,7 @@ export default function Chairs() {
 
           <div className="relative w-2/5 h-[200px] md:h-[300px] mb-12">
             <Image
-              src="/images/team/sudeep.png"
+              src="/images/team/ruchira.jpg"
               alt="Secretary General"
               fill
               className="object-cover rounded-full"
