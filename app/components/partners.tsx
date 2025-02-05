@@ -4,12 +4,12 @@ const partners = [
   {
     name: "Vardhaman Logo",
     logo: "/images/logos/vardhamanlogo.png",
-    height: 120,
-    width: 120,
+    height: 275,
+    width: 270,
   },
   {
     name: "SAC",
-    logo: "/images/logos/saclogo.png",
+    logo: "/images/logos/saclogo.jpg",
     height: 120,
     width: 120,
   },
@@ -23,11 +23,11 @@ export function Partners() {
           {partners.map(partner => (
             <div key={partner.name} className="relative">
               <Image
-                src={partner.logo || "/placeholder.svg"}
+                src={partner.logo || "/images/team/placeholder.png"}
                 alt={partner.name}
                 height={partner.height}
                 width={partner.width}
-                className="object-contain grayscale-70 transition-all group-hover:grayscale-0"
+                className="object-contain rounded-full"
               />
             </div>
           ))}

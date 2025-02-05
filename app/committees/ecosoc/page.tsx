@@ -33,7 +33,9 @@ export default function ECOSOCPage() {
         className="text-center space-y-4"
       >
         <h2 className="text-4xl font-bold">Agenda</h2>
-        <p className="text-2xl">ECOSOC</p>
+        <p className="text-2xl">
+          Combating illicit trading and wildlife resource trafficking
+        </p>
       </motion.section>
 
       <motion.section
@@ -46,19 +48,19 @@ export default function ECOSOCPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {[
             {
-              name: "KUMARA SHIVANANDA",
-              role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
+              name: "Ruchira",
+              role: "Chair",
+              image: "/images/team/ruchira.jpg",
             },
             {
-              name: "SREE VAIBHAV",
-              role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
+              name: "Tejaswi",
+              role: "Co-Chair",
+              image: "/images/team/tejaswi.jpg",
             },
             {
-              name: "YOGITHA",
-              role: "RAPPORTEUR",
-              image: "/images/team/placeholder.jpg",
+              name: "Dhiren",
+              role: "Rapporteur",
+              image: "/images/team/dhiren.jpg",
             },
           ].map(member => (
             <div key={member.name} className="text-center space-y-4">

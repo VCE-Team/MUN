@@ -35,7 +35,9 @@ export default function DISECPage() {
         <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400">
           Agenda
         </h2>
-        <p className="text-3xl text-gray-300">Militarization of the Arctic</p>
+        <p className="text-3xl text-gray-300">
+          Tackling the use of Chemical and Biological weapons in conflict
+        </p>
       </motion.section>
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -49,19 +51,19 @@ export default function DISECPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
           {[
             {
-              name: "KUMARA SHIVANANDA",
-              role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
+              name: "Sudeep",
+              role: "Chair",
+              image: "/images/team/sudeep.png",
             },
             {
-              name: "SREE VAIBHAV",
-              role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
+              name: "Siddha Sankalp",
+              role: "Vice Chair",
+              image: "/images/team/siddu.jpg",
             },
             {
-              name: "YOGITHA",
-              role: "RAPPORTEUR",
-              image: "/images/team/placeholder.jpg",
+              name: "Ananya",
+              role: "Rapporteur",
+              image: "/images/team/ananya.jpg",
             },
           ].map((member, index) => (
             <motion.div
@@ -73,7 +75,7 @@ export default function DISECPage() {
             >
               <div className="relative w-72 h-72 mx-auto overflow-hidden rounded-lg">
                 <Image
-                  src={member.image || "/placeholder.svg"}
+                  src={member.image || "/images/team/placeholder.svg"}
                   alt={member.name}
                   fill
                   className="object-cover"

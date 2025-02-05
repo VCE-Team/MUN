@@ -12,21 +12,6 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Lohith",
-    role: "USG Logistics",
-    image: "/images/team/lohith.jpg",
-  },
-  {
-    name: "Subham",
-    role: "USG Logistics",
-    image: "/images/team/shubham.jpg",
-  },
-  {
-    name: "Bhavish",
-    role: "USG Logistics",
-    image: "/images/team/bhavish.jpg",
-  },
-  {
     name: "Sujeeth",
     role: "USG Outreach and marketing",
     image: "/images/team/sujeeth.jpg",
@@ -56,13 +41,28 @@ const teamMembers: TeamMember[] = [
     role: "USG Finance",
     image: "/images/team/franz.jpg",
   },
-  { name: "Dinesh", role: "OC head", image: "/images/team/dinesh.jpg" },
-  { name: "Advith", role: "OC Head", image: "/images/team/advith.jpg" },
+  {
+    name: "Lohith",
+    role: "USG Logistics",
+    image: "/images/team/lohith.jpg",
+  },
   {
     name: "Aniketh",
     role: "Director of Photography",
     image: "/images/team/aniketh.jpg",
   },
+  {
+    name: "Subham",
+    role: "USG Logistics",
+    image: "/images/team/shubham.jpg",
+  },
+  {
+    name: "Bhavish",
+    role: "USG Logistics",
+    image: "/images/team/bhavish.jpg",
+  },
+  { name: "Dinesh", role: "OC head", image: "/images/team/dinesh.jpg" },
+  { name: "Advith", role: "OC Head", image: "/images/team/advith.jpg" },
 ];
 
 const containerVariants = {

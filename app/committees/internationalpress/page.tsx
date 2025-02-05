@@ -29,51 +29,46 @@ export default function InternationalPressPage() {
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="text-center space-y-4"
-      >
-        <h2 className="text-4xl font-bold">Agenda</h2>
-        <p className="text-2xl">International Press and News</p>
-      </motion.section>
-
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
         className="space-y-8"
       >
         <h2 className="text-4xl font-bold text-center">The Executive Board</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 p-0 gap-[10rem] max-w-5xl mx-auto">
+          <div></div>
           {[
             {
-              name: "KUMARA SHIVANANDA",
-              role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
+              name: "Sai Vardhan",
+              role: "Chair",
+              image: "/images/team/saivardhan.jpg",
             },
             {
-              name: "SREE VAIBHAV",
-              role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
-            },
-            {
-              name: "YOGITHA",
-              role: "RAPPORTEUR",
-              image: "/images/team/placeholder.jpg",
+              name: "Sayeeda Farhath",
+              role: "Chief In Editor",
+              image: "/images/team/farhath.jpg",
             },
           ].map(member => (
-            <div key={member.name} className="text-center space-y-4">
-              <div className="relative w-64 h-64 mx-auto">
+            <div
+              key={member.name}
+              className="flex flex-col items-center space-y-4"
+            >
+              <div className="relative w-64 h-64 mx-4 overflow-hidden rounded-lg">
                 <Image
-                  src={member.image || "/placeholder.svg"}
+                  src={member.image || "/images/team/placeholder.png"}
                   alt={member.name}
                   fill
-                  className="object-cover"
+                  className="object-cover rounded-lg"
                 />
               </div>
-              <h3 className="text-xl font-bold">{member.name}</h3>
-              <p className="text-gray-400">{member.role}</p>
+              <h3 className="text-xl font-bold sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis">
+                {member.name}
+              </h3>
+              <p className="text-gray-400 sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis">
+                {member.role}
+              </p>
             </div>
           ))}
+
+          <div></div>
         </div>
       </motion.section>
     </div>

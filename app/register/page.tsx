@@ -7,14 +7,12 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -40,9 +38,14 @@ const formSchema = z.object({
   committee: z.string({
     required_error: "Please select a committee.",
   }),
-  experience: z.string(),
-  motivation: z.string().min(50, {
-    message: "Please write at least 50 characters.",
+  firstPreferenceCountry: z.string().min(1, {
+    message: "Please enter your first preference country.",
+  }),
+  secondPreferenceCountry: z.string().min(1, {
+    message: "Please enter your second preference country.",
+  }),
+  thirdPreferenceCountry: z.string().min(1, {
+    message: "Please enter your second preference country.",
   }),
 });
 
@@ -54,8 +57,9 @@ export default function RegisterPage() {
       email: "",
       phone: "",
       institution: "",
-      experience: "",
-      motivation: "",
+      firstPreferenceCountry: "",
+      secondPreferenceCountry: "",
+      thirdPreferenceCountry: "",
     },
   });
 
@@ -197,19 +201,16 @@ export default function RegisterPage() {
 
           <FormField
             control={form.control}
-            name="experience"
+            name="firstPreferenceCountry"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Previous MUN Experience</FormLabel>
+                <FormLabel>1st Preference Country</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Tell us about your previous MUN experience (if any)"
+                  <Input
+                    placeholder="Enter your 1st preference country"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is optional. First-time participants are welcome!
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -217,13 +218,30 @@ export default function RegisterPage() {
 
           <FormField
             control={form.control}
-            name="motivation"
+            name="secondPreferenceCountry"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Motivation</FormLabel>
+                <FormLabel>2nd Preference Country</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Why do you want to participate in VCEMUN?"
+                  <Input
+                    placeholder="Enter your 2nd preference country"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="thirdPreferenceCountry"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>3rd Preference Country</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter your 3rd preference country"
                     {...field}
                   />
                 </FormControl>

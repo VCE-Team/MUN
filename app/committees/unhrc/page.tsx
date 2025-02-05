@@ -33,7 +33,9 @@ export default function UNHRCPage() {
         className="text-center space-y-4"
       >
         <h2 className="text-4xl font-bold">Agenda</h2>
-        <p className="text-2xl">UNHRC</p>
+        <p className="text-2xl">
+          Allegations of Genocide and Human Rights Violations in Conflict Zones
+        </p>
       </motion.section>
 
       <motion.section
@@ -46,19 +48,19 @@ export default function UNHRCPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {[
             {
-              name: "KUMARA SHIVANANDA",
+              name: "Krunal",
               role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
+              image: "/images/team/krunal.jpg",
             },
             {
-              name: "SREE VAIBHAV",
+              name: "Krish",
               role: "CO-CHAIRPERSON",
-              image: "/images/team/placeholder.jpg",
+              image: "/images/team/krish.jpg",
             },
             {
-              name: "YOGITHA",
+              name: "Anumita",
               role: "RAPPORTEUR",
-              image: "/images/team/placeholder.jpg",
+              image: "/images/team/anumita.png",
             },
           ].map(member => (
             <div key={member.name} className="text-center space-y-4">
