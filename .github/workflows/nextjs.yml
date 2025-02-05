@@ -27,6 +27,8 @@ concurrency:
 jobs:
   # Build job
   build:
+    env:
+      mongodb_uri: ${{ secrets.MONGODB_URI }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
