@@ -28,7 +28,7 @@ jobs:
   # Build job
   build:
     env:
-      mongodb_uri: ${{ secrets.MONGODB_URI }}
+      mongodb_uri: "mongodb+srv://journeyzia:uHYfZHmMusX9opZz@cluster0.96z4m.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
