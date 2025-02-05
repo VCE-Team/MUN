@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -15,22 +16,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const committees = [
-  {
-    title: "DISEC",
-    href: "/committees/disec",
-  },
-  {
-    title: "UNHRC",
-    href: "/committees/unhrc",
-  },
-  {
-    title: "ECOSOC",
-    href: "/committees/ecosoc",
-  },
-  {
-    title: "International Press",
-    href: "/committees/internationalpress",
-  },
+  { title: "DISEC", href: "/committees/disec" },
+  { title: "UNHRC", href: "/committees/unhrc" },
+  { title: "ECOSOC", href: "/committees/ecosoc" },
+  { title: "International Press", href: "/committees/internationalpress" },
 ];
 
 export function Header() {
@@ -62,7 +51,7 @@ export function Header() {
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
-        } transition-transform duration-300`}
+        } transition-transform duration-300 hidden md:block`}
       >
         <div className="container flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">

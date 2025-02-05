@@ -4,14 +4,14 @@ const partners = [
   {
     name: "Vardhaman Logo",
     logo: "/images/logos/vardhamanlogo.png",
-    height: 275,
-    width: 270,
+    height: 200,
+    width: 200,
   },
   {
     name: "SAC",
     logo: "/images/logos/saclogo.jpg",
-    height: 120,
-    width: 120,
+    height: 70,
+    width: 70,
   },
 ];
 

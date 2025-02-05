@@ -94,7 +94,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="container max-w-2xl mx-auto py-16 px-4">
+    <div className="container max-w-2xl mt-[10vh] mx-auto py-16 px-4">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-2">Register for VCEMUN</h1>
         <p className="text-muted-foreground">
@@ -251,7 +251,7 @@ export default function RegisterPage() {
           />
 
           <Button type="submit" className="w-full">
-            Submit Registration
+            Continue to Payment
           </Button>
         </form>
       </Form>

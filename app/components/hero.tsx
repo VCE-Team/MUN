@@ -1,56 +1,73 @@
 "use client";
 
-// import { Button } from "@/components/ui/button";
-// import { motion } from "framer-motion";
-// import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ScrollReset } from "./scroll-reset";
+import { Volume2, VolumeX } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Hero() {
   const [bgLoaded, setBgLoaded] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     setBgLoaded(true);
   }, []);
 
-  return (
-    <section className="relative h-screen flex items-center mt-[4.08rem] justify-center text-center">
-      <div
-        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-          bgLoaded ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ backgroundColor: "#000" }}
-        // style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
-      />
-      {/* <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-        className="relative z-10 container mx-auto px-4"
-      >
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-          Welcome to VCE Model United Nations
-        </h1>
-        <h2 className="text-xl md:text-2xl text-gray-200 mb-8">
-          #Advocate Aspire Achieve
-        </h2>
-        <Link href="/register">
-          <Button
-            size="lg"
-            variant="outline"
-            className="text-white border-white hover:bg-primary hover:text-white"
-          >
-            Register Now!
-          </Button>
-        </Link>
-      </motion.div> */}
+  useEffect(() => {
+    const handleScroll = () => {
+      if (videoRef.current) {
+        if (window.scrollY > 0) {
+          videoRef.current.pause();
+        } else {
+          videoRef.current.play();
+        }
+      }
+    };
 
-      <video
-        className="absolute inset-0 w-full h-full object-contain"
-        src="/videos/herovideo.mp4"
-        autoPlay
-        loop
-        muted
-      ></video>
-    </section>
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const toggleMute = () => {
+    setIsMuted(prev => !prev);
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+    }
+  };
+
+  return (
+    <>
+      <ScrollReset />
+      <section className="mt-[4rem] relative w-full overflow-hidden">
+        <div
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
+            bgLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ backgroundColor: "#000" }}
+        />
+        {bgLoaded && (
+          <div className="relative w-full pb-[56.25%] md:pb-0 md:h-screen">
+            <video
+              ref={videoRef}
+              className="absolute top-0 left-0 w-full h-full object-cover"
+              src="/videos/herovideo.mp4"
+              autoPlay
+              loop
+              muted={isMuted}
+              playsInline
+            />
+          </div>
+        )}
+        <Button
+          onClick={toggleMute}
+          className="absolute top-4 left-4 z-10 rounded-full p-2 shadow-md"
+        >
+          {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+        </Button>
+      </section>
+    </>
   );
 }

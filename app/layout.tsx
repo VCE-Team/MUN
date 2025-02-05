@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/app/components/header";
+import { Sidebar } from "@/app/components/sidebar";
 import { Footer } from "@/app/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import type React from "react";
@@ -20,11 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className={inter.className}>
         <ScrollReset />
         <div id="main-content" className="flex flex-col min-h-screen">
           <Header />
+          <Sidebar />
           <main className="flex-1">{children}</main>
           <Footer />
         </div>

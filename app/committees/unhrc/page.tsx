@@ -49,17 +49,17 @@ export default function UNHRCPage() {
           {[
             {
               name: "Krunal",
-              role: "CO-CHAIRPERSON",
+              role: "Chair",
               image: "/images/team/krunal.jpg",
             },
             {
               name: "Krish",
-              role: "CO-CHAIRPERSON",
+              role: "Vice Chair",
               image: "/images/team/krish.jpg",
             },
             {
               name: "Anumita",
-              role: "RAPPORTEUR",
+              role: "Rapporteur",
               image: "/images/team/anumita.png",
             },
           ].map(member => (
