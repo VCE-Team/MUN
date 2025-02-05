@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { CommitteesMobile } from "./committees-mobile";
 
-const committees = [
+export const committees = [
   {
     title: "International Press",
     description: "Press and Media",
@@ -78,77 +79,92 @@ export function Committees() {
   };
 
   return (
-    <section
-      ref={containerRef}
-      id="committees"
-      className="relative pt-[6vh] pb-[6vh] bg-black flex flex-col items-center justify-center overflow-hidden"
-    >
-      <div className="flex flex-col items-center w-full">
-        <h2 className="text-4xl font-bold text-center text-white relative z-10">
-          COMMITTEES
-        </h2>
+    <>
+      <div className="hidden md:block">
+        <section
+          ref={containerRef}
+          id="committees"
+          className="relative pt-[6vh] pb-[6vh] bg-black flex flex-col items-center justify-center overflow-hidden"
+        >
+          <div className="flex flex-col items-center w-full">
+            <h2 className="text-4xl font-bold text-center text-white relative z-10">
+              COMMITTEES
+            </h2>
 
-        <div className="relative w-3/4 h-[750px] flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center justify-center z-20">
-            <div className="relative w-[220px] h-[220px] flex items-center justify-center">
-              <MotionImage
-                src="/images/logos/Shield.png"
-                alt="VCEMUN Shield"
-                width={220}
-                height={220}
-                className="absolute w-2/3 h-2/3 object-contain mb-[5vh]"
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={shieldVariants}
-              />
-              <MotionImage
-                src="/images/logos/Wings.png"
-                alt="VCEMUN Wings"
-                width={300}
-                height={300}
-                className="relative w-full h-full object-contain mt-[3.2vh]"
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={wingsVariants}
-              />
+            <div className="relative w-3/4 h-[750px] flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div className="relative w-[220px] h-[220px] flex items-center justify-center">
+                  <MotionImage
+                    src="/images/logos/Shield.png"
+                    alt="VCEMUN Shield"
+                    width={220}
+                    height={220}
+                    className="absolute w-2/3 h-2/3 object-contain mb-[5vh]"
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    variants={shieldVariants}
+                  />
+                  <MotionImage
+                    src="/images/logos/Wings.png"
+                    alt="VCEMUN Wings"
+                    width={300}
+                    height={300}
+                    className="relative w-full h-full object-contain mt-[3.2vh]"
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    variants={wingsVariants}
+                  />
+                </div>
+              </div>
+
+              {committees.map((committee, index) => {
+                const angle = index * 90 + 45;
+                const isActive = activeIndex === index;
+
+                return (
+                  <Link
+                    key={committee.title}
+                    href={committee.href}
+                    className={cn(
+                      "absolute overflow-hidden transition-all duration-700 cursor-pointer z-30",
+                      "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity",
+                      isActive
+                        ? "scale-110 before:opacity-30"
+                        : "hover:scale-95 before:opacity-60"
+                    )}
+                    style={{
+                      transform: `rotate(${angle}deg) translateX(325px) rotate(-${angle}deg)`,
+                      pointerEvents: "auto",
+                      width: committee.width,
+                      height: committee.height,
+                    }}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    onMouseLeave={() => setActiveIndex(null)}
+                  >
+                    <Image
+                      src={committee.url || "/placeholder.svg"}
+                      alt={committee.title}
+                      fill
+                      className="object-cover transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center">
+                      <div className="text-center">
+                        <h3 className="text-xl font-semibold text-white">
+                          {committee.title}
+                        </h3>
+                        <p className="text-sm text-gray-300">
+                          {committee.description}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
-
-          {committees.map((committee, index) => {
-            const angle = index * 90 + 45;
-            const isActive = activeIndex === index;
-
-            return (
-              <Link
-                key={committee.title}
-                href={committee.href}
-                className={cn(
-                  "absolute overflow-hidden transition-all duration-700 cursor-pointer z-30",
-                  "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity",
-                  isActive
-                    ? "scale-110 before:opacity-30"
-                    : "hover:scale-95 before:opacity-60"
-                )}
-                style={{
-                  transform: `rotate(${angle}deg) translateX(325px) rotate(-${angle}deg)`,
-                  pointerEvents: "auto",
-                  width: committee.width,
-                  height: committee.height,
-                }}
-                onMouseEnter={() => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(null)}
-              >
-                <Image
-                  src={committee.url || "/placeholder.svg"}
-                  alt={committee.title}
-                  fill
-                  className="object-cover transition-transform duration-700"
-                />
-              </Link>
-            );
-          })}
-        </div>
+        </section>
       </div>
-    </section>
+      <CommitteesMobile />
+    </>
   );
 }

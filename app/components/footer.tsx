@@ -23,7 +23,10 @@ export function Footer() {
               <strong>Email:</strong> mun@vardhaman.org
             </p>
             <div className="flex space-x-4">
-              <a href="https://instagram.com" className="hover:text-primary">
+              <a
+                href="https://www.instagram.com/vcemun_hyd"
+                className="hover:text-primary"
+              >
                 <Instagram className="w-5 h-5" />
               </a>
               {/* LinkedIn item removed */}
@@ -34,25 +37,34 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-4">Useful Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-400 hover:text-white">
+                <Link
+                  href="/"
+                  className="text-gray-400 hover:text-white uppercase"
+                >
                   Home
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/#committees"
-                  className="text-gray-400 hover:text-white"
+                  href="/"
+                  className="text-gray-400 hover:text-white uppercase"
                 >
                   Committees
                 </Link>
               </li>
               <li>
-                <Link href="/usg" className="text-gray-400 hover:text-white">
+                <Link
+                  href="/usg"
+                  className="text-gray-400 hover:text-white uppercase"
+                >
                   Under Sec Gen (USGs)
                 </Link>
               </li>
               <li>
-                <Link href="/chairs" className="text-gray-400 hover:text-white">
+                <Link
+                  href="/chairs"
+                  className="text-gray-400 hover:text-white uppercase"
+                >
                   Chairs
                 </Link>
               </li>

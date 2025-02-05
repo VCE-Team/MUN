@@ -1,5 +1,4 @@
 import { Hero } from "@/app/components/hero";
-import { About } from "@/app/components/about";
 import { Committees } from "@/app/components/committees";
 import { Contact } from "@/app/components/contact";
 import { RevealAnimation } from "@/app/components/reveal-animation";
@@ -18,7 +17,19 @@ export default function Home() {
       {/* <CountDown /> */}
       {/* </RevealAnimation> */}
       <RevealAnimation>
-        <About />
+        <div>
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: "3rem",
+              fontWeight: "bold",
+              color: "white",
+              padding: "10rem",
+            }}
+          >
+            Stay Tuned – Event Dates Will Be Revealed Soon!
+          </h1>
+        </div>
       </RevealAnimation>
       <RevealAnimation>
         <Committees />
