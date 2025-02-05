@@ -305,7 +305,7 @@ export default function RegisterPage() {
               <p>Please scan the QR code below to make the payment:</p>
               <div className="flex justify-center">
                 <Image
-                  src="/placeholder.svg"
+                  src="/images/qr-1.jpg"
                   alt="Payment QR Code"
                   width={200}
                   height={200}

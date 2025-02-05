@@ -49,7 +49,7 @@ export function Hero() {
           style={{ backgroundColor: "#000" }}
         />
         {bgLoaded && (
-          <div className="relative w-full pb-[56.25%] md:pb-0 md:h-screen">
+          <div className="relative w-screen pb-[56.25%] md:pb-0 md:h-[56vh] lg:h-[70vh] xl:h-[90vh] 2xl:h-[92vh]">
             <video
               ref={videoRef}
               className="absolute top-0 left-0 w-full h-full object-cover"
