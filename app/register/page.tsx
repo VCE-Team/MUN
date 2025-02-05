@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -44,7 +45,7 @@ const formSchema = z.object({
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,13 +61,13 @@ export default function RegisterPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Registration Successful",
-      description: "Thank you for registering for VCEMUN!",
-    });
-  }
+  const checkEmailExists = async (email: string) => {
+    const response = await fetch(
+      `/api/register?email=${encodeURIComponent(email)}`
+    );
+    const data = await response.json();
+    return data.exists;
+  };
 
   const nextStep = async () => {
     let isValid = false;
@@ -81,12 +82,22 @@ export default function RegisterPage() {
         "secondPreferenceCountry",
         "thirdPreferenceCountry",
       ]);
-    } else if (step === 2) {
-      isValid = await form.trigger("transactionId");
+
+      if (isValid) {
+        const emailExists = await checkEmailExists(form.getValues("email"));
+        if (emailExists) {
+          toast({
+            title: "Email already used for registration",
+            description: "Please try another email.",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
     }
 
     if (isValid) {
-      setStep(prevStep => Math.min(prevStep + 1, 3));
+      setStep(2);
     } else {
       toast({
         title: "Validation Error",
@@ -97,8 +108,41 @@ export default function RegisterPage() {
   };
 
   const prevStep = () => {
-    setStep(prevStep => Math.max(prevStep - 1, 1));
+    setStep(1);
   };
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: "Registration Successful",
+          description:
+            "Registered Successfully! You will receive a mail in few days.",
+        });
+        setTimeout(() => {
+          router.push("/");
+        }, 5000);
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      toast({
+        title: "Registration Failed",
+        description: "There was an error processing your registration.",
+        variant: "destructive",
+      });
+    }
+  }
 
   return (
     <div className="container max-w-2xl mt-[10vh] mx-auto py-16 px-4">
@@ -126,7 +170,6 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="email"
@@ -144,7 +187,6 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="phone"
@@ -158,7 +200,6 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="institution"
@@ -172,7 +213,6 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="committee"
@@ -208,7 +248,6 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="firstPreferenceCountry"
@@ -225,7 +264,6 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="secondPreferenceCountry"
@@ -242,7 +280,6 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="thirdPreferenceCountry"
@@ -293,21 +330,15 @@ export default function RegisterPage() {
             </div>
           )}
 
-          {step === 3 && (
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Confirm Registration</h2>
-            </div>
-          )}
-
           <div className="flex justify-between mt-8">
             {step > 1 && (
               <Button type="button" onClick={prevStep}>
                 Previous
               </Button>
             )}
-            {step < 3 ? (
+            {step === 1 ? (
               <Button type="button" onClick={nextStep} className="ml-auto">
-                {step === 1 ? "Continue to Payment" : "Next"}
+                Continue to Payment
               </Button>
             ) : (
               <Button type="submit" className="ml-auto">
