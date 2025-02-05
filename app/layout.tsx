@@ -4,8 +4,6 @@ import "./globals.css";
 import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
 import { Toaster } from "@/components/ui/toaster";
-import { LoadingScreen } from "@/app/components/loading-screen";
-import { RouteLoading } from "@/app/components/route-loading";
 import type React from "react";
 import { ScrollReset } from "./components/scroll-reset";
 
@@ -24,8 +22,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <LoadingScreen />
-        <RouteLoading />
         <ScrollReset />
         <div id="main-content" className="flex flex-col min-h-screen">
           <Header />

@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import Link from "next/link";
+// import { Button } from "@/components/ui/button";
+// import { motion } from "framer-motion";
+// import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function Hero() {
@@ -18,9 +18,10 @@ export function Hero() {
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
           bgLoaded ? "opacity-100" : "opacity-0"
         }`}
-        style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
+        style={{ backgroundColor: "#000" }}
+        // style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
       />
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.8 }}
@@ -41,7 +42,17 @@ export function Hero() {
             Register Now!
           </Button>
         </Link>
-      </motion.div>
+      </motion.div> */}
+
+      <video
+        className="absolute inset-0 w-full h-full object-contain"
+        src="/videos/Final.mp4"
+        autoPlay
+        loop
+        muted
+      >
+        Your browser does not support the video tag.
+      </video>
     </section>
   );
 }
