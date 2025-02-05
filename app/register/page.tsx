@@ -63,9 +63,11 @@ export default function RegisterPage() {
 
   const checkEmailExists = async (email: string) => {
     const response = await fetch(
-      `/api/register?email=${encodeURIComponent(email)}`
+      `http://localhost:5174/api/check-email?email=${encodeURIComponent(email)}`
     );
+    console.log(response);
     const data = await response.json();
+    console.log(data);
     return data.exists;
   };
 
@@ -113,7 +115,7 @@ export default function RegisterPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("http://localhost:5174/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +128,7 @@ export default function RegisterPage() {
         toast({
           title: "Registration Successful",
           description:
-            "Registered Successfully! You will receive a mail in few days.",
+            "Registered Successfully! You will receive a mail in a few days.",
         });
         setTimeout(() => {
           router.push("/");
