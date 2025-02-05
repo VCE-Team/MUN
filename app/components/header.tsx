@@ -62,6 +62,7 @@ export function Header() {
               height={50}
               priority
             />
+            <p className="text-yellow-600 font-bold text-xl">VCEMUN</p>
           </Link>
 
           <NavigationMenu>
@@ -119,12 +120,19 @@ export function Header() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-6">
             <Image
               src="/images/logos/vardhamanlogo.png"
               alt="VCEMUN Logo"
-              width={100}
-              height={100}
+              width={50}
+              height={50}
+              priority
+            />
+            <Image
+              src="/images/logos/saclogo.jpg"
+              alt="VCEMUN Logo"
+              width={40}
+              height={40}
               priority
             />
           </div>

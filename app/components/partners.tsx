@@ -4,8 +4,8 @@ const partners = [
   {
     name: "Vardhaman Logo",
     logo: "/images/logos/vardhamanlogo.png",
-    height: 200,
-    width: 200,
+    height: 75,
+    width: 75,
   },
   {
     name: "SAC",
