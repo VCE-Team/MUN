@@ -53,7 +53,7 @@ export function Hero() {
             <video
               ref={videoRef}
               className="absolute top-0 left-0 w-full h-full object-cover"
-              src="/videos/herovideo.mp4"
+              src="/videos/herovideomain.mp4"
               autoPlay
               loop
               muted={isMuted}
