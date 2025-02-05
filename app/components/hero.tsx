@@ -13,7 +13,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center text-center">
+    <section className="relative h-screen flex items-center mt-[4.08rem] justify-center text-center">
       <div
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
           bgLoaded ? "opacity-100" : "opacity-0"
@@ -46,13 +46,11 @@ export function Hero() {
 
       <video
         className="absolute inset-0 w-full h-full object-contain"
-        src="/videos/Final.mp4"
+        src="/videos/herovideo.mp4"
         autoPlay
         loop
         muted
-      >
-        Your browser does not support the video tag.
-      </video>
+      ></video>
     </section>
   );
 }
