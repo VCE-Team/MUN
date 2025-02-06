@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Mail, Phone } from "lucide-react";
+import Link from "next/link";
 
 export function Contact() {
   return (
@@ -33,9 +34,9 @@ export function Contact() {
                 <Mail className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Email Us</h3>
-              <p className="text-muted-foreground">
-                <a href="mailto:mun@vardhaman.org">mun@vardhaman.org</a>
-              </p>
+              <Link href="mailto:mun@vardhaman.org">
+                <p className="text-muted-foreground">mun@vardhaman.org</p>
+              </Link>
             </CardContent>
           </Card>
 

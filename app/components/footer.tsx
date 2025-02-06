@@ -112,7 +112,8 @@ export function Footer() {
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center">
           <p>
-            &copy; Copyright <strong>VCEMUN</strong>. All Rights Reserved
+            &copy; Copyright <strong>VCEMUN</strong>. Student Affairs Cell. All
+            Rights Reserved
           </p>
         </div>
       </div>

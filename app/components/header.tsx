@@ -127,10 +127,10 @@ export function Header() {
               priority
             />
             <Image
-              src="/images/logos/saclogo.jpg"
+              src="/images/logos/saclogomain.png"
               alt="VCEMUN Logo"
-              width={40}
-              height={40}
+              width={50}
+              height={50}
               priority
             />
           </div>

@@ -15,16 +15,8 @@ export default function Home() {
       <Hero />
       <RevealAnimation>
         <div>
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "3rem",
-              fontWeight: "bold",
-              color: "white",
-              padding: "10rem",
-            }}
-          >
-            Stay Tuned – Event Dates Will Be Revealed Soon!
+          <h1 className="text-xs p-[2.2rem] sm:p-[3.5rem] sm:text-sm md:p-[5rem] md:text-2xl text-center text-white font-bold">
+            Stay Tuned - Event Dates Will Be Revealed Soon!
           </h1>
         </div>
       </RevealAnimation>
