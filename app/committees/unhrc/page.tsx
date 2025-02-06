@@ -47,17 +47,17 @@ export default function UNHRCPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {[
             {
-              name: "Krunal",
+              name: "Krunal Samtani",
               role: "Chair",
               image: "/images/team/krunal.jpg",
             },
             {
-              name: "Krish",
+              name: "M V Krishna Vihar",
               role: "Vice Chair",
               image: "/images/team/krish.jpg",
             },
             {
-              name: "Anumita",
+              name: "Anumita Choubey",
               role: "Rapporteur",
               image: "/images/team/anumita.png",
             },

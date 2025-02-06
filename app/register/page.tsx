@@ -303,6 +303,9 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
+              <FormLabel className="mt-3">
+                Registration fee is Rupees 599
+              </FormLabel>
             </>
           )}
 
@@ -317,6 +320,7 @@ export default function RegisterPage() {
                   width={200}
                   height={200}
                 />
+                <p>To pay for registration: Rs. 599</p>
               </div>
               <FormField
                 control={form.control}

@@ -13,7 +13,7 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Sujeeth",
+    name: "Kayithi Sujeeth Reddy",
     role: "USG Outreach and marketing",
     image: "/images/team/sujeeth.jpg",
   },
@@ -28,12 +28,12 @@ const teamMembers: TeamMember[] = [
     image: "/images/team/sadha.jpg",
   },
   {
-    name: "Vaishali",
+    name: "Vaishali Bandaru",
     role: "Head of Social Media",
     image: "/images/team/vaishali.jpg",
   },
   {
-    name: "Vennela",
+    name: "Pothu Vennela Priya",
     role: "Head of Social Media",
     image: "/images/team/vennela.jpg",
   },
@@ -43,27 +43,31 @@ const teamMembers: TeamMember[] = [
     image: "/images/team/franz.jpg",
   },
   {
-    name: "Lohith",
+    name: "Teerthala Lohith Kumar",
     role: "USG Logistics",
     image: "/images/team/lohith.jpg",
   },
   {
-    name: "Aniketh",
+    name: "Aniketh Kanna",
     role: "Director of Photography",
     image: "/images/team/aniketh.jpg",
   },
   {
-    name: "Subham",
+    name: "Sri Satya Subham Peri",
     role: "USG Logistics",
     image: "/images/team/shubham.jpg",
   },
   {
-    name: "Bhavish",
+    name: "Bhavish Reddy",
     role: "USG Sponsorship",
     image: "/images/team/bhavish.jpg",
   },
-  { name: "Dinesh", role: "OC head", image: "/images/team/dinesh.jpg" },
-  { name: "Advith", role: "OC Head", image: "/images/team/advith.jpg" },
+  {
+    name: "Dinesh Reddy Malreddy",
+    role: "OC head",
+    image: "/images/team/dinesh.jpg",
+  },
+  { name: "Advith Teelaru", role: "OC Head", image: "/images/team/advith.jpg" },
 ];
 
 const containerVariants = {

@@ -52,17 +52,17 @@ export default function DISECPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
           {[
             {
-              name: "Sudeep",
+              name: "Sudeep Banerjee Chopra",
               role: "Chair",
               image: "/images/team/sudeep.png",
             },
             {
-              name: "Siddha Sankalp",
+              name: "Siddha Sankalp Topalle",
               role: "Vice Chair",
               image: "/images/team/siddu.jpg",
             },
             {
-              name: "Ananya",
+              name: "Ananya Charaka",
               role: "Rapporteur",
               image: "/images/team/ananya.jpg",
             },

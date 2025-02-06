@@ -38,13 +38,13 @@ export default function InternationalPressPage() {
           <div></div>
           {[
             {
-              name: "Sai Vardhan",
+              name: "Sai Vardhan Barla",
               role: "Chair",
               image: "/images/team/saivardhan.jpg",
             },
             {
-              name: "Sayeeda Farhath",
-              role: "Chief In Editor",
+              name: "Syeda Sayeeda Farhath",
+              role: "Editor In Chief",
               image: "/images/team/farhath.jpg",
             },
           ].map(member => (

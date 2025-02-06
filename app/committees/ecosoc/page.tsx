@@ -49,17 +49,17 @@ export default function ECOSOCPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {[
             {
-              name: "Ruchira",
+              name: "Ruchira Dhanasri",
               role: "Chair",
               image: "/images/team/ruchira.jpg",
             },
             {
-              name: "Tejaswi",
+              name: "Tejasvi Bonam",
               role: "Co-Chair",
               image: "/images/team/tejaswi.jpg",
             },
             {
-              name: "Dhiren",
+              name: "Dhiren Rao B",
               role: "Rapporteur",
               image: "/images/team/dhiren.jpg",
             },
