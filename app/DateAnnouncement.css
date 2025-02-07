@@ -1,0 +1,13 @@
+/* DateAnnouncement.css */
+.typewriter {
+  overflow: hidden; /* Ensures the text is hidden until revealed */
+  white-space: nowrap; /* Prevents text from wrapping */
+  border-right: 0.15em solid orange; /* Creates a cursor effect */
+  animation: blink 0.75s step-end infinite; /* Blinking cursor */
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent; /* Cursor blinks */
+  }
+}

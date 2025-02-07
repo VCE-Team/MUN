@@ -250,7 +250,7 @@ export default function Chairs() {
 
             <div className="space-y-6 text-gray-300 leading-8">
               <p>
-                Greetings Esteemed Deleg It is with great enthusiasm that I
+                Greetings Esteemed Delegates It is with great enthusiasm that I
                 welcome you to the International Press (IP) Committee at VCEMUN
                 2025. As the eyes and ears of the conference, the International
                 Press plays a crucial role in documenting, analyzing, and

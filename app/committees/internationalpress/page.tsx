@@ -44,7 +44,7 @@ export default function InternationalPressPage() {
             },
             {
               name: "Syeda Sayeeda Farhath",
-              role: "Editor In Chief",
+              role: "Chief Editor",
               image: "/images/team/farhath.jpg",
             },
           ].map(member => (
