@@ -249,13 +249,14 @@ export default function Chairs() {
             </div>
 
             <div className="space-y-6 text-gray-300 leading-8">
+              <p>Greetings Esteemed Delegates,</p>
               <p>
-                Greetings Esteemed Delegates It is with great enthusiasm that I
-                welcome you to the International Press (IP) Committee at VCEMUN
-                2025. As the eyes and ears of the conference, the International
-                Press plays a crucial role in documenting, analyzing, and
-                bringing to light the dynamic debates and negotiations that
-                unfold within each committee.
+                It is with great enthusiasm that I welcome you to the
+                International Press (IP) Committee at VCEMUN 2025. As the eyes
+                and ears of the conference, the International Press plays a
+                crucial role in documenting, analyzing, and bringing to light
+                the dynamic debates and negotiations that unfold within each
+                committee.
               </p>
               <p>
                 The power of journalism in international diplomacy cannot be

@@ -14,9 +14,9 @@ const ContactSection = () => {
             className="order-first lg:order-last"
           />
           <div className="text-center lg:text-left">
-            <h2 className="text-3xl font-bold">Contact Us</h2>
+            <h2 className="text-3xl font-bold">Co - Sponsored By</h2>
             <p className="text-lg text-muted-foreground">
-              Feel free to reach out to us
+              Vardhaman College of Engineering
             </p>
           </div>
         </RevealAnimation>
@@ -30,9 +30,9 @@ const ContactSection = () => {
             className="order-first lg:order-first"
           />
           <div className="text-center lg:text-left">
-            <h2 className="text-3xl font-bold">Contact Us</h2>
+            <h2 className="text-3xl font-bold">Organized By</h2>
             <p className="text-lg text-muted-foreground">
-              Feel free to reach out to us
+              Student Affairs Cell
             </p>
           </div>
         </RevealAnimation>
