@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -42,6 +42,8 @@ const formSchema = z.object({
   thirdPreferenceCountry: z
     .string()
     .min(1, { message: "Third preference country is required" }),
+  priorExperiences: z.string().optional(),
+  role: z.string().optional(),
   transactionId: z.string().min(1, { message: "Transaction ID is required" }),
 });
 
@@ -60,6 +62,8 @@ export default function RegisterPage() {
       secondPreferenceCountry: "",
       thirdPreferenceCountry: "",
       transactionId: "",
+      priorExperiences: "",
+      role: "",
     },
   });
 
@@ -69,9 +73,7 @@ export default function RegisterPage() {
         email
       )}`
     );
-    console.log(response);
     const data = await response.json();
-    console.log(data);
     return data.exists;
   };
 
@@ -152,6 +154,16 @@ export default function RegisterPage() {
       });
     }
   }
+
+  useEffect(() => {
+    const committee = form.getValues("committee");
+    if (committee === "ip") {
+      form.setValue("priorExperiences", "");
+      form.setValue("role", "");
+    } else if (["disec", "unhrc", "ecosoc"].includes(committee)) {
+      form.setValue("role", "");
+    }
+  }, [form.watch("committee")]);
 
   return (
     <div className="min-h-screen mt-[4rem] bg-gradient-to-b from-background to-secondary/10 px-4 py-8">
@@ -297,7 +309,7 @@ export default function RegisterPage() {
                               <SelectItem value="ecosoc">
                                 Economic and Social Council (ECOSOC)
                               </SelectItem>
-                              <SelectItem value="lok">
+                              <SelectItem value="ip">
                                 International Press (IP)
                               </SelectItem>
                             </SelectContent>
@@ -306,6 +318,64 @@ export default function RegisterPage() {
                         </FormItem>
                       )}
                     />
+
+                    {["disec", "unhrc", "ecosoc"].includes(
+                      form.getValues("committee")
+                    ) && (
+                      <FormField
+                        control={form.control}
+                        name="priorExperiences"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-foreground/80">
+                              What are your prior experiences with MUNs/public
+                              speaking events?
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                className="border-primary/20 focus:border-primary"
+                                placeholder="Describe your experiences"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
+
+                    {form.getValues("committee") === "ip" && (
+                      <FormField
+                        control={form.control}
+                        name="role"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-foreground/80">
+                              Role *
+                            </FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger className="border-primary/20 focus:border-primary">
+                                  <SelectValue placeholder="Select a role" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="photographer">
+                                  Photographer
+                                </SelectItem>
+                                <SelectItem value="journalist">
+                                  Journalist
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
 
                     <Separator className="my-6" />
 

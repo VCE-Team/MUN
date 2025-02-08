@@ -3,7 +3,7 @@ import { Committees } from "@/app/components/committees";
 import { Contact } from "@/app/components/contact";
 import { RevealAnimation } from "@/app/components/reveal-animation";
 import { SecGenDirectorGen } from "./components/sec-gen-director-gen";
-import { Partners } from "./components/partners";
+import Partners from "./components/partners";
 import { LoadingScreen } from "./components/loading-screen";
 import DateAnnouncement from "./components/date-announcement";
 import { RouteLoading } from "./components/route-loading";

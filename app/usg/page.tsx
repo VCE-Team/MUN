@@ -30,7 +30,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Vaishali Bandaru",
     role: "Head of Social Media",
-    image: "/images/team/vaishali.jpg",
+    image: "/images/team/vaishali2.jpg",
   },
   {
     name: "Pothu Vennela Priya",
