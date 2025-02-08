@@ -98,8 +98,8 @@ export default function TeamPage() {
   return (
     <>
       <RouteLoading />
-      <div className="min-h-screen bg-gradient-to-b from-background to-black py-20 px-4">
-        <div className="max-w-6xl mt-[10vh] mx-auto">
+      <div className="min-h-screen bg-gradient-to-b from-background to-black py-10 px-4">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-3xl sm:text-4xl font-bold mb-4">
               Meet Our Team

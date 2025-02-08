@@ -49,7 +49,7 @@ export function LoadingScreen() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="text-[10vh] font-bold text-white tracking-wider"
+            className="text-[8vh] sm:text-[10vh] font-bold text-white tracking-wider"
           >
             VCEMUN
           </motion.h1>
