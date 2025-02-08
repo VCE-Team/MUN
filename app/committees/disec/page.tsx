@@ -7,7 +7,6 @@ import Link from "next/link";
 export default function DISECPage() {
   return (
     <div className="py-24 space-y-32">
-      {" "}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

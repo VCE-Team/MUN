@@ -41,7 +41,7 @@ export function Hero() {
   return (
     <>
       <ScrollReset />
-      <section className="mt-[4rem] relative w-full overflow-hidden">
+      <section className="relative w-full overflow-hidden">
         <div
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
             bgLoaded ? "opacity-100" : "opacity-0"

@@ -12,7 +12,7 @@ export default function ECOSOCLayout({
     <>
       <RouteLoading />
       <div className="min-h-screen bg-black text-white">
-        <div className="relative mt-[4rem] w-full h-[35vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh]">
+        <div className="relative w-full h-[35vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh]">
           <Image
             src="/images/committees/ecosoccopy.jpg"
             alt="ECOSOC"

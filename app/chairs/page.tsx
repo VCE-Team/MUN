@@ -8,8 +8,8 @@ export default function Chairs() {
   return (
     <>
       <RouteLoading />
-      <section className="bg-black text-white py-20">
-        <div className="mt-[10vh] container mx-auto px-4">
+      <section className="bg-black text-white py-10">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

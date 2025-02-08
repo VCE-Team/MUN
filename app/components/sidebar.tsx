@@ -29,7 +29,7 @@ export function Sidebar() {
           <Button
             variant="outline"
             size="icon"
-            className="fixed top-4 right-4 z-50"
+            className="fixed top-4 right-4 z-50 md:hidden"
           >
             <Menu className="h-6 w-6" />
           </Button>
@@ -65,7 +65,7 @@ export function Sidebar() {
               Chairs
             </Link>
             <Link href="/register" onClick={() => setIsOpen(false)}>
-              <Button>Register</Button>
+              <Button className="w-full">Register</Button>
             </Link>
           </nav>
         </SheetContent>
