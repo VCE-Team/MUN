@@ -136,8 +136,8 @@ export function Header() {
               className="px-1"
               src="/images/logos/vardhamanlogo.png"
               alt="VCEMUN Logo"
-              width={30}
-              height={30}
+              width={45}
+              height={45}
               priority
             />
             <Image
