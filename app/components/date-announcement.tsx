@@ -7,7 +7,7 @@ const DateAnnouncement: React.FC = () => {
   const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
-  const fullText = "MUN is on the 7th and 8th of March!";
+  const fullText = "MUN is on the 21st and 22nd of March!";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
