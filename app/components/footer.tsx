@@ -2,6 +2,8 @@ import { Instagram } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
+  const countriesListUrl = "/COUNTRY_MATRIX_VCEMUN25.xlsx";
+
   return (
     <footer className="bg-black text-white">
       <div className="container mx-auto px-4 py-12">
@@ -29,7 +31,6 @@ export function Footer() {
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              {/* LinkedIn item removed */}
             </div>
           </div>
 
@@ -67,6 +68,16 @@ export function Footer() {
                 >
                   Chairs
                 </Link>
+              </li>
+              <li>
+                <a
+                  href={countriesListUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white uppercase"
+                >
+                  Countries List
+                </a>
               </li>
             </ul>
           </div>
