@@ -1,8 +1,32 @@
+"use client";
+
 import { Instagram } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const countriesListUrl = "/COUNTRY_MATRIX_VCEMUN25.xlsx";
+  const [open, setOpen] = useState(false);
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = countriesListUrl;
+    link.download = "COUNTRY_MATRIX_VCEMUN25.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setOpen(false);
+  };
 
   return (
     <footer className="bg-black text-white">
@@ -70,14 +94,33 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a
-                  href={countriesListUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white uppercase"
-                >
-                  Countries List
-                </a>
+                <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger asChild>
+                    <button className="text-gray-400 hover:text-white uppercase">
+                      Countries List
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px] bg-black text-white">
+                    <DialogHeader>
+                      <DialogTitle>Download Countries List</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to download the list of countries?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        onClick={() => setOpen(false)}
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button type="button" onClick={handleDownload}>
+                        Download
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </li>
             </ul>
           </div>
