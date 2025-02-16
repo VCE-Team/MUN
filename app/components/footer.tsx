@@ -97,7 +97,7 @@ export function Footer() {
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
                     <button className="text-gray-400 hover:text-white uppercase">
-                      Countries List
+                      Country Matrix
                     </button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px] bg-black text-white">
