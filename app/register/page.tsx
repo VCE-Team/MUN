@@ -26,6 +26,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -49,6 +50,7 @@ const formSchema = z.object({
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -80,38 +82,50 @@ export default function RegisterPage() {
   const nextStep = async () => {
     let isValid = false;
     if (step === 1) {
-      isValid = await form.trigger([
-        "name",
-        "email",
-        "phone",
-        "institution",
-        "committee",
-        "firstPreferenceCountry",
-        "secondPreferenceCountry",
-        "thirdPreferenceCountry",
-      ]);
+      setIsLoading(true);
+      try {
+        isValid = await form.trigger([
+          "name",
+          "email",
+          "phone",
+          "institution",
+          "committee",
+          "firstPreferenceCountry",
+          "secondPreferenceCountry",
+          "thirdPreferenceCountry",
+        ]);
 
-      if (isValid) {
-        const emailExists = await checkEmailExists(form.getValues("email"));
-        if (emailExists) {
+        if (isValid) {
+          const emailExists = await checkEmailExists(form.getValues("email"));
+          if (emailExists) {
+            toast({
+              title: "Email already used for registration",
+              description: "Please try another email.",
+              variant: "destructive",
+            });
+            return;
+          }
+        }
+
+        if (isValid) {
+          setStep(2);
+        } else {
           toast({
-            title: "Email already used for registration",
-            description: "Please try another email.",
+            title: "Validation Error",
+            description: "Please check all the fields properly.",
             variant: "destructive",
           });
-          return;
         }
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "An error occurred. Please try again.",
+          variant: "destructive",
+        });
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
-    }
-
-    if (isValid) {
-      setStep(2);
-    } else {
-      toast({
-        title: "Validation Error",
-        description: "Please check all the fields properly.",
-        variant: "destructive",
-      });
     }
   };
 
@@ -466,10 +480,12 @@ export default function RegisterPage() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-8 p-6 bg-secondary/10 rounded-lg">
                       <div className="relative w-48 h-48">
                         <Image
-                          src="/images/qr-1.jpg"
+                          src="/images/qr-1-minimized.jpg"
                           alt="Payment QR Code"
                           fill
                           className="object-contain"
+                          priority
+                          loading="eager"
                         />
                       </div>
                       <div className="text-center sm:text-left">
@@ -520,8 +536,16 @@ export default function RegisterPage() {
                       type="button"
                       onClick={nextStep}
                       className="ml-auto bg-primary hover:bg-primary/90"
+                      disabled={isLoading}
                     >
-                      Continue to Payment
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Please wait
+                        </>
+                      ) : (
+                        "Continue to Payment"
+                      )}
                     </Button>
                   ) : (
                     <Button
