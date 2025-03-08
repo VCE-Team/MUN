@@ -7,6 +7,7 @@ import Partners from "./components/partners";
 import { LoadingScreen } from "./components/loading-screen";
 import DateAnnouncement from "./components/date-announcement";
 import { RouteLoading } from "./components/route-loading";
+import { CountdownTimer } from "./components/countdown-timer";
 
 export default function Home() {
   return (
@@ -16,6 +17,9 @@ export default function Home() {
       <Hero />
       <RevealAnimation>
         <DateAnnouncement />
+      </RevealAnimation>
+      <RevealAnimation>
+        <CountdownTimer />
       </RevealAnimation>
       <RevealAnimation>
         <Committees />
