@@ -132,14 +132,16 @@ export function Header() {
           </div>
 
           <div className="flex items-center space-x-1 mr-6">
-            <Image
-              className="px-1"
-              src="/images/logos/vardhamanlogo.png"
-              alt="VCEMUN Logo"
-              width={45}
-              height={45}
-              priority
-            />
+            <Link href="https://vardhaman.org/" target="_blank">
+              <Image
+                className="px-1"
+                src="/images/logos/vardhamanlogo.png"
+                alt="VCEMUN Logo"
+                width={45}
+                height={45}
+                priority
+              />
+            </Link>
             <Image
               className="px-1"
               src="/images/logos/saclogomain.png"

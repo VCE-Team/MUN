@@ -12,7 +12,7 @@ const DateAnnouncement: React.FC = () => {
   const [allTextComplete, setAllTextComplete] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const fullMainText = "MUN is on the 21st and 22nd of March!";
-  const fullRegistrationText = "Last date for registrations is 16th March.";
+  const fullRegistrationText = "Last date for registrations is 17th March.";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -59,10 +59,10 @@ const DateAnnouncement: React.FC = () => {
               setAllTextComplete(true);
               clearInterval(registrationInterval);
             }
-          }, 50); // Slightly faster typing for second line
-        }, 500); // Delay before starting second line
+          }, 50);
+        }, 500);
       }
-    }, 70); // Slightly slower typing for first line
+    }, 70);
 
     return () => {
       clearInterval(mainInterval);
