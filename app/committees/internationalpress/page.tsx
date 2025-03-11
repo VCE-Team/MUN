@@ -14,16 +14,17 @@ export default function InternationalPressPage() {
         className="max-w-4xl mx-auto text-center space-y-8"
       >
         <p className="text-lg leading-relaxed">
-          International Press (IP) is the First Committee of the United Nations
-          General Assembly. Established in 1945, it focuses on issues concerning
-          global peace, disarmament, and international security. DISEC addresses
-          topics such as nuclear disarmament, arms control, regional security,
-          and the regulation of weapons of mass destruction. It plays a crucial
-          role in formulating resolutions and agreements aimed at reducing
-          global militarization and preventing armed conflict. While its
-          resolutions are non-binding, DISEC influences the discourse on
-          international security issues, encouraging collaboration among member
-          states to create a safer world.
+          The International Press (IP) serves as the eyes and ears of global
+          diplomacy, ensuring transparency and accountability in international
+          discussions. Comprising journalists and photographers, the IP plays a
+          crucial role in reporting on key issues, such as allegations of
+          genocide and human rights violations in conflict zones. Through
+          investigative journalism, interviews, and visual documentation, it
+          provides unbiased coverage, shapes public opinion, and holds global
+          leaders accountable. By fostering informed debate and amplifying the
+          voices of those affected, the International Press upholds the
+          principles of free speech and responsible journalism in the realm of
+          international affairs.
         </p>
       </motion.section>
 

@@ -14,16 +14,17 @@ export default function ECOSOCPage() {
         className="max-w-4xl mx-auto text-center space-y-8"
       >
         <p className="text-lg leading-relaxed">
-          International Press (IP) is the First Committee of the United Nations
-          General Assembly. Established in 1945, it focuses on issues concerning
-          global peace, disarmament, and international security. DISEC addresses
-          topics such as nuclear disarmament, arms control, regional security,
-          and the regulation of weapons of mass destruction. It plays a crucial
-          role in formulating resolutions and agreements aimed at reducing
-          global militarization and preventing armed conflict. While its
-          resolutions are non-binding, DISEC influences the discourse on
-          international security issues, encouraging collaboration among member
-          states to create a safer world.
+          The United Nations Economic and Social Council (ECOSOC) is one of the
+          six principal organs of the UN, responsible for addressing global
+          economic, social, and environmental challenges. It plays a pivotal
+          role in coordinating international efforts to combat illicit trading
+          and wildlife resource trafficking, which threaten biodiversity,
+          disrupt ecosystems, and fuel organized crime. ECOSOC collaborates with
+          governments, NGOs, and international organizations to formulate
+          policies, promote sustainable development, and strengthen enforcement
+          mechanisms. By fostering dialogue and cooperation, the committee aims
+          to implement effective strategies to curb illegal trade while ensuring
+          economic stability and ecological preservation.
         </p>
       </motion.section>
 

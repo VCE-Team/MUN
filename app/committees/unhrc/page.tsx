@@ -14,16 +14,16 @@ export default function UNHRCPage() {
         className="max-w-4xl mx-auto text-center space-y-8"
       >
         <p className="text-lg leading-relaxed">
-          International Press (IP) is the First Committee of the United Nations
-          General Assembly. Established in 1945, it focuses on issues concerning
-          global peace, disarmament, and international security. DISEC addresses
-          topics such as nuclear disarmament, arms control, regional security,
-          and the regulation of weapons of mass destruction. It plays a crucial
-          role in formulating resolutions and agreements aimed at reducing
-          global militarization and preventing armed conflict. While its
-          resolutions are non-binding, DISEC influences the discourse on
-          international security issues, encouraging collaboration among member
-          states to create a safer world.
+          The United Nations Human Rights Council (UNHRC) is a key
+          intergovernmental body within the UN responsible for promoting and
+          protecting human rights worldwide. It plays a crucial role in
+          addressing allegations of genocide and human rights violations in
+          conflict zones, ensuring accountability, and advocating for justice.
+          Through investigations, resolutions, and diplomatic efforts, UNHRC
+          works to prevent atrocities, support affected communities, and uphold
+          international human rights law. By collaborating with states, NGOs,
+          and humanitarian organizations, the committee strives to implement
+          measures that safeguard human dignity and prevent future violations.
         </p>
       </motion.section>
       <motion.section
