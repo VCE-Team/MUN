@@ -694,13 +694,24 @@ export default function RegisterPage() {
                       </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-8 p-6 bg-secondary/10 rounded-lg">
+                    <div className="flex items-center justify-center gap-4 p-6 bg-secondary/10 rounded-lg">
+                      {!showFirstQR && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="flex items-center justify-center border-primary/40 hover:bg-primary/5"
+                          onClick={() => setShowFirstQR(true)}
+                        >
+                          <ArrowLeft className="h-4 w-4" />
+                        </Button>
+                      )}
+
                       <div className="relative w-48 h-48">
                         <Image
                           src={
                             showFirstQR
-                              ? "/images/qr-1-minimized.jpg"
-                              : "/images/qr-2-minimized.jpg"
+                              ? "/images/payment/qr1min.jpg"
+                              : "/images/payment/qr2min.jpg"
                           }
                           alt="Payment QR Code"
                           fill
@@ -710,40 +721,30 @@ export default function RegisterPage() {
                         />
                       </div>
 
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className={`absolute ${
-                          showFirstQR ? "right-0" : "left-0"
-                        } top-1/2 transform -translate-y-1/2`}
-                        onClick={() => setShowFirstQR(!showFirstQR)}
-                      >
-                        {showFirstQR ? (
-                          <span className="flex items-center">
-                            <ArrowRight className="h-4 w-4 mr-2" />
-                            Try Other QR
-                          </span>
-                        ) : (
-                          <span className="flex items-center">
-                            <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to First QR
-                          </span>
-                        )}
-                      </Button>
+                      {showFirstQR && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="flex items-center justify-center border-primary/40 hover:bg-primary/5"
+                          onClick={() => setShowFirstQR(false)}
+                        >
+                          <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
 
-                      <div className="text-center sm:text-left">
-                        <p className="text-lg font-semibold text-foreground/90">
-                          Amount: ₹{calculatePrice()}
+                    <div className="text-center sm:text-left">
+                      <p className="text-lg font-semibold text-foreground/90">
+                        Amount: ₹{calculatePrice()}
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        Scan to pay via UPI
+                      </p>
+                      {registrationType === "multiple" && (
+                        <p className="text-sm text-primary mt-2">
+                          You&apos;re saving ₹599 with the group registration!
                         </p>
-                        <p className="text-sm text-muted-foreground mt-2">
-                          Scan to pay via UPI
-                        </p>
-                        {registrationType === "multiple" && (
-                          <p className="text-sm text-primary mt-2">
-                            You&apos;re saving ₹599 with the group registration!
-                          </p>
-                        )}
-                      </div>
+                      )}
                     </div>
 
                     <FormField
