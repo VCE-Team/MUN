@@ -100,7 +100,9 @@ export default function RegisterPage() {
 
   const checkEmailExists = async (email: string) => {
     const response = await fetch(
-      `http://localhost:5174/api/check-email?email=${encodeURIComponent(email)}`
+      `https://munvcebackend.onrender.com/api/check-email?email=${encodeURIComponent(
+        email
+      )}`
     );
     const data = await response.json();
     return data.exists;
@@ -173,13 +175,16 @@ export default function RegisterPage() {
           transactionId: values.transactionId,
         };
 
-        const response = await fetch("http://localhost:5174/api/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
+        const response = await fetch(
+          "https://munvcebackend.onrender.com/api/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
 
         const data = await response.json();
         if (data.success) {
@@ -196,7 +201,7 @@ export default function RegisterPage() {
         }
       } else {
         const response = await fetch(
-          "http://localhost:5174/api/register-multiple",
+          "https://munvcebackend.onrender.com/api/register-multiple",
           {
             method: "POST",
             headers: {
