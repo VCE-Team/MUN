@@ -56,9 +56,10 @@ export function Header() {
             <Image
               src="/images/logos/munvcelogo.png"
               alt="VCEMUN Logo"
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               priority
+              className="logo-image"
             />
             <p
               className="font-bold text-xl"

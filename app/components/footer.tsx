@@ -15,17 +15,16 @@ import {
 import { Button } from "@/components/ui/button";
 
 export function Footer() {
-  const countriesListUrl = "/COUNTRY_MATRIX_VCEMUN25.xlsx";
-  const [open, setOpen] = useState(false);
+  const [openCountryMatrix, setOpenCountryMatrix] = useState(false);
+  const [openHandbook, setOpenHandbook] = useState(false);
 
-  const handleDownload = () => {
+  const handleDownload = (fileUrl: string) => {
     const link = document.createElement("a");
-    link.href = countriesListUrl;
-    link.download = "COUNTRY_MATRIX_VCEMUN25.xlsx";
+    link.href = fileUrl;
+    link.download = fileUrl.split("/").pop() || "download";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    setOpen(false);
   };
 
   return (
@@ -94,7 +93,10 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Dialog open={open} onOpenChange={setOpen}>
+                <Dialog
+                  open={openCountryMatrix}
+                  onOpenChange={setOpenCountryMatrix}
+                >
                   <DialogTrigger asChild>
                     <button className="text-gray-400 hover:text-white uppercase">
                       Country Matrix
@@ -110,12 +112,49 @@ export function Footer() {
                     <DialogFooter>
                       <Button
                         type="button"
-                        onClick={() => setOpen(false)}
+                        onClick={() => setOpenCountryMatrix(false)}
                         variant="secondary"
                       >
                         Cancel
                       </Button>
-                      <Button type="button" onClick={handleDownload}>
+                      <Button
+                        type="button"
+                        onClick={() =>
+                          handleDownload("/COUNTRY_MATRIX_VCEMUN25.xlsx")
+                        }
+                      >
+                        Download
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </li>
+              <li>
+                <Dialog open={openHandbook} onOpenChange={setOpenHandbook}>
+                  <DialogTrigger asChild>
+                    <button className="text-gray-400 hover:text-white uppercase">
+                      VCEMUN Handbook
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px] bg-black text-white">
+                    <DialogHeader>
+                      <DialogTitle>Download VCEMUN Handbook</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to download VCEMUN Handbook?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        onClick={() => setOpenHandbook(false)}
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => handleDownload("/VCEMUN Handbook.pdf")}
+                      >
                         Download
                       </Button>
                     </DialogFooter>

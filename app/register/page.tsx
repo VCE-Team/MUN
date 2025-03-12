@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,9 +26,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, Plus, Trash2 } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-const formSchema = z.object({
+const participantSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
   phone: z.string().min(10, { message: "Please enter a valid phone number" }),
@@ -45,6 +46,11 @@ const formSchema = z.object({
     .min(1, { message: "Third preference country is required" }),
   priorExperiences: z.string().optional(),
   role: z.string().optional(),
+});
+
+const formSchema = z.object({
+  registrationType: z.enum(["single", "multiple"]),
+  participants: z.array(participantSchema),
   transactionId: z.string().min(1, { message: "Transaction ID is required" }),
 });
 
@@ -52,28 +58,49 @@ export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const [showFirstQR, setShowFirstQR] = useState(true);
+  const [registrationType, setRegistrationType] = useState<
+    "single" | "multiple"
+  >("single");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      institution: "",
-      committee: "",
-      firstPreferenceCountry: "",
-      secondPreferenceCountry: "",
-      thirdPreferenceCountry: "",
+      registrationType: "single",
+      participants: [
+        {
+          name: "",
+          email: "",
+          phone: "",
+          institution: "",
+          committee: "",
+          firstPreferenceCountry: "",
+          secondPreferenceCountry: "",
+          thirdPreferenceCountry: "",
+          priorExperiences: "",
+          role: "",
+        },
+      ],
       transactionId: "",
-      priorExperiences: "",
-      role: "",
     },
   });
 
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "participants",
+  });
+
+  const calculatePrice = () => {
+    if (registrationType === "single") {
+      return 599;
+    } else {
+      return 599 * 5;
+    }
+  };
+
   const checkEmailExists = async (email: string) => {
     const response = await fetch(
-      `https://munvcebackend.onrender.com/api/check-email?email=${encodeURIComponent(
-        email
-      )}`
+      `http://localhost:5174/api/check-email?email=${encodeURIComponent(email)}`
     );
     const data = await response.json();
     return data.exists;
@@ -84,30 +111,33 @@ export default function RegisterPage() {
     if (step === 1) {
       setIsLoading(true);
       try {
-        isValid = await form.trigger([
-          "name",
-          "email",
-          "phone",
-          "institution",
-          "committee",
-          "firstPreferenceCountry",
-          "secondPreferenceCountry",
-          "thirdPreferenceCountry",
-        ]);
+        isValid = await form.trigger("participants");
 
         if (isValid) {
-          const emailExists = await checkEmailExists(form.getValues("email"));
-          if (emailExists) {
+          const participants = form.getValues("participants");
+          if (registrationType === "multiple" && participants.length < 6) {
             toast({
-              title: "Email already used for registration",
-              description: "Please try another email.",
+              title: "Incomplete Group Registration",
+              description: "Please add details for all 6 participants.",
               variant: "destructive",
             });
+            setIsLoading(false);
             return;
           }
-        }
 
-        if (isValid) {
+          for (const participant of participants) {
+            const emailExists = await checkEmailExists(participant.email);
+            if (emailExists) {
+              toast({
+                title: "Email already used for registration",
+                description: `Email ${participant.email} is already registered.`,
+                variant: "destructive",
+              });
+              setIsLoading(false);
+              return;
+            }
+          }
+
           setStep(2);
         } else {
           toast({
@@ -134,30 +164,65 @@ export default function RegisterPage() {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     try {
-      const response = await fetch(
-        "https://munvcebackend.onrender.com/api/register",
-        {
+      if (values.registrationType === "single") {
+        const participant = values.participants[0];
+        const payload = {
+          ...participant,
+          transactionId: values.transactionId,
+        };
+
+        const response = await fetch("http://localhost:5174/api/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(values),
-        }
-      );
-
-      const data = await response.json();
-      if (data.success) {
-        toast({
-          title: "Registration Successful",
-          description:
-            "Registered Successfully! You will receive a mail in a few days.",
+          body: JSON.stringify(payload),
         });
-        setTimeout(() => {
-          router.push("/");
-        }, 5000);
+
+        const data = await response.json();
+        if (data.success) {
+          toast({
+            title: "Registration Successful",
+            description:
+              "Registered Successfully! You will receive a mail in a few days.",
+          });
+          setTimeout(() => {
+            router.push("/");
+          }, 5000);
+        } else {
+          throw new Error(data.message);
+        }
       } else {
-        throw new Error(data.message);
+        const response = await fetch(
+          "http://localhost:5174/api/register-multiple",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              participants: values.participants,
+              transactionId: values.transactionId,
+              registrationType: values.registrationType,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        if (data.success) {
+          toast({
+            title: "Group Registration Successful",
+            description:
+              "All participants registered successfully! You will receive a mail in a few days.",
+          });
+          setTimeout(() => {
+            router.push("/");
+          }, 5000);
+        } else {
+          throw new Error(data.message);
+        }
       }
     } catch (error) {
       console.error("Error during registration:", error);
@@ -166,18 +231,69 @@ export default function RegisterPage() {
         description: "There was an error processing your registration.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    const committee = form.getValues("committee");
-    if (committee === "ip") {
-      form.setValue("priorExperiences", "");
-      form.setValue("role", "");
-    } else if (["disec", "unhrc", "ecosoc"].includes(committee)) {
-      form.setValue("role", "");
+    const currentType = form.getValues("registrationType");
+    if (currentType !== registrationType) {
+      setRegistrationType(currentType as "single" | "multiple");
+
+      if (currentType === "single") {
+        form.setValue("participants", [
+          {
+            name: "",
+            email: "",
+            phone: "",
+            institution: "",
+            committee: "",
+            firstPreferenceCountry: "",
+            secondPreferenceCountry: "",
+            thirdPreferenceCountry: "",
+            priorExperiences: "",
+            role: "",
+          },
+        ]);
+      } else {
+        const currentParticipants = form.getValues("participants");
+        const newParticipants = [...currentParticipants];
+
+        while (newParticipants.length < 6) {
+          newParticipants.push({
+            name: "",
+            email: "",
+            phone: "",
+            institution: "",
+            committee: "",
+            firstPreferenceCountry: "",
+            secondPreferenceCountry: "",
+            thirdPreferenceCountry: "",
+            priorExperiences: "",
+            role: "",
+          });
+        }
+
+        if (newParticipants.length > 6) {
+          newParticipants.length = 6;
+        }
+
+        form.setValue("participants", newParticipants);
+      }
     }
-  }, [form.watch("committee")]);
+  }, [form.watch("registrationType")]);
+
+  useEffect(() => {
+    fields.forEach((field, index) => {
+      const committee = form.getValues(`participants.${index}.committee`);
+      if (committee === "ip") {
+        form.setValue(`participants.${index}.priorExperiences`, "");
+      } else if (["disec", "unhrc", "ecosoc"].includes(committee)) {
+        form.setValue(`participants.${index}.role`, "");
+      }
+    });
+  }, [fields, form.watch("participants")]);
 
   return (
     <div className="min-h-screen mt-[4rem] bg-gradient-to-b from-background to-secondary/10 px-4 py-8">
@@ -210,257 +326,355 @@ export default function RegisterPage() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6"
               >
+                <FormField
+                  control={form.control}
+                  name="registrationType"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="text-foreground/80">
+                        Registration Type
+                      </FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                          disabled={step === 2}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="single" id="single" />
+                            <label
+                              htmlFor="single"
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                              Single Registration (₹599 per person)
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="multiple" id="multiple" />
+                            <label
+                              htmlFor="multiple"
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                              Multiple Registrations (Register 5, Get 1 Free -
+                              Total ₹2,995)
+                            </label>
+                          </div>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {step === 1 && (
                   <div className="space-y-6">
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground/80">
-                              Full Name *
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                className="border-primary/20 focus:border-primary"
-                                placeholder="John Doe"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground/80">
-                              Email *
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                className="border-primary/20 focus:border-primary"
-                                placeholder="john@example.com"
-                                type="email"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                    {fields.map((field, index) => (
+                      <div
+                        key={field.id}
+                        className="space-y-6 p-4 border border-primary/10 rounded-lg"
+                      >
+                        <div className="flex justify-between items-center">
+                          <h3 className="text-lg font-semibold text-foreground/90">
+                            {registrationType === "single"
+                              ? "Participant Details"
+                              : `Participant ${index + 1} ${
+                                  index === 5 ? "(Free)" : ""
+                                }`}
+                          </h3>
+                          {registrationType === "multiple" &&
+                            fields.length > 1 && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => remove(index)}
+                                className="text-destructive hover:text-destructive/80"
+                                disabled={fields.length <= 1}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            )}
+                        </div>
 
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground/80">
-                              Phone Number *
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                className="border-primary/20 focus:border-primary"
-                                placeholder="+91 XXXXXXXXXX"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="institution"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground/80">
-                              Institution *
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                className="border-primary/20 focus:border-primary"
-                                placeholder="Your School/College"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                        <div className="grid gap-6 sm:grid-cols-2">
+                          <FormField
+                            control={form.control}
+                            name={`participants.${index}.name`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground/80">
+                                  Full Name *
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    className="border-primary/20 focus:border-primary"
+                                    placeholder="John Doe"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`participants.${index}.email`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground/80">
+                                  Email *
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    className="border-primary/20 focus:border-primary"
+                                    placeholder="john@example.com"
+                                    type="email"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
 
-                    <FormField
-                      control={form.control}
-                      name="committee"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-foreground/80">
-                            Select Committee *
-                          </FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="border-primary/20 focus:border-primary">
-                                <SelectValue placeholder="Select a committee" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="disec">
-                                Disarmament and International Security Committee
-                                (DISEC)
-                              </SelectItem>
-                              <SelectItem value="unhrc">
-                                United Nations Human Rights Council (UNHRC)
-                              </SelectItem>
-                              <SelectItem value="ecosoc">
-                                Economic and Social Council (ECOSOC)
-                              </SelectItem>
-                              <SelectItem value="ip">
-                                International Press (IP)
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <div className="grid gap-6 sm:grid-cols-2">
+                          <FormField
+                            control={form.control}
+                            name={`participants.${index}.phone`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground/80">
+                                  Phone Number *
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    className="border-primary/20 focus:border-primary"
+                                    placeholder="+91 XXXXXXXXXX"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`participants.${index}.institution`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground/80">
+                                  Institution *
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    className="border-primary/20 focus:border-primary"
+                                    placeholder="Your School/College"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
 
-                    {["disec", "unhrc", "ecosoc"].includes(
-                      form.getValues("committee")
-                    ) && (
-                      <FormField
-                        control={form.control}
-                        name="priorExperiences"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground/80">
-                              What are your prior experiences with MUNs/public
-                              speaking events?
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                className="border-primary/20 focus:border-primary"
-                                placeholder="Describe your experiences"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
-
-                    {form.getValues("committee") === "ip" && (
-                      <FormField
-                        control={form.control}
-                        name="role"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground/80">
-                              Role *
-                            </FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="border-primary/20 focus:border-primary">
-                                  <SelectValue placeholder="Select a role" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="photographer">
-                                  Photographer
-                                </SelectItem>
-                                <SelectItem value="journalist">
-                                  Journalist
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
-
-                    <Separator className="my-6" />
-
-                    <div className="space-y-6">
-                      <h3 className="text-lg font-semibold text-foreground/90">
-                        Country Preferences
-                      </h3>
-                      <div className="grid gap-6 sm:grid-cols-3">
                         <FormField
                           control={form.control}
-                          name="firstPreferenceCountry"
+                          name={`participants.${index}.committee`}
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-foreground/80">
-                                1st Preference *
+                                Select Committee *
                               </FormLabel>
-                              <FormControl>
-                                <Input
-                                  className="border-primary/20 focus:border-primary"
-                                  placeholder="First choice"
-                                  {...field}
-                                />
-                              </FormControl>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="border-primary/20 focus:border-primary">
+                                    <SelectValue placeholder="Select a committee" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="disec">
+                                    Disarmament and International Security
+                                    Committee (DISEC)
+                                  </SelectItem>
+                                  <SelectItem value="unhrc">
+                                    United Nations Human Rights Council (UNHRC)
+                                  </SelectItem>
+                                  <SelectItem value="ecosoc">
+                                    Economic and Social Council (ECOSOC)
+                                  </SelectItem>
+                                  <SelectItem value="ip">
+                                    International Press (IP)
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-                        <FormField
-                          control={form.control}
-                          name="secondPreferenceCountry"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-foreground/80">
-                                2nd Preference *
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  className="border-primary/20 focus:border-primary"
-                                  placeholder="Second choice"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="thirdPreferenceCountry"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-foreground/80">
-                                3rd Preference *
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  className="border-primary/20 focus:border-primary"
-                                  placeholder="Third choice"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+
+                        {["disec", "unhrc", "ecosoc"].includes(
+                          form.getValues(`participants.${index}.committee`)
+                        ) && (
+                          <FormField
+                            control={form.control}
+                            name={`participants.${index}.priorExperiences`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground/80">
+                                  What are your prior experiences with
+                                  MUNs/public speaking events?
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    className="border-primary/20 focus:border-primary"
+                                    placeholder="Describe your experiences"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
+
+                        {form.getValues(`participants.${index}.committee`) ===
+                          "ip" && (
+                          <FormField
+                            control={form.control}
+                            name={`participants.${index}.role`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground/80">
+                                  Role *
+                                </FormLabel>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                >
+                                  <FormControl>
+                                    <SelectTrigger className="border-primary/20 focus:border-primary">
+                                      <SelectValue placeholder="Select a role" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="photographer">
+                                      Photographer
+                                    </SelectItem>
+                                    <SelectItem value="journalist">
+                                      Journalist
+                                    </SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
+                        <Separator className="my-6" />
+
+                        <div className="space-y-6">
+                          <h3 className="text-lg font-semibold text-foreground/90">
+                            Country Preferences
+                          </h3>
+                          <div className="grid gap-6 sm:grid-cols-3">
+                            <FormField
+                              control={form.control}
+                              name={`participants.${index}.firstPreferenceCountry`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-foreground/80">
+                                    1st Preference *
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      className="border-primary/20 focus:border-primary"
+                                      placeholder="First choice"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`participants.${index}.secondPreferenceCountry`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-foreground/80">
+                                    2nd Preference *
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      className="border-primary/20 focus:border-primary"
+                                      placeholder="Second choice"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`participants.${index}.thirdPreferenceCountry`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-foreground/80">
+                                    3rd Preference *
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      className="border-primary/20 focus:border-primary"
+                                      placeholder="Third choice"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
+
+                    {registrationType === "multiple" && fields.length < 6 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() =>
+                          append({
+                            name: "",
+                            email: "",
+                            phone: "",
+                            institution: "",
+                            committee: "",
+                            firstPreferenceCountry: "",
+                            secondPreferenceCountry: "",
+                            thirdPreferenceCountry: "",
+                            priorExperiences: "",
+                            role: "",
+                          })
+                        }
+                        className="w-full border-dashed border-primary/40 hover:bg-primary/5"
+                      >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Add Participant ({fields.length}/6)
+                      </Button>
+                    )}
 
                     <div className="mt-6 p-4 bg-secondary/20 rounded-lg">
                       <p className="text-sm text-muted-foreground">
-                        Registration fee: ₹599
+                        {registrationType === "single"
+                          ? "Registration fee: ₹599 per person"
+                          : "Registration package: Register 5 participants at ₹599 each and get 1 registration free. Total: ₹2,995"}
                       </p>
                     </div>
                   </div>
@@ -475,12 +689,19 @@ export default function RegisterPage() {
                       <p className="text-muted-foreground">
                         Please scan the QR code to make the payment
                       </p>
+                      <p className="text-sm text-primary">
+                        If you face any payment issues, try the other QR code.
+                      </p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-8 p-6 bg-secondary/10 rounded-lg">
                       <div className="relative w-48 h-48">
                         <Image
-                          src="/images/qr-1-minimized.jpg"
+                          src={
+                            showFirstQR
+                              ? "/images/qr-1-minimized.jpg"
+                              : "/images/qr-2-minimized.jpg"
+                          }
                           alt="Payment QR Code"
                           fill
                           className="object-contain"
@@ -488,13 +709,40 @@ export default function RegisterPage() {
                           loading="eager"
                         />
                       </div>
+
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className={`absolute ${
+                          showFirstQR ? "right-0" : "left-0"
+                        } top-1/2 transform -translate-y-1/2`}
+                        onClick={() => setShowFirstQR(!showFirstQR)}
+                      >
+                        {showFirstQR ? (
+                          <span className="flex items-center">
+                            <ArrowRight className="h-4 w-4 mr-2" />
+                            Try Other QR
+                          </span>
+                        ) : (
+                          <span className="flex items-center">
+                            <ArrowLeft className="h-4 w-4 mr-2" />
+                            Back to First QR
+                          </span>
+                        )}
+                      </Button>
+
                       <div className="text-center sm:text-left">
                         <p className="text-lg font-semibold text-foreground/90">
-                          Amount: ₹599
+                          Amount: ₹{calculatePrice()}
                         </p>
                         <p className="text-sm text-muted-foreground mt-2">
                           Scan to pay via UPI
                         </p>
+                        {registrationType === "multiple" && (
+                          <p className="text-sm text-primary mt-2">
+                            You&apos;re saving ₹599 with the group registration!
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -551,8 +799,16 @@ export default function RegisterPage() {
                     <Button
                       type="submit"
                       className="ml-auto bg-primary hover:bg-primary/90"
+                      disabled={isLoading}
                     >
-                      Complete Registration
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        "Complete Registration"
+                      )}
                     </Button>
                   )}
                 </div>
