@@ -52,6 +52,7 @@ const formSchema = z.object({
   registrationType: z.enum(["single", "multiple"]),
   participants: z.array(participantSchema),
   transactionId: z.string().min(1, { message: "Transaction ID is required" }),
+  qrUsed: z.enum(["qr1", "qr2"]),
 });
 
 export default function RegisterPage() {
@@ -82,6 +83,7 @@ export default function RegisterPage() {
         },
       ],
       transactionId: "",
+      qrUsed: "qr1",
     },
   });
 
@@ -173,6 +175,7 @@ export default function RegisterPage() {
         const payload = {
           ...participant,
           transactionId: values.transactionId,
+          qrUsed: values.qrUsed,
         };
 
         const response = await fetch(
@@ -201,7 +204,7 @@ export default function RegisterPage() {
         }
       } else {
         const response = await fetch(
-          "https://munvcebackend.onrender.com/api/register-multiple",
+          "http://localhost:5174/api/register-multiple",
           {
             method: "POST",
             headers: {
@@ -211,6 +214,7 @@ export default function RegisterPage() {
               participants: values.participants,
               transactionId: values.transactionId,
               registrationType: values.registrationType,
+              qrUsed: values.qrUsed,
             }),
           }
         );
@@ -705,7 +709,10 @@ export default function RegisterPage() {
                           type="button"
                           variant="outline"
                           className="flex items-center justify-center border-primary/40 hover:bg-primary/5"
-                          onClick={() => setShowFirstQR(true)}
+                          onClick={() => {
+                            setShowFirstQR(true);
+                            form.setValue("qrUsed", "qr1");
+                          }}
                         >
                           <ArrowLeft className="h-4 w-4" />
                         </Button>
@@ -731,7 +738,10 @@ export default function RegisterPage() {
                           type="button"
                           variant="outline"
                           className="flex items-center justify-center border-primary/40 hover:bg-primary/5"
-                          onClick={() => setShowFirstQR(false)}
+                          onClick={() => {
+                            setShowFirstQR(false);
+                            form.setValue("qrUsed", "qr2");
+                          }}
                         >
                           <ArrowRight className="h-4 w-4" />
                         </Button>
