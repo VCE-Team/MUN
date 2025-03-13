@@ -204,7 +204,7 @@ export default function RegisterPage() {
         }
       } else {
         const response = await fetch(
-          "http://localhost:5174/api/register-multiple",
+          "https://munvcebackend.onrender.com/api/register-multiple",
           {
             method: "POST",
             headers: {
