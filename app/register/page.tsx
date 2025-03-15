@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import * as z from "zod";
@@ -28,11 +27,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, ArrowRight, Loader2, Plus, Trash2 } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useEffect, useState } from "react";
 
 const participantSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z.string().min(10, { message: "Please enter a valid phone number" }),
+  phone: z
+    .string()
+    .refine(
+      value => /^\+?\d{10,}$/.test(value),
+      "Please enter a valid phone number"
+    ),
   institution: z.string().min(1, { message: "Institution is required" }),
   committee: z.string().min(1, { message: "Please select a committee" }),
   firstPreferenceCountry: z

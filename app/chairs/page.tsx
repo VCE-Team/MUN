@@ -111,25 +111,6 @@ export default function Chairs() {
                 in Conflict Zones.
               </p>
               <p>
-                It is my distinct honour and privilege to welcome you to the
-                United Nations Human Rights Council (UNHRC) at VCEMUN 2025. As
-                the principal UN body tasked with upholding and protecting
-                fundamental human rights, this committee stands at the forefront
-                of addressing some of the most pressing and sensitive issues of
-                our time. This year, we delve into a matter of profound global
-                significance—Allegations of Genocide and Human Rights Violations
-                in Conflict Zones.
-              </p>
-              <p>
-                At VCEMUN 2025, we strive to create an environment that is both
-                intellectually stimulating and inclusive—where a first-time
-                delegate finds their voice just as confidently as a seasoned MUN
-                veteran refines theirs. Every contribution matter, and I
-                encourage each of you to research diligently, debate
-                passionately, and negotiate thoughtfully as we work towards
-                effective resolutions.
-              </p>
-              <p>
                 At VCEMUN 2025, we strive to create an environment that is both
                 intellectually stimulating and inclusive—where a first-time
                 delegate finds their voice just as confidently as a seasoned MUN

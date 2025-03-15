@@ -20,7 +20,7 @@ export function SecGenDirectorGen() {
 
           <div className="relative w-3/5 h-[200px] md:h-[300px] mb-12">
             <Image
-              src="/images/team/akshay.jpg"
+              src="/images/usg/akshayusg.png"
               alt="Secretary General"
               fill
               className="object-cover rounded-lg"
@@ -81,7 +81,7 @@ export function SecGenDirectorGen() {
 
           <div className="relative w-3/5 h-[200px] md:h-[300px] mb-12">
             <Image
-              src="/images/team/aron.jpg"
+              src="/images/usg/arunusg.jpg"
               alt="Secretary General"
               fill
               className="object-cover rounded-lg"
