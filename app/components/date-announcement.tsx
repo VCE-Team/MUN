@@ -7,12 +7,16 @@ import { motion } from "framer-motion";
 const DateAnnouncement: React.FC = () => {
   const [mainText, setMainText] = useState("");
   const [registrationText, setRegistrationText] = useState("");
+  const [promotionText, setPromotionText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [mainTextComplete, setMainTextComplete] = useState(false);
+  const [registrationTextComplete, setRegistrationTextComplete] =
+    useState(false);
   const [allTextComplete, setAllTextComplete] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const fullMainText = "MUN is on the 21st and 22nd of March!";
   const fullRegistrationText = "Last date for registrations is 17th March.";
+  const fullPromotionText = "🎉 5 Paid + 1 FREE Registrations are OPEN! 🎉";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,6 +43,7 @@ const DateAnnouncement: React.FC = () => {
 
     let mainIndex = 0;
     let registrationIndex = 0;
+    let promotionIndex = 0;
 
     const mainInterval = setInterval(() => {
       if (mainIndex < fullMainText.length) {
@@ -56,8 +61,22 @@ const DateAnnouncement: React.FC = () => {
               );
               registrationIndex++;
             } else {
-              setAllTextComplete(true);
+              setRegistrationTextComplete(true);
               clearInterval(registrationInterval);
+
+              setTimeout(() => {
+                const promotionInterval = setInterval(() => {
+                  if (promotionIndex < fullPromotionText.length) {
+                    setPromotionText(
+                      fullPromotionText.slice(0, promotionIndex + 1)
+                    );
+                    promotionIndex++;
+                  } else {
+                    setAllTextComplete(true);
+                    clearInterval(promotionInterval);
+                  }
+                }, 40);
+              }, 300);
             }
           }, 50);
         }, 500);
@@ -72,7 +91,7 @@ const DateAnnouncement: React.FC = () => {
   return (
     <div
       ref={elementRef}
-      className="flex flex-col items-center justify-center py-12 md:py-16 bg-gradient-to-b from-black to-gray-900"
+      className="flex flex-col items-center justify-center py-8 md:py-16 bg-gradient-to-b from-black to-gray-900"
     >
       <motion.div
         className="typewriter-container"
@@ -91,10 +110,20 @@ const DateAnnouncement: React.FC = () => {
         {mainTextComplete && (
           <div
             className={`text-sm sm:text-base md:text-xl text-center text-yellow-400 font-medium mt-4 ${
-              !allTextComplete ? "typewriter" : ""
+              !registrationTextComplete ? "typewriter" : ""
             }`}
           >
             {registrationText}
+          </div>
+        )}
+
+        {registrationTextComplete && (
+          <div
+            className={`text-sm sm:text-base md:text-xl text-center text-green-400 font-semibold mt-4 ${
+              !allTextComplete ? "typewriter" : ""
+            }`}
+          >
+            {promotionText}
           </div>
         )}
       </motion.div>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { CallToAction } from "@/app/components/call-to-action";
 
 export default function InternationalPressPage() {
   return (
@@ -73,27 +73,7 @@ export default function InternationalPressPage() {
           <div></div>
         </div>
       </motion.section>
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="max-w-5xl mx-auto"
-      >
-        <Link href="/register">
-          <div className="bg-black border border-red-600 rounded-lg p-8 text-center cursor-pointer hover:shadow-2xl transition-shadow duration-300">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Make Your Voice Heard?
-            </h2>
-            <p className="text-lg text-gray-200 mb-6">
-              Register now for the Model United Nations and join the global
-              debate!
-            </p>
-            <button className="bg-red-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-red-700 transition-colors duration-300">
-              Register Now
-            </button>
-          </div>
-        </Link>
-      </motion.section>
+      <CallToAction delay={0.8} />
     </div>
   );
 }
