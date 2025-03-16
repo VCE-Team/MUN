@@ -29,29 +29,68 @@ import { ArrowLeft, ArrowRight, Loader2, Plus, Trash2 } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
 
-const participantSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z
-    .string()
-    .refine(
-      value => /^\+?\d{10,}$/.test(value),
-      "Please enter a valid phone number"
-    ),
-  institution: z.string().min(1, { message: "Institution is required" }),
-  committee: z.string().min(1, { message: "Please select a committee" }),
-  firstPreferenceCountry: z
-    .string()
-    .min(1, { message: "First preference country is required" }),
-  secondPreferenceCountry: z
-    .string()
-    .min(1, { message: "Second preference country is required" }),
-  thirdPreferenceCountry: z
-    .string()
-    .min(1, { message: "Third preference country is required" }),
-  priorExperiences: z.string().optional(),
-  role: z.string().optional(),
-});
+const participantSchema = z
+  .object({
+    name: z.string().min(1, { message: "Name is required" }),
+    email: z.string().email({ message: "Please enter a valid email address" }),
+    phone: z
+      .string()
+      .refine(
+        value => /^\+?\d{10,}$/.test(value),
+        "Please enter a valid phone number"
+      ),
+    institution: z.string().min(1, { message: "Institution is required" }),
+    otherInstitution: z.string().optional(),
+    rollNumber: z.string().optional(),
+    committee: z.string().min(1, { message: "Please select a committee" }),
+    firstPreferenceCountry: z
+      .string()
+      .min(1, { message: "First preference country is required" }),
+    secondPreferenceCountry: z
+      .string()
+      .min(1, { message: "Second preference country is required" }),
+    thirdPreferenceCountry: z
+      .string()
+      .min(1, { message: "Third preference country is required" }),
+    priorExperiences: z.string().optional(),
+    role: z.string().optional(),
+  })
+  .refine(
+    data => {
+      if (data.institution === "Vardhaman College of Engineering") {
+        return !!data.rollNumber;
+      }
+      return true;
+    },
+    {
+      message: "Roll Number is required for Vardhaman College of Engineering",
+      path: ["rollNumber"],
+    }
+  )
+  .refine(
+    data => {
+      if (data.committee === "ip") {
+        return !!data.role;
+      }
+      return true;
+    },
+    {
+      message: "Role is required for International Press",
+      path: ["role"],
+    }
+  )
+  .refine(
+    data => {
+      if (["disec", "unhrc", "ecosoc"].includes(data.committee)) {
+        return !!data.priorExperiences;
+      }
+      return true;
+    },
+    {
+      message: "Prior experiences are required for this committee",
+      path: ["priorExperiences"],
+    }
+  );
 
 const formSchema = z.object({
   registrationType: z.enum(["single", "multiple"]),
@@ -481,17 +520,120 @@ export default function RegisterPage() {
                                 <FormLabel className="text-foreground/80">
                                   Institution *
                                 </FormLabel>
-                                <FormControl>
-                                  <Input
-                                    className="border-primary/20 focus:border-primary"
-                                    placeholder="Your School/College"
-                                    {...field}
-                                  />
-                                </FormControl>
+                                <Select
+                                  onValueChange={value => {
+                                    field.onChange(value);
+                                    if (value === "Other") {
+                                      form.setValue(
+                                        `participants.${index}.otherInstitution`,
+                                        ""
+                                      );
+                                    } else {
+                                      form.setValue(
+                                        `participants.${index}.otherInstitution`,
+                                        undefined
+                                      );
+                                    }
+                                    if (
+                                      value ===
+                                      "Vardhaman College of Engineering"
+                                    ) {
+                                      form.setValue(
+                                        `participants.${index}.rollNumber`,
+                                        ""
+                                      );
+                                    } else {
+                                      form.setValue(
+                                        `participants.${index}.rollNumber`,
+                                        undefined
+                                      );
+                                    }
+                                  }}
+                                  defaultValue={field.value}
+                                >
+                                  <FormControl>
+                                    <SelectTrigger className="border-primary/20 focus:border-primary">
+                                      <SelectValue placeholder="Select your institution" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="Vardhaman College of Engineering">
+                                      Vardhaman College of Engineering
+                                    </SelectItem>
+                                    <SelectItem value="Vasavi College of Engineering">
+                                      Vasavi College of Engineering
+                                    </SelectItem>
+                                    <SelectItem value="CVR College of Engineering">
+                                      CVR College of Engineering
+                                    </SelectItem>
+                                    <SelectItem value="G Narayanamma Institute of Technology and Science">
+                                      G Narayanamma Institute of Technology and
+                                      Science
+                                    </SelectItem>
+                                    <SelectItem value="Sreenidhi Institute of Science and Technology">
+                                      Sreenidhi Institute of Science and
+                                      Technology
+                                    </SelectItem>
+                                    <SelectItem value="Jawaharlal Nehru Technological University Hyderabad">
+                                      Jawaharlal Nehru Technological University
+                                      Hyderabad
+                                    </SelectItem>
+                                    <SelectItem value="Other">Other</SelectItem>
+                                  </SelectContent>
+                                </Select>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
+
+                          {form.getValues(
+                            `participants.${index}.institution`
+                          ) === "Other" && (
+                            <FormField
+                              control={form.control}
+                              name={`participants.${index}.otherInstitution`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-foreground/80">
+                                    Other Institution *
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      className="border-primary/20 focus:border-primary"
+                                      placeholder="Enter your institution"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          )}
+
+                          {/* Show "Roll Number" field if "Vardhaman College of Engineering" is selected */}
+                          {form.getValues(
+                            `participants.${index}.institution`
+                          ) === "Vardhaman College of Engineering" && (
+                            <FormField
+                              control={form.control}
+                              name={`participants.${index}.rollNumber`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-foreground/80">
+                                    Roll Number *
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      className="border-primary/20 focus:border-primary"
+                                      placeholder="Enter your roll number"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          )}
                         </div>
 
                         <FormField
@@ -542,13 +684,14 @@ export default function RegisterPage() {
                               <FormItem>
                                 <FormLabel className="text-foreground/80">
                                   What are your prior experiences with
-                                  MUNs/public speaking events?
+                                  MUNs/public speaking events? *
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     className="border-primary/20 focus:border-primary"
                                     placeholder="Describe your experiences"
                                     {...field}
+                                    required
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -570,6 +713,7 @@ export default function RegisterPage() {
                                 <Select
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
+                                  required
                                 >
                                   <FormControl>
                                     <SelectTrigger className="border-primary/20 focus:border-primary">
