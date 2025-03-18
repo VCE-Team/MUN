@@ -33,6 +33,9 @@ export default function UNHRCPage() {
         className="text-center space-y-4"
       >
         <h2 className="text-4xl font-bold">Agenda</h2>
+        <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
+          Registrations are closed for this committee.
+        </div>
         <p className="text-2xl">
           Allegations of Genocide and Human Rights Violations in Conflict Zones
         </p>

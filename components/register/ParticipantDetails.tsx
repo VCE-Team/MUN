@@ -251,8 +251,10 @@ export function ParticipantDetails({
                     Closed
                   </span>
                 </SelectItem>
-                <SelectItem value="unhrc">
-                  United Nations Human Rights Council (UNHRC)
+                <SelectItem value="unhrc" disabled>
+                  <span className="text-muted-foreground-70">
+                    United Nations Human Rights Council (UNHRC) - Closed
+                  </span>
                 </SelectItem>
                 <SelectItem value="ecosoc">
                   Economic and Social Council (ECOSOC)
@@ -265,10 +267,14 @@ export function ParticipantDetails({
         )}
       />
 
-      {/* Note about DISEC */}
       {form.getValues(`participants.${index}.committee`) === "disec" && (
         <p className="mt-2 text-sm text-destructive">
           Registrations for DISEC are closed. Please select another committee.
+        </p>
+      )}
+      {form.getValues(`participants.${index}.committee`) === "unhrc" && (
+        <p className="mt-2 text-sm text-destructive">
+          Registrations for UNHRC are closed. Please select another committee.
         </p>
       )}
 
