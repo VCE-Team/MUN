@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { CallToAction } from "@/app/components/call-to-action";
+// import { CallToAction } from "@/app/components/call-to-action";
 
 export default function DISECPage() {
   return (
@@ -35,12 +35,12 @@ export default function DISECPage() {
         <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400">
           Agenda
         </h2>
-        <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
-          Registrations are closed for this committee.
-        </div>
         <p className="text-3xl text-gray-300">
           Tackling the use of Chemical and Biological weapons in conflict
         </p>
+        <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
+          Registrations are closed for VCEMUN.
+        </div>
       </motion.section>
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -92,7 +92,7 @@ export default function DISECPage() {
           ))}
         </div>
       </motion.section>
-      <CallToAction delay={0.8} />
+      {/* <CallToAction delay={0.8} /> */}
     </div>
   );
 }

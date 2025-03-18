@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { CallToAction } from "@/app/components/call-to-action";
+// import { CallToAction } from "@/app/components/call-to-action";
 
 export default function ECOSOCPage() {
   return (
@@ -24,7 +24,7 @@ export default function ECOSOCPage() {
           policies, promote sustainable development, and strengthen enforcement
           mechanisms. By fostering dialogue and cooperation, the committee aims
           to implement effective strategies to curb illegal trade while ensuring
-          economic stability and ecological preservation.
+          economic stability and ecological preservation.
         </p>
       </motion.section>
 
@@ -38,6 +38,9 @@ export default function ECOSOCPage() {
         <p className="text-2xl">
           Combating illicit trading and wildlife resource trafficking
         </p>
+        <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
+          Registrations are closed for VCEMUN.
+        </div>
       </motion.section>
 
       <motion.section
@@ -80,7 +83,7 @@ export default function ECOSOCPage() {
           ))}
         </div>
       </motion.section>
-      <CallToAction delay={0.8} />
+      {/* <CallToAction delay={0.8} /> */}
     </div>
   );
 }

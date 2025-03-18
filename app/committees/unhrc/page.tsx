@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CallToAction } from "@/app/components/call-to-action";
+// import { CallToAction } from "@/app/components/call-to-action";
 import Image from "next/image";
 
 export default function UNHRCPage() {
@@ -33,12 +33,12 @@ export default function UNHRCPage() {
         className="text-center space-y-4"
       >
         <h2 className="text-4xl font-bold">Agenda</h2>
-        <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
-          Registrations are closed for this committee.
-        </div>
         <p className="text-2xl">
           Allegations of Genocide and Human Rights Violations in Conflict Zones
         </p>
+        <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
+          Registrations are closed for VCEMUN.
+        </div>
       </motion.section>
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -80,7 +80,7 @@ export default function UNHRCPage() {
           ))}
         </div>
       </motion.section>
-      <CallToAction delay={0.8} />
+      {/* <CallToAction delay={0.8} /> */}
     </div>
   );
 }

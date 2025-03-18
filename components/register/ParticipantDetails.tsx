@@ -245,16 +245,11 @@ export function ParticipantDetails({
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="disec" disabled>
-                  <span className="text-muted-foreground-70">
-                    Disarmament and International Security Committee (DISEC) -
-                    Closed
-                  </span>
+                <SelectItem value="disec">
+                  Disarmament and International Security Committee (DISEC)
                 </SelectItem>
-                <SelectItem value="unhrc" disabled>
-                  <span className="text-muted-foreground-70">
-                    United Nations Human Rights Council (UNHRC) - Closed
-                  </span>
+                <SelectItem value="unhrc">
+                  United Nations Human Rights Council (UNHRC)
                 </SelectItem>
                 <SelectItem value="ecosoc">
                   Economic and Social Council (ECOSOC)
@@ -267,16 +262,16 @@ export function ParticipantDetails({
         )}
       />
 
-      {form.getValues(`participants.${index}.committee`) === "disec" && (
+      {/* {form.getValues(`participants.${index}.committee`) === "disec" && (
         <p className="mt-2 text-sm text-destructive">
           Registrations for DISEC are closed. Please select another committee.
         </p>
-      )}
-      {form.getValues(`participants.${index}.committee`) === "unhrc" && (
+      )} */}
+      {/* {form.getValues(`participants.${index}.committee`) === "unhrc" && (
         <p className="mt-2 text-sm text-destructive">
           Registrations for UNHRC are closed. Please select another committee.
         </p>
-      )}
+      )} */}
 
       {/* Committee-specific Fields */}
       {["disec", "unhrc", "ecosoc"].includes(

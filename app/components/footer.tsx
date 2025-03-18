@@ -50,6 +50,7 @@ export function Footer() {
             <div className="flex space-x-4">
               <a
                 href="https://www.instagram.com/vcemun_hyd"
+                target="_blank"
                 className="hover:text-primary"
               >
                 <Instagram className="w-5 h-5" />
