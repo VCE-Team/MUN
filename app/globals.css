@@ -105,3 +105,11 @@
   height: 40px;
   object-fit: contain;
 }
+
+.text-muted-foreground-70 {
+  color: rgba(113, 128, 150, 0.7);
+}
+
+.text-destructive {
+  color: #e53e3e;
+}
