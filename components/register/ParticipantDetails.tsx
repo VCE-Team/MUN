@@ -320,7 +320,11 @@ export function ParticipantDetails({
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="photographer">Photographer</SelectItem>
-                  <SelectItem value="journalist">Journalist</SelectItem>
+                  <SelectItem value="journalist" disabled>
+                    <span className="text-muted-foreground-70">
+                      Journalist - Closed
+                    </span>
+                  </SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
