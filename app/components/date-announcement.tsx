@@ -15,7 +15,7 @@ const DateAnnouncement: React.FC = () => {
   const [allTextComplete, setAllTextComplete] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const fullMainText = "MUN is on the 21st and 22nd of March!";
-  const fullRegistrationText = "Last date for registrations is 17th March.";
+  const fullRegistrationText = "Last date for registrations is 18th March.";
   const fullPromotionText = "🎉 5 Paid + 1 FREE Registrations are OPEN! 🎉";
 
   useEffect(() => {
@@ -108,13 +108,18 @@ const DateAnnouncement: React.FC = () => {
         </div>
 
         {mainTextComplete && (
-          <div
-            className={`text-sm sm:text-base md:text-xl text-center text-yellow-400 font-medium mt-4 ${
-              !registrationTextComplete ? "typewriter" : ""
-            }`}
-          >
-            {registrationText}
-          </div>
+          <>
+            <div
+              className={`text-sm sm:text-base md:text-xl text-center text-yellow-400 font-medium mt-4 ${
+                !registrationTextComplete ? "typewriter" : ""
+              }`}
+            >
+              {registrationText}
+            </div>
+            <div className="text-xs sm:text-sm md:text-base text-center text-yellow-500 font-light mt-1">
+              Registration form will be closed at 23:59
+            </div>
+          </>
         )}
 
         {registrationTextComplete && (
