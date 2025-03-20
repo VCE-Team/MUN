@@ -28,17 +28,17 @@ const teamMembers: TeamMember[] = [
   {
     name: "Vaishali Bandaru",
     role: "Head of Social Media",
-    image: "/images/usg/vaishaliusg.jpg",
+    image: "/images/usg/vaishali.png",
   },
   {
     name: "Pothu Vennela Priya",
     role: "Head of Social Media",
-    image: "/images/usg/vennelausg.jpg",
+    image: "/images/usg/vennella.png",
   },
   {
     name: "Franzonia MSYKG",
     role: "USG Finance",
-    image: "/images/usg/franzusg.png",
+    image: "/images/usg/franz.png",
   },
   {
     name: "Teerthala Lohith Kumar",
