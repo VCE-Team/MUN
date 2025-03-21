@@ -37,6 +37,10 @@ export default function InternationalPressPage() {
         <div className=" text-center rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
           Registrations are closed for VCEMUN.
         </div>
+        <div className="rounded-md bg-gray-800/70 py-2 px-4 text-white text-lg font-medium">
+          <span className="text-gray-300">Venue:</span>{" "}
+          <span className="text-white">IP: Glass Building 2nd Floor</span>
+        </div>
         <h2 className="text-4xl font-bold text-center">The Executive Board</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 p-0 gap-[10rem] max-w-5xl mx-auto">
           <div></div>

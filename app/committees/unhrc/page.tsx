@@ -39,6 +39,10 @@ export default function UNHRCPage() {
         <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
           Registrations are closed for VCEMUN.
         </div>
+        <div className="rounded-md bg-gray-800/70 py-2 px-4 text-white text-lg font-medium">
+          <span className="text-gray-300">Venue:</span>{" "}
+          <span className="text-white">UNHRC: 1016</span>
+        </div>
       </motion.section>
       <motion.section
         initial={{ opacity: 0, y: 20 }}
