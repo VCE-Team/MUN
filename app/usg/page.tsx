@@ -12,17 +12,17 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     name: "Kayithi Sujeeth Reddy",
-    role: "USG Outreach and marketing",
+    role: "USG Outreach and Marketing",
     image: "/images/usg/sujithusg.jpg",
   },
   {
     name: "Aniketh G.",
-    role: "USG Design",
+    role: "USG Web Developer",
     image: "/images/usg/anikethusg.png",
   },
   {
     name: "Sadha",
-    role: "USG Technology",
+    role: "USG Design and Technology",
     image: "/images/usg/sadausg.png",
   },
   {

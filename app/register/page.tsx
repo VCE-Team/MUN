@@ -61,7 +61,7 @@ export default function RegisterPage() {
                   USGs
                 </Link>
                 <Link
-                  href="/committees/international-press"
+                  href="/committees/internationalpress"
                   className="block text-center bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium py-2 px-4 rounded-lg transition-colors duration-300"
                 >
                   International Press

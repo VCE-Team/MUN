@@ -55,7 +55,7 @@ export function Committees() {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 50,
         damping: 20,
         duration: 0.8,
@@ -69,7 +69,7 @@ export function Committees() {
       y: -14,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 50,
         damping: 20,
         duration: 0.8,
