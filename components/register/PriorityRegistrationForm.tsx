@@ -20,7 +20,7 @@ import { PaymentStep } from "./PrioritySteps/PaymentStep";
 import { ReviewStep } from "./PrioritySteps/ReviewStep";
 
 const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.onrender.com";
+  process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.vercel.app";
 
 export function PriorityRegistrationForm() {
   const [step, setStep] = useState(1);

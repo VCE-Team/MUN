@@ -12,7 +12,7 @@ import { PaymentDetails } from "./PaymentDetails";
 import { RegistrationType } from "./RegistrationType";
 
 const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.onrender.com";
+  process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.vercel.app";
 
 export function RegistrationForm() {
   const [step, setStep] = useState(1);

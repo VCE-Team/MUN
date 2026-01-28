@@ -14,7 +14,6 @@ import { PriorityRegistrationSchema } from "@/schemas/priorityRegistrationForm";
 import { useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useUploadThing } from "@/lib/uploadthing";
 
 interface PaymentStepProps {
   control: Control<PriorityRegistrationSchema>;
@@ -30,56 +29,110 @@ export function PaymentStep({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  const { startUpload } = useUploadThing("paymentScreenshot");
+  // Compress image to reduce storage size (target: max 500KB base64)
+  const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      
+      reader.onload = (e) => {
+        const img = document.createElement("img");
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+          
+          // Calculate new dimensions (max 1920px width, maintain aspect ratio)
+          const maxWidth = 1920;
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error("Failed to get canvas context"));
+            return;
+          }
+          
+          // Draw image with compression
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Convert to JPEG with quality 0.75 (good balance between quality and size)
+          // This typically reduces file size by 60-80% while maintaining readability
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.75);
+          
+          // Check if compressed size is reasonable (base64 is ~33% larger than binary)
+          // Target: ~500KB base64 = ~375KB binary
+          if (compressedDataUrl.length > 500 * 1024) {
+            // Try lower quality (0.6) if still too large
+            const smallerDataUrl = canvas.toDataURL("image/jpeg", 0.6);
+            resolve(smallerDataUrl);
+          } else {
+            resolve(compressedDataUrl);
+          }
+        };
+        
+        img.onerror = () => reject(new Error("Failed to load image"));
+        img.src = e.target?.result as string;
+      };
+      
+      reader.onerror = () => reject(new Error("Failed to read file"));
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleFileChange = async (file: File | undefined) => {
-    if (file) {
-      // Validate file size
-      if (file.size > 5 * 1024 * 1024) {
-        form.setError("paymentScreenshotUrl", {
-          type: "manual",
-          message: "File size must be less than 5MB",
-        });
-        return;
+    if (!file) {
+      // Clear URL and preview
+      form.setValue("paymentScreenshotUrl", "");
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
       }
+      return;
+    }
 
-      // Validate file type
-      const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-      if (!allowedTypes.includes(file.type)) {
-        form.setError("paymentScreenshotUrl", {
-          type: "manual",
-          message: "Only image files are allowed (JPEG, JPG, PNG, WebP)",
-        });
-        return;
-      }
+    // Validate file size (max 10MB original)
+    if (file.size > 10 * 1024 * 1024) {
+      form.setError("paymentScreenshotUrl", {
+        type: "manual",
+        message: "File size must be less than 10MB",
+      });
+      return;
+    }
 
-      setIsUploading(true);
-      try {
-        const res = await startUpload([file]);
-        const uploaded = res?.[0];
-        if (!uploaded?.url) {
-          form.setError("paymentScreenshotUrl", {
-            type: "manual",
-            message: "Failed to upload screenshot. Please try again.",
-          });
-          return;
-        }
+    // Validate file type
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      form.setError("paymentScreenshotUrl", {
+        type: "manual",
+        message: "Only image files are allowed (JPEG, JPG, PNG, WebP)",
+      });
+      return;
+    }
 
-        // Save URL in form state
-        form.setValue("paymentScreenshotUrl", uploaded.url, {
-          shouldValidate: true,
-        });
+    setIsUploading(true);
 
-        setPreviewUrl(uploaded.url);
-        form.clearErrors("paymentScreenshotUrl");
-      } catch (err) {
-        form.setError("paymentScreenshotUrl", {
-          type: "manual",
-          message: "Failed to upload screenshot. Please try again.",
-        });
-      } finally {
-        setIsUploading(false);
-      }
+    try {
+      // Compress image before converting to base64
+      const compressedDataUrl = await compressImage(file);
+      
+      // Save compressed base64 data URL in form state
+      form.setValue("paymentScreenshotUrl", compressedDataUrl, {
+        shouldValidate: true,
+      });
+      setPreviewUrl(compressedDataUrl);
+      form.clearErrors("paymentScreenshotUrl");
+    } catch (error) {
+      form.setError("paymentScreenshotUrl", {
+        type: "manual",
+        message: error instanceof Error ? error.message : "Failed to process image. Please try again.",
+      });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -154,14 +207,9 @@ export function PaymentStep({
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
-                    void handleFileChange(file);
+                    handleFileChange(file);
                   } else {
-                    // Clear URL and preview
-                    form.setValue("paymentScreenshotUrl", "");
-                    if (previewUrl) {
-                      URL.revokeObjectURL(previewUrl);
-                      setPreviewUrl(null);
-                    }
+                    handleFileChange(undefined);
                   }
                 }}
                 value={undefined} // Controlled input for file type
@@ -169,8 +217,8 @@ export function PaymentStep({
               />
             </FormControl>
             <p className="text-xs text-muted-foreground">
-              Upload a screenshot of your payment confirmation (Max 5MB, JPG/PNG/WebP).
-              The image will be securely stored via UploadThing.
+              Upload a screenshot of your payment confirmation (Max 10MB, JPG/PNG/WebP).
+              Images are automatically compressed to optimize storage.
             </p>
             {previewUrl && (
               <div className="mt-4 relative w-full max-w-md h-64 border rounded-lg overflow-hidden bg-gray-900/50">
