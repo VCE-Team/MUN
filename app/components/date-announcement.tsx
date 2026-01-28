@@ -81,7 +81,7 @@ const DateAnnouncement: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <div
-          className={`text-lg sm:text-xl md:text-3xl text-center text-white font-bold ${
+          className={`text-base sm:text-xl md:text-3xl text-center text-white font-bold ${
             !mainTextComplete ? "typewriter" : ""
           }`}
         >
@@ -90,7 +90,7 @@ const DateAnnouncement: React.FC = () => {
 
         {mainTextComplete && (
           <div
-            className={`text-sm sm:text-base md:text-xl text-center text-amber-400 font-semibold mt-4 ${
+            className={`text-xs sm:text-sm md:text-xl text-center text-amber-400 font-semibold mt-4 ${
               !allTextComplete ? "typewriter" : ""
             }`}
           >
@@ -98,9 +98,9 @@ const DateAnnouncement: React.FC = () => {
           </div>
         )}
       </motion.div>
-      <div className="mt-8">
+      <div className="mt-8 w-full flex justify-center px-4">
         <Link href="/register">
-          <Button className="px-8 py-3 text-base font-semibold bg-red-600 hover:bg-red-700 rounded-full shadow-lg">
+          <Button className="w-full max-w-xs sm:max-w-md px-6 py-2 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold bg-red-600 hover:bg-red-700 rounded-full shadow-lg whitespace-normal text-center leading-snug">
             Priority Round Registrations are open now
           </Button>
         </Link>

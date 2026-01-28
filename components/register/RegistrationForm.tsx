@@ -321,13 +321,13 @@ export function RegistrationForm() {
           />
         )}
 
-        <div className="flex justify-between mt-8 pt-4 border-t border-border">
+        <div className="mt-8 pt-4 border-t border-border flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {step > 1 && (
             <Button
               type="button"
               onClick={prevStep}
               variant="outline"
-              className="border-primary/20 hover:bg-primary/5"
+              className="w-full sm:w-auto border-primary/20 hover:bg-primary/5"
             >
               Previous
             </Button>
@@ -336,7 +336,7 @@ export function RegistrationForm() {
             <Button
               type="button"
               onClick={nextStep}
-              className="ml-auto bg-primary hover:bg-primary/90"
+              className="w-full sm:w-auto sm:ml-auto bg-primary hover:bg-primary/90"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -351,7 +351,7 @@ export function RegistrationForm() {
           ) : (
             <Button
               type="submit"
-              className="ml-auto bg-primary hover:bg-primary/90"
+              className="w-full sm:w-auto sm:ml-auto bg-primary hover:bg-primary/90"
               disabled={isLoading}
             >
               {isLoading ? (

@@ -315,25 +315,25 @@ export function PriorityRegistrationForm() {
           />
         )}
 
-        <div className="flex justify-between mt-8 pt-4 border-t border-border">
+        <div className="mt-8 pt-4 border-t border-border flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {step > 1 && (
             <Button
               type="button"
               onClick={prevStep}
               variant="outline"
-              className="border-primary/20 hover:bg-primary/5"
+              className="w-full sm:w-auto border-primary/20 hover:bg-primary/5"
               disabled={isLoading}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Previous
             </Button>
           )}
-          <div className="ml-auto flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto sm:ml-auto sm:justify-end">
             {step < 4 && (
               <Button
                 type="button"
                 onClick={nextStep}
-                className="bg-primary hover:bg-primary/90"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -352,7 +352,7 @@ export function PriorityRegistrationForm() {
             {step === 4 && (
               <Button
                 type="submit"
-                className="bg-primary hover:bg-primary/90"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90"
                 disabled={isLoading}
               >
                 {isLoading ? (
