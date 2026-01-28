@@ -41,9 +41,15 @@ export function PriorityRegistrationForm() {
       firstPreferenceCommittee: "",
       secondPreferenceCommittee: "",
       thirdPreferenceCommittee: "",
-      firstPreferenceCountry: "",
-      secondPreferenceCountry: "",
-      thirdPreferenceCountry: "",
+      firstPreferenceCommittee1stCountry: "",
+      firstPreferenceCommittee2ndCountry: "",
+      firstPreferenceCommittee3rdCountry: "",
+      secondPreferenceCommittee1stCountry: "",
+      secondPreferenceCommittee2ndCountry: "",
+      secondPreferenceCommittee3rdCountry: "",
+      thirdPreferenceCommittee1stCountry: "",
+      thirdPreferenceCommittee2ndCountry: "",
+      thirdPreferenceCommittee3rdCountry: "",
       priorMUNExperience: "",
        transportationRequired: "no",
        foodPreference: "veg",
@@ -53,7 +59,7 @@ export function PriorityRegistrationForm() {
   });
 
   const targetAudience = form.watch("targetAudience");
-  const registrationFee = targetAudience === "inHouse" ? 800 : 1000;
+  const registrationFee = targetAudience === "inHouse" ? 900 : 1100;
 
   const checkEmailExists = async (email: string) => {
     try {
@@ -100,9 +106,15 @@ export function PriorityRegistrationForm() {
           "firstPreferenceCommittee",
           "secondPreferenceCommittee",
           "thirdPreferenceCommittee",
-          "firstPreferenceCountry",
-          "secondPreferenceCountry",
-          "thirdPreferenceCountry",
+          "firstPreferenceCommittee1stCountry",
+          "firstPreferenceCommittee2ndCountry",
+          "firstPreferenceCommittee3rdCountry",
+          "secondPreferenceCommittee1stCountry",
+          "secondPreferenceCommittee2ndCountry",
+          "secondPreferenceCommittee3rdCountry",
+          "thirdPreferenceCommittee1stCountry",
+          "thirdPreferenceCommittee2ndCountry",
+          "thirdPreferenceCommittee3rdCountry",
           "priorMUNExperience",
         ];
         break;
@@ -193,9 +205,15 @@ export function PriorityRegistrationForm() {
         firstPreferenceCommittee: values.firstPreferenceCommittee,
         secondPreferenceCommittee: values.secondPreferenceCommittee,
         thirdPreferenceCommittee: values.thirdPreferenceCommittee,
-        firstPreferenceCountry: values.firstPreferenceCountry,
-        secondPreferenceCountry: values.secondPreferenceCountry,
-        thirdPreferenceCountry: values.thirdPreferenceCountry,
+        firstPreferenceCommittee1stCountry: values.firstPreferenceCommittee1stCountry,
+        firstPreferenceCommittee2ndCountry: values.firstPreferenceCommittee2ndCountry,
+        firstPreferenceCommittee3rdCountry: values.firstPreferenceCommittee3rdCountry,
+        secondPreferenceCommittee1stCountry: values.secondPreferenceCommittee1stCountry,
+        secondPreferenceCommittee2ndCountry: values.secondPreferenceCommittee2ndCountry,
+        secondPreferenceCommittee3rdCountry: values.secondPreferenceCommittee3rdCountry,
+        thirdPreferenceCommittee1stCountry: values.thirdPreferenceCommittee1stCountry,
+        thirdPreferenceCommittee2ndCountry: values.thirdPreferenceCommittee2ndCountry,
+        thirdPreferenceCommittee3rdCountry: values.thirdPreferenceCommittee3rdCountry,
         priorMUNExperience: values.priorMUNExperience,
         transportationRequired: values.transportationRequired,
         foodPreference: values.foodPreference,
@@ -269,16 +287,16 @@ export function PriorityRegistrationForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="text-center space-y-2 mb-6">
-          <h2 className="text-2xl font-bold">Priority Round Registration</h2>
-          <p className="text-sm text-muted-foreground">
+        <div className="text-center space-y-2 mb-6 px-4">
+          <h2 className="text-xl sm:text-2xl font-bold">Priority Round Registration</h2>
+          <p className="text-xs sm:text-sm text-muted-foreground">
             Step {step} of 4: {getStepTitle()}
           </p>
           <div className="flex justify-center gap-1 mt-4">
             {[1, 2, 3, 4].map((s) => (
               <div
                 key={s}
-                className={`h-2 w-8 rounded-full transition-colors ${
+                className={`h-2 w-6 sm:w-8 rounded-full transition-colors ${
                   s <= step ? "bg-primary" : "bg-muted"
                 }`}
               />
@@ -293,7 +311,7 @@ export function PriorityRegistrationForm() {
         {step === 2 && (
           <>
             <CommitteePreferencesStep control={form.control} form={form} />
-            <CountryPreferencesStep control={form.control} />
+            <CountryPreferencesStep control={form.control} form={form} />
             <PriorExperienceStep control={form.control} />
           </>
         )}

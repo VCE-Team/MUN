@@ -36,7 +36,7 @@ export const committees = [
     title: "International Press (IP)",
     description: "Press and Media",
     href: "/committees/internationalpress",
-    url: "/images/committees/internationalpress.jpg",
+    url: "/images/committees/ip-bw.jpg",
     width: "350px",
     height: "200px",
   },

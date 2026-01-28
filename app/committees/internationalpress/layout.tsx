@@ -14,7 +14,7 @@ export default function InternationalPressLayout({
       <div className="min-h-screen bg-black text-white">
         <div className="relative w-full h-[30vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh]">
           <Image
-            src="/images/committees/internationalpresscopy.jpg"
+            src="/images/committees/ip-bw.jpg"
             alt="International Press"
             fill
             className="object-cover"

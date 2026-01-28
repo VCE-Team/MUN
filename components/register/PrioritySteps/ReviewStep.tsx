@@ -30,11 +30,11 @@ export function ReviewStep({
 
   return (
     <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <h3 className="text-lg font-semibold text-foreground/90">
+      <div className="text-center space-y-2 px-4">
+        <h3 className="text-base sm:text-lg font-semibold text-foreground/90">
           Review Your Registration
         </h3>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Please review all details. You can edit any section before submitting.
         </p>
       </div>
@@ -53,7 +53,7 @@ export function ReviewStep({
           </Button>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <p className="text-muted-foreground">Registration Type</p>
               <p className="font-medium">
@@ -94,7 +94,7 @@ export function ReviewStep({
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Committee Preferences</CardTitle>
+          <CardTitle className="text-base">Committee & Country Preferences</CardTitle>
           <Button
             type="button"
             variant="ghost"
@@ -105,50 +105,72 @@ export function ReviewStep({
             Edit
           </Button>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <div>
-            <p className="text-muted-foreground">1st Preference</p>
-            <p className="font-medium">
-              {committeeNames[values.firstPreferenceCommittee] ||
-                values.firstPreferenceCommittee}
+        <CardContent className="space-y-4 text-sm">
+          {/* 1st Preference Committee */}
+          <div className="space-y-2 pb-3 border-b border-border/50">
+            <p className="font-semibold text-foreground/90 text-sm sm:text-base break-words">
+              <span className="block sm:inline">1st Preference Committee:</span>{" "}
+              <span>{committeeNames[values.firstPreferenceCommittee] ||
+                values.firstPreferenceCommittee}</span>
             </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
+              <div>
+                <p className="text-muted-foreground text-xs">1st Country</p>
+                <p className="font-medium break-words">{values.firstPreferenceCommittee1stCountry}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">2nd Country</p>
+                <p className="font-medium break-words">{values.firstPreferenceCommittee2ndCountry}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">3rd Country</p>
+                <p className="font-medium break-words">{values.firstPreferenceCommittee3rdCountry}</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <p className="text-muted-foreground">2nd Preference</p>
-            <p className="font-medium">
-              {committeeNames[values.secondPreferenceCommittee] ||
+
+          {/* 2nd Preference Committee */}
+          <div className="space-y-2 pb-3 border-b border-border/50">
+            <p className="font-semibold text-foreground/90">
+              2nd Preference Committee: {committeeNames[values.secondPreferenceCommittee] ||
                 values.secondPreferenceCommittee}
             </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
+              <div>
+                <p className="text-muted-foreground text-xs">1st Country</p>
+                <p className="font-medium break-words">{values.secondPreferenceCommittee1stCountry}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">2nd Country</p>
+                <p className="font-medium break-words">{values.secondPreferenceCommittee2ndCountry}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">3rd Country</p>
+                <p className="font-medium break-words">{values.secondPreferenceCommittee3rdCountry}</p>
+              </div>
+            </div>
           </div>
-        </CardContent>
-      </Card>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Country Preferences</CardTitle>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => onEdit(3)}
-          >
-            <Edit2 className="h-4 w-4 mr-2" />
-            Edit
-          </Button>
-        </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <p className="text-muted-foreground">1st Preference</p>
-              <p className="font-medium">{values.firstPreferenceCountry}</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">2nd Preference</p>
-              <p className="font-medium">{values.secondPreferenceCountry}</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">3rd Preference</p>
-              <p className="font-medium">{values.thirdPreferenceCountry}</p>
+          {/* 3rd Preference Committee */}
+          <div className="space-y-2">
+            <p className="font-semibold text-foreground/90 text-sm sm:text-base break-words">
+              <span className="block sm:inline">3rd Preference Committee:</span>{" "}
+              <span>{committeeNames[values.thirdPreferenceCommittee] ||
+                values.thirdPreferenceCommittee}</span>
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
+              <div>
+                <p className="text-muted-foreground text-xs">1st Country</p>
+                <p className="font-medium break-words">{values.thirdPreferenceCommittee1stCountry}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">2nd Country</p>
+                <p className="font-medium break-words">{values.thirdPreferenceCommittee2ndCountry}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">3rd Country</p>
+                <p className="font-medium break-words">{values.thirdPreferenceCommittee3rdCountry}</p>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -161,7 +183,7 @@ export function ReviewStep({
             type="button"
             variant="ghost"
             size="sm"
-            onClick={() => onEdit(4)}
+            onClick={() => onEdit(2)}
           >
             <Edit2 className="h-4 w-4 mr-2" />
             Edit
@@ -182,7 +204,7 @@ export function ReviewStep({
             type="button"
             variant="ghost"
             size="sm"
-            onClick={() => onEdit(5)}
+            onClick={() => onEdit(3)}
           >
             <Edit2 className="h-4 w-4 mr-2" />
             Edit

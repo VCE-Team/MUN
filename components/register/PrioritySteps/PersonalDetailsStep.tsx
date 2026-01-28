@@ -130,7 +130,7 @@ export function PersonalDetailsStep({
                       htmlFor="inHouse"
                       className="font-normal cursor-pointer"
                     >
-                      In House (VCE Student) - ₹800
+                      In House (VCE Student) - ₹900
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -139,7 +139,7 @@ export function PersonalDetailsStep({
                       htmlFor="otherCollege"
                       className="font-normal cursor-pointer"
                     >
-                      Other Colleges - ₹1000
+                      Other Colleges - ₹1100
                     </Label>
                   </div>
                 </RadioGroup>

@@ -43,7 +43,7 @@ export function Footer() {
               Telangana 501218
             </p>
             <p className="text-gray-400">
-              <strong>Phone:</strong> +91 77020 40524 / +91 98495 83637
+              <strong>Phone:</strong> +91 85908 68759 / +91 79816 09732
               <br />
               <strong>Email:</strong> mun@vardhaman.org
             </p>

@@ -158,8 +158,8 @@ export function PaymentStep({
         </p>
       </div>
 
-      <div className="flex items-center justify-center p-6 bg-secondary/10 rounded-lg">
-        <div className="relative w-56 h-56">
+      <div className="flex items-center justify-center p-4 sm:p-6 bg-secondary/10 rounded-lg">
+        <div className="relative w-48 h-48 sm:w-56 sm:h-56">
           <Image
             src="/images/payment/VCEMUN2026QR.jpeg"
             alt="Payment QR Code"
@@ -217,8 +217,8 @@ export function PaymentStep({
               />
             </FormControl>
             <p className="text-xs text-muted-foreground">
-              Upload a screenshot of your payment confirmation (Max 10MB, JPG/PNG/WebP).
-              Images are automatically compressed to optimize storage.
+              Upload a screenshot of your payment confirmation (Max 5MB, JPG/PNG/WebP).
+              The image will be securely stored via UploadThing.
             </p>
             {previewUrl && (
               <div className="mt-4 relative w-full max-w-md h-64 border rounded-lg overflow-hidden bg-gray-900/50">

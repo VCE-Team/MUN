@@ -43,17 +43,44 @@ export const priorityRegistrationSchema = z
     thirdPreferenceCommittee: z
       .string()
       .min(1, { message: "Third preference committee is required" }),
-    firstPreferenceCountry: z
+    // Country preferences for 1st preference committee
+    firstPreferenceCommittee1stCountry: z
       .string()
-      .min(1, { message: "First preference country is required" })
+      .min(1, { message: "1st preference country for 1st committee is required" })
       .max(50, { message: "Country name is too long" }),
-    secondPreferenceCountry: z
+    firstPreferenceCommittee2ndCountry: z
       .string()
-      .min(1, { message: "Second preference country is required" })
+      .min(1, { message: "2nd preference country for 1st committee is required" })
       .max(50, { message: "Country name is too long" }),
-    thirdPreferenceCountry: z
+    firstPreferenceCommittee3rdCountry: z
       .string()
-      .min(1, { message: "Third preference country is required" })
+      .min(1, { message: "3rd preference country for 1st committee is required" })
+      .max(50, { message: "Country name is too long" }),
+    // Country preferences for 2nd preference committee
+    secondPreferenceCommittee1stCountry: z
+      .string()
+      .min(1, { message: "1st preference country for 2nd committee is required" })
+      .max(50, { message: "Country name is too long" }),
+    secondPreferenceCommittee2ndCountry: z
+      .string()
+      .min(1, { message: "2nd preference country for 2nd committee is required" })
+      .max(50, { message: "Country name is too long" }),
+    secondPreferenceCommittee3rdCountry: z
+      .string()
+      .min(1, { message: "3rd preference country for 2nd committee is required" })
+      .max(50, { message: "Country name is too long" }),
+    // Country preferences for 3rd preference committee
+    thirdPreferenceCommittee1stCountry: z
+      .string()
+      .min(1, { message: "1st preference country for 3rd committee is required" })
+      .max(50, { message: "Country name is too long" }),
+    thirdPreferenceCommittee2ndCountry: z
+      .string()
+      .min(1, { message: "2nd preference country for 3rd committee is required" })
+      .max(50, { message: "Country name is too long" }),
+    thirdPreferenceCommittee3rdCountry: z
+      .string()
+      .min(1, { message: "3rd preference country for 3rd committee is required" })
       .max(50, { message: "Country name is too long" }),
     priorMUNExperience: z
       .string()

@@ -6,12 +6,12 @@ import Image from "next/image";
 
 export default function InternationalPressPage() {
   return (
-    <div className="py-16 space-y-20">
+    <div className="py-12 sm:py-16 md:py-24 space-y-12 sm:space-y-16 md:space-y-20 px-4">
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="max-w-4xl mx-auto text-center space-y-8"
+        className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8 px-4"
       >
         <p className="text-lg leading-relaxed">
           The International Press (IP) serves as the eyes and ears of global
