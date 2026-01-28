@@ -9,10 +9,10 @@ import { CommitteesMobile } from "./committees-mobile";
 
 export const committees = [
   {
-    title: "International Press",
-    description: "Press and Media",
-    href: "/committees/internationalpress",
-    url: "/images/committees/internationalpress.jpg",
+    title: "DISEC",
+    description: "Disarmament and International Security",
+    href: "/committees/disec",
+    url: "/images/committees/diseccopy.jpg",
     width: "350px",
     height: "200px",
   },
@@ -25,18 +25,18 @@ export const committees = [
     height: "200px",
   },
   {
-    title: "DISEC",
-    description: "Disarmament and International Security",
-    href: "/committees/disec",
-    url: "/images/committees/diseccopy.jpg",
+    title: "AIPPM",
+    description: "All India Political Parties Meet",
+    href: "/committees/aippm",
+    url: "/images/committees/aippm.jpeg",
     width: "350px",
     height: "200px",
   },
   {
-    title: "ECOSOC",
-    description: "Economic and Social Council",
-    href: "/committees/ecosoc",
-    url: "/images/committees/ecosoc.jpg",
+    title: "International Press (IP)",
+    description: "Press and Media",
+    href: "/committees/internationalpress",
+    url: "/images/committees/internationalpress.jpg",
     width: "350px",
     height: "200px",
   },
@@ -95,7 +95,7 @@ export function Committees() {
               <div className="absolute inset-0 flex items-center justify-center z-20">
                 <div className="relative w-[220px] h-[220px] flex items-center justify-center">
                   <MotionImage
-                    src="/images/logos/Shield.png"
+                    src="/images/logos/optimized/Shield.webp"
                     alt="VCEMUN Shield"
                     width={220}
                     height={220}
@@ -105,7 +105,7 @@ export function Committees() {
                     variants={shieldVariants}
                   />
                   <MotionImage
-                    src="/images/logos/Wings.png"
+                    src="/images/logos/optimized/Wings.webp"
                     alt="VCEMUN Wings"
                     width={300}
                     height={300}

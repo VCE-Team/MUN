@@ -15,8 +15,8 @@ import {
 const committees = [
   { title: "DISEC", href: "/committees/disec" },
   { title: "UNHRC", href: "/committees/unhrc" },
-  { title: "ECOSOC", href: "/committees/ecosoc" },
-  { title: "International Press", href: "/committees/internationalpress" },
+  { title: "AIPPM", href: "/committees/aippm" },
+  { title: "International Press (IP)", href: "/committees/internationalpress" },
 ];
 
 export function Sidebar() {

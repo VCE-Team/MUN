@@ -22,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+      <body
+        className={`${inter.className} antialiased bg-background text-foreground`}
+      >
         <ScrollReset />
         <div id="main-content" className="flex flex-col min-h-screen">
           <Header />

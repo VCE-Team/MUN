@@ -11,6 +11,9 @@ import { ParticipantDetails } from "./ParticipantDetails";
 import { PaymentDetails } from "./PaymentDetails";
 import { RegistrationType } from "./RegistrationType";
 
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.onrender.com";
+
 export function RegistrationForm() {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,9 +61,7 @@ export function RegistrationForm() {
 
   const checkEmailExists = async (email: string) => {
     const response = await fetch(
-      `https://munvcebackend.onrender.com/api/check-email?email=${encodeURIComponent(
-        email
-      )}`
+      `${BACKEND_URL}/api/check-email?email=${encodeURIComponent(email)}`
     );
     const data = await response.json();
     return data.exists;
@@ -134,16 +135,13 @@ export function RegistrationForm() {
           qrUsed: values.qrUsed,
         };
 
-        const response = await fetch(
-          "https://munvcebackend.onrender.com/api/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          }
-        );
+        const response = await fetch(`${BACKEND_URL}/api/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
 
         const data = await response.json();
         if (data.success) {
@@ -159,21 +157,18 @@ export function RegistrationForm() {
           throw new Error(data.message);
         }
       } else {
-        const response = await fetch(
-          "https://munvcebackend.onrender.com/api/register-multiple",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              participants: values.participants,
-              transactionId: values.transactionId,
-              registrationType: values.registrationType,
-              qrUsed: values.qrUsed,
-            }),
-          }
-        );
+        const response = await fetch(`${BACKEND_URL}/api/register-multiple`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            participants: values.participants,
+            transactionId: values.transactionId,
+            registrationType: values.registrationType,
+            qrUsed: values.qrUsed,
+          }),
+        });
 
         const data = await response.json();
         if (data.success) {

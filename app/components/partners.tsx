@@ -10,7 +10,7 @@ const PartnersSection = () => {
           <div className="flex flex-col items-center ">
             <Link href="https://vardhaman.org/" target="_blank">
               <Image
-                src="/images/logos/vardhamanlogo.png"
+                src="/images/logos/optimized/vardhamanlogo.webp"
                 alt="VCE Logo"
                 width={100}
                 height={100}
@@ -27,7 +27,7 @@ const PartnersSection = () => {
         <RevealAnimation className="flex flex-col items-center text-center lg:text-left">
           <div className="flex flex-col items-center ">
             <Image
-              src="/images/logos/saclogomain.png"
+              src="/images/logos/optimized/saclogomain.webp"
               alt="SAC Logo"
               width={100}
               height={100}

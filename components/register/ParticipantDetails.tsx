@@ -251,8 +251,8 @@ export function ParticipantDetails({
                 <SelectItem value="unhrc">
                   United Nations Human Rights Council (UNHRC)
                 </SelectItem>
-                <SelectItem value="ecosoc">
-                  Economic and Social Council (ECOSOC)
+                <SelectItem value="aippm">
+                  All India Political Parties Meet (AIPPM)
                 </SelectItem>
                 <SelectItem value="ip">International Press (IP)</SelectItem>
               </SelectContent>
@@ -274,7 +274,7 @@ export function ParticipantDetails({
       )} */}
 
       {/* Committee-specific Fields */}
-      {["disec", "unhrc", "ecosoc"].includes(
+      {["disec", "unhrc", "aippm"].includes(
         form.getValues(`participants.${index}.committee`)
       ) && (
         <FormField

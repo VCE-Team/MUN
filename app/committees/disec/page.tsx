@@ -29,30 +29,10 @@ export default function DISECPage() {
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="text-center space-y-6"
-      >
-        <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400">
-          Agenda
-        </h2>
-        <p className="text-3xl text-gray-300">
-          Tackling the use of Chemical and Biological weapons in conflict
-        </p>
-        <div className="rounded-md bg-red-700/70 py-2 px-4 text-white text-xl font-semibold">
-          Registrations are closed for VCEMUN.
-        </div>
-        <div className="rounded-md bg-gray-800/70 py-2 px-4 text-white text-lg font-medium">
-          <span className="text-gray-300">Venue:</span>{" "}
-          <span className="text-white">DISEC: 1019</span>
-        </div>
-      </motion.section>
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
         className="space-y-12"
       >
-        <h2 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400">
+        {/* <h2 className="text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-400">
           The Executive Board
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
@@ -94,7 +74,7 @@ export default function DISECPage() {
               <p className="text-gray-400 text-lg">{member.role}</p>
             </motion.div>
           ))}
-        </div>
+        </div> */}
       </motion.section>
       {/* <CallToAction delay={0.8} /> */}
     </div>

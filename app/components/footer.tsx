@@ -93,7 +93,7 @@ export function Footer() {
                   Chairs
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Dialog
                   open={openCountryMatrix}
                   onOpenChange={setOpenCountryMatrix}
@@ -161,7 +161,7 @@ export function Footer() {
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -178,18 +178,18 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/committees/ecosoc"
-                  className="text-gray-400 hover:text-white"
-                >
-                  ECOSOC
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/committees/unhrc"
                   className="text-gray-400 hover:text-white"
                 >
                   UNHRC
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/committees/aippm"
+                  className="text-gray-400 hover:text-white"
+                >
+                  AIPPM
                 </Link>
               </li>
               <li>

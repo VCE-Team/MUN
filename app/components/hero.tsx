@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 export function Hero() {
   const [bgLoaded, setBgLoaded] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     setBgLoaded(true);
@@ -20,7 +22,7 @@ export function Hero() {
         if (window.scrollY > 0) {
           videoRef.current.pause();
         } else {
-          videoRef.current.play();
+          void videoRef.current.play();
         }
       }
     };
@@ -31,17 +33,39 @@ export function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    // Load the (large) hero video only when the section is about to be visible.
+    const observer = new IntersectionObserver(
+      entries => {
+        const first = entries[0];
+        if (first?.isIntersecting) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { root: null, rootMargin: "300px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const toggleMute = () => {
-    setIsMuted(prev => !prev);
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+      return;
     }
+    setIsMuted(prev => !prev);
   };
 
   return (
     <>
       <ScrollReset />
-      <section className="relative w-full overflow-hidden">
+      <section ref={sectionRef} className="relative w-full overflow-hidden">
         <div
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
             bgLoaded ? "opacity-100" : "opacity-0"
@@ -50,15 +74,35 @@ export function Hero() {
         />
         {bgLoaded && (
           <div className="relative w-screen pb-[56.25%] md:pb-0 md:h-[56vh] lg:h-[70vh] xl:h-[90vh] 2xl:h-[92vh]">
-            <video
-              ref={videoRef}
-              className="absolute top-0 left-0 w-full h-full object-cover"
-              src="/videos/herovideomain.mp4"
-              autoPlay
-              loop
-              muted={isMuted}
-              playsInline
-            />
+            {shouldLoadVideo ? (
+              <video
+                ref={videoRef}
+                className="absolute top-0 left-0 w-full h-full object-cover"
+                autoPlay
+                loop
+                muted={isMuted}
+                playsInline
+                preload="metadata"
+                poster="/videos/optimized/herovideomain-poster.jpg"
+              >
+                <source
+                  src="/videos/optimized/herovideomain.webm"
+                  type="video/webm"
+                />
+                <source
+                  src="/videos/optimized/herovideomain.mp4"
+                  type="video/mp4"
+                />
+              </video>
+            ) : (
+              <div
+                className="absolute top-0 left-0 w-full h-full bg-center bg-cover"
+                style={{
+                  backgroundImage:
+                    "url('/videos/optimized/herovideomain-poster.jpg')",
+                }}
+              />
+            )}
           </div>
         )}
         <Button

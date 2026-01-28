@@ -73,7 +73,7 @@ export const participantSchema = z
   )
   .refine(
     data => {
-      if (["disec", "unhrc", "ecosoc"].includes(data.committee)) {
+      if (["disec", "unhrc", "aippm"].includes(data.committee)) {
         return !!data.priorExperiences;
       }
       return true;
