@@ -94,7 +94,7 @@ export function ReviewStep({
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Committee & Country Preferences</CardTitle>
+          <CardTitle className="text-base">Committee & Allocation Preferences</CardTitle>
           <Button
             type="button"
             variant="ghost"
@@ -115,15 +115,15 @@ export function ReviewStep({
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
               <div>
-                <p className="text-muted-foreground text-xs">1st Country</p>
+                <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
                 <p className="font-medium break-words">{values.firstPreferenceCommittee1stCountry}</p>
               </div>
               <div>
-                <p className="text-muted-foreground text-xs">2nd Country</p>
+                <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
                 <p className="font-medium break-words">{values.firstPreferenceCommittee2ndCountry}</p>
               </div>
               <div>
-                <p className="text-muted-foreground text-xs">3rd Country</p>
+                <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
                 <p className="font-medium break-words">{values.firstPreferenceCommittee3rdCountry}</p>
               </div>
             </div>
@@ -137,15 +137,15 @@ export function ReviewStep({
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
               <div>
-                <p className="text-muted-foreground text-xs">1st Country</p>
+                <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
                 <p className="font-medium break-words">{values.secondPreferenceCommittee1stCountry}</p>
               </div>
               <div>
-                <p className="text-muted-foreground text-xs">2nd Country</p>
+                <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
                 <p className="font-medium break-words">{values.secondPreferenceCommittee2ndCountry}</p>
               </div>
               <div>
-                <p className="text-muted-foreground text-xs">3rd Country</p>
+                <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
                 <p className="font-medium break-words">{values.secondPreferenceCommittee3rdCountry}</p>
               </div>
             </div>
@@ -160,15 +160,15 @@ export function ReviewStep({
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
               <div>
-                <p className="text-muted-foreground text-xs">1st Country</p>
+                <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
                 <p className="font-medium break-words">{values.thirdPreferenceCommittee1stCountry}</p>
               </div>
               <div>
-                <p className="text-muted-foreground text-xs">2nd Country</p>
+                <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
                 <p className="font-medium break-words">{values.thirdPreferenceCommittee2ndCountry}</p>
               </div>
               <div>
-                <p className="text-muted-foreground text-xs">3rd Country</p>
+                <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
                 <p className="font-medium break-words">{values.thirdPreferenceCommittee3rdCountry}</p>
               </div>
             </div>

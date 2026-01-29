@@ -36,10 +36,10 @@ export function CountryPreferencesStep({
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold text-foreground/90 mb-2">
-          Country Preferences
+          Allocation Preferences
         </h3>
         <p className="text-sm text-muted-foreground">
-          Select your country preferences for each committee in order of priority.
+          Select your allocation preferences for each committee in order of priority.
         </p>
       </div>
 
@@ -59,7 +59,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    1st Preference Country *
+                    1st Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -78,7 +78,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    2nd Preference Country *
+                    2nd Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -97,7 +97,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    3rd Preference Country *
+                    3rd Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -130,7 +130,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    1st Preference Country *
+                    1st Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -149,7 +149,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    2nd Preference Country *
+                    2nd Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -168,7 +168,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    3rd Preference Country *
+                    3rd Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -201,7 +201,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    1st Preference Country *
+                    1st Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -220,7 +220,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    2nd Preference Country *
+                    2nd Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -239,7 +239,7 @@ export function CountryPreferencesStep({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    3rd Preference Country *
+                    3rd Allocation Preference *
                   </FormLabel>
                   <FormControl>
                     <Input
