@@ -102,10 +102,11 @@ export function PersonalDetailsStep({
     }
   };
 
+  // For "Other Colleges", exclude Vardhaman College of Engineering from the dropdown
   const allInstitutions = [
     ...defaultInstitutions,
     ...customInstitutions,
-  ];
+  ].filter((name) => name !== "Vardhaman College of Engineering");
 
   return (
     <div className="space-y-6">
@@ -130,7 +131,7 @@ export function PersonalDetailsStep({
                       htmlFor="inHouse"
                       className="font-normal cursor-pointer"
                     >
-                      In House (VCE Student) - ₹900
+                      In House (VCE Student) - ₹800
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">

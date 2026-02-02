@@ -59,7 +59,7 @@ export function PriorityRegistrationForm() {
   });
 
   const targetAudience = form.watch("targetAudience");
-  const registrationFee = targetAudience === "inHouse" ? 900 : 1100;
+  const registrationFee = targetAudience === "inHouse" ? 800 : 1100;
 
   const checkEmailExists = async (email: string) => {
     try {
