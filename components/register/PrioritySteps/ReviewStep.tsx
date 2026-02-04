@@ -11,6 +11,7 @@ interface ReviewStepProps {
   form: UseFormReturn<PriorityRegistrationSchema>;
   registrationFee: number;
   onEdit: (step: number) => void;
+  isSubmitting?: boolean;
 }
 
 const committeeNames: Record<string, string> = {
@@ -30,6 +31,7 @@ export function ReviewStep({
   form,
   registrationFee,
   onEdit,
+  isSubmitting = false,
 }: ReviewStepProps) {
   const values = form.getValues();
 
@@ -52,6 +54,7 @@ export function ReviewStep({
             variant="ghost"
             size="sm"
             onClick={() => onEdit(1)}
+            disabled={isSubmitting}
           >
             <Edit2 className="h-4 w-4 mr-2" />
             Edit
@@ -105,6 +108,7 @@ export function ReviewStep({
             variant="ghost"
             size="sm"
             onClick={() => onEdit(2)}
+            disabled={isSubmitting}
           >
             <Edit2 className="h-4 w-4 mr-2" />
             Edit
@@ -211,6 +215,7 @@ export function ReviewStep({
             variant="ghost"
             size="sm"
             onClick={() => onEdit(2)}
+            disabled={isSubmitting}
           >
             <Edit2 className="h-4 w-4 mr-2" />
             Edit
@@ -232,6 +237,7 @@ export function ReviewStep({
             variant="ghost"
             size="sm"
             onClick={() => onEdit(3)}
+            disabled={isSubmitting}
           >
             <Edit2 className="h-4 w-4 mr-2" />
             Edit

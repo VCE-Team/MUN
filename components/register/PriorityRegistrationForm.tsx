@@ -18,9 +18,7 @@ import { CountryPreferencesStep } from "./PrioritySteps/CountryPreferencesStep";
 import { PriorExperienceStep } from "./PrioritySteps/PriorExperienceStep";
 import { PaymentStep } from "./PrioritySteps/PaymentStep";
 import { ReviewStep } from "./PrioritySteps/ReviewStep";
-
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.vercel.app";
+import { appConfig } from "@/lib/app-config";
 
 export function PriorityRegistrationForm() {
   const [step, setStep] = useState(1);
@@ -68,7 +66,7 @@ export function PriorityRegistrationForm() {
     try {
       const normalizedEmail = email.trim().toLowerCase();
       const response = await fetch(
-        `${BACKEND_URL}/api/check-priority-email?email=${encodeURIComponent(
+        `${appConfig.backendUrl}/api/check-priority-email?email=${encodeURIComponent(
           normalizedEmail
         )}`,
         {
@@ -230,7 +228,7 @@ export function PriorityRegistrationForm() {
         paymentScreenshotUrl: values.paymentScreenshotUrl,
       };
 
-      const response = await fetch(`${BACKEND_URL}/api/priority-register`, {
+      const response = await fetch(`${appConfig.backendUrl}/api/priority-register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -339,6 +337,7 @@ export function PriorityRegistrationForm() {
             form={form}
             registrationFee={registrationFee}
             onEdit={editStep}
+            isSubmitting={isLoading}
           />
         )}
 
@@ -379,18 +378,20 @@ export function PriorityRegistrationForm() {
             {step === 4 && (
               <Button
                 type="submit"
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90"
+                className="w-full sm:w-auto min-w-[200px] bg-primary hover:bg-primary/90 disabled:opacity-70 disabled:cursor-not-allowed transition-opacity"
                 disabled={isLoading}
+                aria-busy={isLoading}
+                aria-disabled={isLoading}
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin shrink-0" />
+                    <span>Submitting...</span>
                   </>
                 ) : (
                   <>
-                    <Check className="mr-2 h-4 w-4" />
-                    Confirm & Submit
+                    <Check className="mr-2 h-4 w-4 shrink-0" />
+                    <span>Confirm & Submit</span>
                   </>
                 )}
               </Button>

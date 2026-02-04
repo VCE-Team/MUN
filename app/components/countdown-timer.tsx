@@ -24,16 +24,25 @@ function calculateTimeLeft(): TimeLeft {
   return { days, hours, minutes, seconds };
 }
 
+const INITIAL_PLACEHOLDER: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
 export function CountdownTimer() {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft);
+  const [mounted, setMounted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(INITIAL_PLACEHOLDER);
 
   useEffect(() => {
+    setMounted(true);
+    setTimeLeft(calculateTimeLeft());
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [mounted]);
 
   const items: { label: string; value: number }[] = [
     { label: "Days", value: timeLeft.days },

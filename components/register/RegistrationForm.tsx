@@ -10,9 +10,7 @@ import { FormSchema, formSchema } from "@/schemas/registrationForm";
 import { ParticipantDetails } from "./ParticipantDetails";
 import { PaymentDetails } from "./PaymentDetails";
 import { RegistrationType } from "./RegistrationType";
-
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.vercel.app";
+import { appConfig } from "@/lib/app-config";
 
 export function RegistrationForm() {
   const [step, setStep] = useState(1);
@@ -61,7 +59,7 @@ export function RegistrationForm() {
 
   const checkEmailExists = async (email: string) => {
     const response = await fetch(
-      `${BACKEND_URL}/api/check-email?email=${encodeURIComponent(email)}`
+      `${appConfig.backendUrl}/api/check-email?email=${encodeURIComponent(email)}`
     );
     const data = await response.json();
     return data.exists;
@@ -135,7 +133,7 @@ export function RegistrationForm() {
           qrUsed: values.qrUsed,
         };
 
-        const response = await fetch(`${BACKEND_URL}/api/register`, {
+        const response = await fetch(`${appConfig.backendUrl}/api/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -157,7 +155,7 @@ export function RegistrationForm() {
           throw new Error(data.message);
         }
       } else {
-        const response = await fetch(`${BACKEND_URL}/api/register-multiple`, {
+        const response = await fetch(`${appConfig.backendUrl}/api/register-multiple`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

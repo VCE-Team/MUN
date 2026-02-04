@@ -113,3 +113,12 @@
 .text-destructive {
   color: #e53e3e;
 }
+
+/* Admin dashboard: gold / black / red, glass UI */
+.admin-theme {
+  --admin-gold: rgb(211, 159, 63);
+  --admin-red: hsl(0, 72%, 51%);
+}
+.admin-theme .glass-panel {
+  @apply rounded-xl border border-white/10 bg-black/40 backdrop-blur-md;
+}
