@@ -20,6 +20,11 @@ const committeeNames: Record<string, string> = {
   ip: "International Press (IP)",
 };
 
+const ipRoleLabels: Record<string, string> = {
+  photographer: "Photographer",
+  journalist: "Journalist",
+};
+
 export function ReviewStep({
   control,
   form,
@@ -113,42 +118,57 @@ export function ReviewStep({
               <span>{committeeNames[values.firstPreferenceCommittee] ||
                 values.firstPreferenceCommittee}</span>
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
-              <div>
-                <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
-                <p className="font-medium break-words">{values.firstPreferenceCommittee1stCountry}</p>
+            {values.firstPreferenceCommittee === "ip" ? (
+              <div className="sm:ml-4">
+                <p className="text-muted-foreground text-xs">Allocation Preference</p>
+                <p className="font-medium">{values.firstPreferenceCommitteeIPRole ? ipRoleLabels[values.firstPreferenceCommitteeIPRole] : "—"}</p>
               </div>
-              <div>
-                <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
-                <p className="font-medium break-words">{values.firstPreferenceCommittee2ndCountry}</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
+                <div>
+                  <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
+                  <p className="font-medium break-words">{values.firstPreferenceCommittee1stCountry}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
+                  <p className="font-medium break-words">{values.firstPreferenceCommittee2ndCountry}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
+                  <p className="font-medium break-words">{values.firstPreferenceCommittee3rdCountry}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
-                <p className="font-medium break-words">{values.firstPreferenceCommittee3rdCountry}</p>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* 2nd Preference Committee */}
           <div className="space-y-2 pb-3 border-b border-border/50">
-            <p className="font-semibold text-foreground/90">
-              2nd Preference Committee: {committeeNames[values.secondPreferenceCommittee] ||
-                values.secondPreferenceCommittee}
+            <p className="font-semibold text-foreground/90 text-sm sm:text-base break-words">
+              <span className="block sm:inline">2nd Preference Committee:</span>{" "}
+              <span>{committeeNames[values.secondPreferenceCommittee] ||
+                values.secondPreferenceCommittee}</span>
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
-              <div>
-                <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
-                <p className="font-medium break-words">{values.secondPreferenceCommittee1stCountry}</p>
+            {values.secondPreferenceCommittee === "ip" ? (
+              <div className="sm:ml-4">
+                <p className="text-muted-foreground text-xs">Allocation Preference</p>
+                <p className="font-medium">{values.secondPreferenceCommitteeIPRole ? ipRoleLabels[values.secondPreferenceCommitteeIPRole] : "—"}</p>
               </div>
-              <div>
-                <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
-                <p className="font-medium break-words">{values.secondPreferenceCommittee2ndCountry}</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
+                <div>
+                  <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
+                  <p className="font-medium break-words">{values.secondPreferenceCommittee1stCountry}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
+                  <p className="font-medium break-words">{values.secondPreferenceCommittee2ndCountry}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
+                  <p className="font-medium break-words">{values.secondPreferenceCommittee3rdCountry}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
-                <p className="font-medium break-words">{values.secondPreferenceCommittee3rdCountry}</p>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* 3rd Preference Committee */}
@@ -158,20 +178,27 @@ export function ReviewStep({
               <span>{committeeNames[values.thirdPreferenceCommittee] ||
                 values.thirdPreferenceCommittee}</span>
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
-              <div>
-                <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
-                <p className="font-medium break-words">{values.thirdPreferenceCommittee1stCountry}</p>
+            {values.thirdPreferenceCommittee === "ip" ? (
+              <div className="sm:ml-4">
+                <p className="text-muted-foreground text-xs">Allocation Preference</p>
+                <p className="font-medium">{values.thirdPreferenceCommitteeIPRole ? ipRoleLabels[values.thirdPreferenceCommitteeIPRole] : "—"}</p>
               </div>
-              <div>
-                <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
-                <p className="font-medium break-words">{values.thirdPreferenceCommittee2ndCountry}</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:ml-4">
+                <div>
+                  <p className="text-muted-foreground text-xs">1st Allocation Preference</p>
+                  <p className="font-medium break-words">{values.thirdPreferenceCommittee1stCountry}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">2nd Allocation Preference</p>
+                  <p className="font-medium break-words">{values.thirdPreferenceCommittee2ndCountry}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
+                  <p className="font-medium break-words">{values.thirdPreferenceCommittee3rdCountry}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-muted-foreground text-xs">3rd Allocation Preference</p>
-                <p className="font-medium break-words">{values.thirdPreferenceCommittee3rdCountry}</p>
-              </div>
-            </div>
+            )}
           </div>
         </CardContent>
       </Card>

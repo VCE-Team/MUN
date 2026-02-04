@@ -5,15 +5,15 @@ import Image from "next/image";
 const PartnersSection = () => {
   return (
     <div className="container mx-auto px-4 py-16">
-      <div className="flex flex-col lg:flex-row justify-evenly items-center gap-8">
+      <div className="flex flex-col lg:flex-row justify-evenly items-center gap-16">
         <RevealAnimation className="flex flex-col items-center text-center lg:text-left">
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center">
             <Link href="https://vardhaman.org/" target="_blank">
               <Image
-                src="/images/logos/optimized/vardhamanlogo.webp"
+                src="/images/logos/vardhamanlogo.jpg"
                 alt="VCE Logo"
-                width={100}
-                height={100}
+                width={80}
+                height={80}
                 className="mb-4"
               />
             </Link>
@@ -25,17 +25,27 @@ const PartnersSection = () => {
         </RevealAnimation>
 
         <RevealAnimation className="flex flex-col items-center text-center lg:text-left">
-          <div className="flex flex-col items-center ">
-            <Image
-              src="/images/logos/optimized/saclogomain.webp"
-              alt="SAC Logo"
-              width={100}
-              height={100}
-              className="mb-4"
-            />
-            <h2 className="text-2xl font-bold">Organized By</h2>
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-4 mb-4">
+              <Image
+                src="/images/logos/optimized/saclogomain.webp"
+                alt="Student Affairs Cell Logo"
+                width={100}
+                height={100}
+              />
+              <Image
+                src="/images/logos/vce-munsoc-logo.png"
+                alt="VCE MUNSoc Logo"
+                width={100}
+                height={100}
+                className="rounded-full"
+              />
+            </div>
+            <h2 className="text-2xl font-bold text-center">
+              Organized by
+            </h2>
             <p className="text-lg text-muted-foreground">
-              Student Affairs Cell
+              VCE MUNSoc under Student Affairs Cell
             </p>
           </div>
         </RevealAnimation>

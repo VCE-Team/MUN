@@ -43,45 +43,19 @@ export const priorityRegistrationSchema = z
     thirdPreferenceCommittee: z
       .string()
       .min(1, { message: "Third preference committee is required" }),
-    // Country preferences for 1st preference committee
-    firstPreferenceCommittee1stCountry: z
-      .string()
-      .min(1, { message: "1st allocation preference for 1st committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    firstPreferenceCommittee2ndCountry: z
-      .string()
-      .min(1, { message: "2nd allocation preference for 1st committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    firstPreferenceCommittee3rdCountry: z
-      .string()
-      .min(1, { message: "3rd allocation preference for 1st committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    // Country preferences for 2nd preference committee
-    secondPreferenceCommittee1stCountry: z
-      .string()
-      .min(1, { message: "1st allocation preference for 2nd committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    secondPreferenceCommittee2ndCountry: z
-      .string()
-      .min(1, { message: "2nd allocation preference for 2nd committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    secondPreferenceCommittee3rdCountry: z
-      .string()
-      .min(1, { message: "3rd allocation preference for 2nd committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    // Country preferences for 3rd preference committee
-    thirdPreferenceCommittee1stCountry: z
-      .string()
-      .min(1, { message: "1st allocation preference for 3rd committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    thirdPreferenceCommittee2ndCountry: z
-      .string()
-      .min(1, { message: "2nd allocation preference for 3rd committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
-    thirdPreferenceCommittee3rdCountry: z
-      .string()
-      .min(1, { message: "3rd allocation preference for 3rd committee is required" })
-      .max(50, { message: "Allocation preference is too long" }),
+    // Allocation preferences for 1st committee (countries when not IP, or IP role when IP)
+    firstPreferenceCommittee1stCountry: z.string().max(50).optional(),
+    firstPreferenceCommittee2ndCountry: z.string().max(50).optional(),
+    firstPreferenceCommittee3rdCountry: z.string().max(50).optional(),
+    firstPreferenceCommitteeIPRole: z.enum(["photographer", "journalist"]).optional(),
+    secondPreferenceCommittee1stCountry: z.string().max(50).optional(),
+    secondPreferenceCommittee2ndCountry: z.string().max(50).optional(),
+    secondPreferenceCommittee3rdCountry: z.string().max(50).optional(),
+    secondPreferenceCommitteeIPRole: z.enum(["photographer", "journalist"]).optional(),
+    thirdPreferenceCommittee1stCountry: z.string().max(50).optional(),
+    thirdPreferenceCommittee2ndCountry: z.string().max(50).optional(),
+    thirdPreferenceCommittee3rdCountry: z.string().max(50).optional(),
+    thirdPreferenceCommitteeIPRole: z.enum(["photographer", "journalist"]).optional(),
     priorMUNExperience: z
       .string()
       .min(1, { message: "Prior MUN experience is required" })
@@ -136,6 +110,51 @@ export const priorityRegistrationSchema = z
     {
       message: "All three committee preferences must be different",
       path: ["thirdPreferenceCommittee"],
+    }
+  )
+  .refine(
+    data => {
+      if (data.firstPreferenceCommittee === "ip") {
+        return data.firstPreferenceCommitteeIPRole === "photographer" || data.firstPreferenceCommitteeIPRole === "journalist";
+      }
+      const c1 = data.firstPreferenceCommittee1stCountry?.trim();
+      const c2 = data.firstPreferenceCommittee2ndCountry?.trim();
+      const c3 = data.firstPreferenceCommittee3rdCountry?.trim();
+      return !!c1 && !!c2 && !!c3;
+    },
+    {
+      message: "1st committee: choose Photographer or Journalist for IP, or enter 3 allocation preferences for other committees",
+      path: ["firstPreferenceCommitteeIPRole"],
+    }
+  )
+  .refine(
+    data => {
+      if (data.secondPreferenceCommittee === "ip") {
+        return data.secondPreferenceCommitteeIPRole === "photographer" || data.secondPreferenceCommitteeIPRole === "journalist";
+      }
+      const c1 = data.secondPreferenceCommittee1stCountry?.trim();
+      const c2 = data.secondPreferenceCommittee2ndCountry?.trim();
+      const c3 = data.secondPreferenceCommittee3rdCountry?.trim();
+      return !!c1 && !!c2 && !!c3;
+    },
+    {
+      message: "2nd committee: choose Photographer or Journalist for IP, or enter 3 allocation preferences for other committees",
+      path: ["secondPreferenceCommitteeIPRole"],
+    }
+  )
+  .refine(
+    data => {
+      if (data.thirdPreferenceCommittee === "ip") {
+        return data.thirdPreferenceCommitteeIPRole === "photographer" || data.thirdPreferenceCommitteeIPRole === "journalist";
+      }
+      const c1 = data.thirdPreferenceCommittee1stCountry?.trim();
+      const c2 = data.thirdPreferenceCommittee2ndCountry?.trim();
+      const c3 = data.thirdPreferenceCommittee3rdCountry?.trim();
+      return !!c1 && !!c2 && !!c3;
+    },
+    {
+      message: "3rd committee: choose Photographer or Journalist for IP, or enter 3 allocation preferences for other committees",
+      path: ["thirdPreferenceCommitteeIPRole"],
     }
   );
 

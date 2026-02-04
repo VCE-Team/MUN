@@ -136,12 +136,12 @@ export function Header() {
           </div>
 
           <div className="flex items-center space-x-1 sm:space-x-2 mr-2 sm:mr-6">
-            <Link href="https://vardhaman.org/" target="_blank" className="flex-shrink-0">
+            <Link href="https://vardhaman.org/" target="_blank" className="flex-shrink-0 flex items-center h-8 sm:h-10 md:h-11">
               <Image
-                className="px-0.5 sm:px-1 w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11"
-                src="/images/logos/optimized/vardhamanlogo.webp"
+                className="px-0.5 sm:px-1 h-full w-auto object-contain"
+                src="/images/logos/vardhamanlogo.png"
                 alt="Vardhaman College Logo"
-                width={45}
+                width={120}
                 height={45}
                 priority
               />

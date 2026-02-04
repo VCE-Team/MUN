@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import {
   FormControl,
   FormField,
@@ -8,6 +9,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Control, UseFormReturn } from "react-hook-form";
 import { PriorityRegistrationSchema } from "@/schemas/priorityRegistrationForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +32,11 @@ const committeeNames: Record<string, string> = {
   ip: "International Press (IP)",
 };
 
+const IP_ROLES = [
+  { value: "photographer", label: "Photographer" },
+  { value: "journalist", label: "Journalist" },
+] as const;
+
 export function CountryPreferencesStep({
   control,
   form,
@@ -31,6 +44,35 @@ export function CountryPreferencesStep({
   const firstCommittee = form.watch("firstPreferenceCommittee");
   const secondCommittee = form.watch("secondPreferenceCommittee");
   const thirdCommittee = form.watch("thirdPreferenceCommittee");
+
+  // When committee changes to/from IP, clear the other allocation type
+  useEffect(() => {
+    if (firstCommittee === "ip") {
+      form.setValue("firstPreferenceCommittee1stCountry", "");
+      form.setValue("firstPreferenceCommittee2ndCountry", "");
+      form.setValue("firstPreferenceCommittee3rdCountry", "");
+    } else {
+      form.setValue("firstPreferenceCommitteeIPRole", undefined);
+    }
+  }, [firstCommittee, form]);
+  useEffect(() => {
+    if (secondCommittee === "ip") {
+      form.setValue("secondPreferenceCommittee1stCountry", "");
+      form.setValue("secondPreferenceCommittee2ndCountry", "");
+      form.setValue("secondPreferenceCommittee3rdCountry", "");
+    } else {
+      form.setValue("secondPreferenceCommitteeIPRole", undefined);
+    }
+  }, [secondCommittee, form]);
+  useEffect(() => {
+    if (thirdCommittee === "ip") {
+      form.setValue("thirdPreferenceCommittee1stCountry", "");
+      form.setValue("thirdPreferenceCommittee2ndCountry", "");
+      form.setValue("thirdPreferenceCommittee3rdCountry", "");
+    } else {
+      form.setValue("thirdPreferenceCommitteeIPRole", undefined);
+    }
+  }, [thirdCommittee, form]);
 
   return (
     <div className="space-y-6">
@@ -52,65 +94,97 @@ export function CountryPreferencesStep({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-3">
+          {firstCommittee === "ip" ? (
             <FormField
               control={control}
-              name="firstPreferenceCommittee1stCountry"
+              name="firstPreferenceCommitteeIPRole"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    1st Allocation Preference *
+                    Allocation Preference *
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="First choice"
-                      {...field}
-                    />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? ""}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="border-primary/20 focus:border-primary">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {IP_ROLES.map((role) => (
+                        <SelectItem key={role.value} value={role.value}>
+                          {role.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={control}
-              name="firstPreferenceCommittee2ndCountry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground/80 text-sm">
-                    2nd Allocation Preference *
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="Second choice"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="firstPreferenceCommittee3rdCountry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground/80 text-sm">
-                    3rd Allocation Preference *
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="Third choice"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-3">
+              <FormField
+                control={control}
+                name="firstPreferenceCommittee1stCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      1st Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="First choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="firstPreferenceCommittee2ndCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      2nd Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="Second choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="firstPreferenceCommittee3rdCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      3rd Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="Third choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -123,65 +197,97 @@ export function CountryPreferencesStep({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-3">
+          {secondCommittee === "ip" ? (
             <FormField
               control={control}
-              name="secondPreferenceCommittee1stCountry"
+              name="secondPreferenceCommitteeIPRole"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    1st Allocation Preference *
+                    Allocation Preference *
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="First choice"
-                      {...field}
-                    />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? ""}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="border-primary/20 focus:border-primary">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {IP_ROLES.map((role) => (
+                        <SelectItem key={role.value} value={role.value}>
+                          {role.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={control}
-              name="secondPreferenceCommittee2ndCountry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground/80 text-sm">
-                    2nd Allocation Preference *
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="Second choice"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="secondPreferenceCommittee3rdCountry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground/80 text-sm">
-                    3rd Allocation Preference *
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="Third choice"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-3">
+              <FormField
+                control={control}
+                name="secondPreferenceCommittee1stCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      1st Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="First choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="secondPreferenceCommittee2ndCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      2nd Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="Second choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="secondPreferenceCommittee3rdCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      3rd Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="Third choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -194,65 +300,97 @@ export function CountryPreferencesStep({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-3">
+          {thirdCommittee === "ip" ? (
             <FormField
               control={control}
-              name="thirdPreferenceCommittee1stCountry"
+              name="thirdPreferenceCommitteeIPRole"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-foreground/80 text-sm">
-                    1st Allocation Preference *
+                    Allocation Preference *
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="First choice"
-                      {...field}
-                    />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? ""}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="border-primary/20 focus:border-primary">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {IP_ROLES.map((role) => (
+                        <SelectItem key={role.value} value={role.value}>
+                          {role.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={control}
-              name="thirdPreferenceCommittee2ndCountry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground/80 text-sm">
-                    2nd Allocation Preference *
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="Second choice"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="thirdPreferenceCommittee3rdCountry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground/80 text-sm">
-                    3rd Allocation Preference *
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-primary/20 focus:border-primary"
-                      placeholder="Third choice"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-3">
+              <FormField
+                control={control}
+                name="thirdPreferenceCommittee1stCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      1st Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="First choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="thirdPreferenceCommittee2ndCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      2nd Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="Second choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="thirdPreferenceCommittee3rdCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground/80 text-sm">
+                      3rd Allocation Preference *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-primary/20 focus:border-primary"
+                        placeholder="Third choice"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

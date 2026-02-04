@@ -44,12 +44,15 @@ export function PriorityRegistrationForm() {
       firstPreferenceCommittee1stCountry: "",
       firstPreferenceCommittee2ndCountry: "",
       firstPreferenceCommittee3rdCountry: "",
+      firstPreferenceCommitteeIPRole: undefined,
       secondPreferenceCommittee1stCountry: "",
       secondPreferenceCommittee2ndCountry: "",
       secondPreferenceCommittee3rdCountry: "",
+      secondPreferenceCommitteeIPRole: undefined,
       thirdPreferenceCommittee1stCountry: "",
       thirdPreferenceCommittee2ndCountry: "",
       thirdPreferenceCommittee3rdCountry: "",
+      thirdPreferenceCommitteeIPRole: undefined,
       priorMUNExperience: "",
        transportationRequired: "no",
        foodPreference: "veg",
@@ -100,7 +103,7 @@ export function PriorityRegistrationForm() {
           fieldsToValidate.push("rollNumber");
         }
         break;
-      // Step 2: Committees + countries + prior experience
+      // Step 2: Committees + allocation preferences + prior experience
       case 2:
         fieldsToValidate = [
           "firstPreferenceCommittee",
@@ -109,12 +112,15 @@ export function PriorityRegistrationForm() {
           "firstPreferenceCommittee1stCountry",
           "firstPreferenceCommittee2ndCountry",
           "firstPreferenceCommittee3rdCountry",
+          "firstPreferenceCommitteeIPRole",
           "secondPreferenceCommittee1stCountry",
           "secondPreferenceCommittee2ndCountry",
           "secondPreferenceCommittee3rdCountry",
+          "secondPreferenceCommitteeIPRole",
           "thirdPreferenceCommittee1stCountry",
           "thirdPreferenceCommittee2ndCountry",
           "thirdPreferenceCommittee3rdCountry",
+          "thirdPreferenceCommitteeIPRole",
           "priorMUNExperience",
         ];
         break;
@@ -214,6 +220,9 @@ export function PriorityRegistrationForm() {
         thirdPreferenceCommittee1stCountry: values.thirdPreferenceCommittee1stCountry,
         thirdPreferenceCommittee2ndCountry: values.thirdPreferenceCommittee2ndCountry,
         thirdPreferenceCommittee3rdCountry: values.thirdPreferenceCommittee3rdCountry,
+        firstPreferenceCommitteeIPRole: values.firstPreferenceCommitteeIPRole,
+        secondPreferenceCommitteeIPRole: values.secondPreferenceCommitteeIPRole,
+        thirdPreferenceCommitteeIPRole: values.thirdPreferenceCommitteeIPRole,
         priorMUNExperience: values.priorMUNExperience,
         transportationRequired: values.transportationRequired,
         foodPreference: values.foodPreference,

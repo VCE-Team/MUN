@@ -47,9 +47,9 @@ export function Contact() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Call Us</h3>
               <p className="text-muted-foreground">
-                +91 7702040524
+                +91 85908 68759
                 <br />
-                +91 9849583637
+                +91 79816 09732
               </p>
             </CardContent>
           </Card>
