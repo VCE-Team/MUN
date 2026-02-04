@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Control, UseFormReturn } from "react-hook-form";
 import { PriorityRegistrationSchema } from "@/schemas/priorityRegistrationForm";
 import { useState, useEffect } from "react";
+import { appConfig } from "@/lib/app-config";
 
 interface PersonalDetailsStepProps {
   control: Control<PriorityRegistrationSchema>;
@@ -60,8 +61,16 @@ export function PersonalDetailsStep({
   const targetAudience = form.watch("targetAudience");
   const institution = form.watch("institution");
   const [customInstitutions, setCustomInstitutions] = useState<string[]>([]);
+  const [fetchedInstitutions, setFetchedInstitutions] = useState<string[]>([]);
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [customInstitutionValue, setCustomInstitutionValue] = useState("");
+
+  useEffect(() => {
+    fetch(`${appConfig.backendUrl}/api/institutions`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((arr) => setFetchedInstitutions(Array.isArray(arr) ? arr : []))
+      .catch(() => setFetchedInstitutions([]));
+  }, []);
 
   // Auto-set institution for in-house users
   useEffect(() => {
@@ -102,11 +111,14 @@ export function PersonalDetailsStep({
     }
   };
 
-  // For "Other Colleges", exclude Vardhaman College of Engineering from the dropdown
+  // Default + from registered users (API) + custom, exclude Vardhaman, dedupe
   const allInstitutions = [
     ...defaultInstitutions,
+    ...fetchedInstitutions,
     ...customInstitutions,
-  ].filter((name) => name !== "Vardhaman College of Engineering");
+  ]
+    .filter((name) => name !== "Vardhaman College of Engineering")
+    .filter((name, i, arr) => arr.indexOf(name) === i);
 
   return (
     <div className="space-y-6">

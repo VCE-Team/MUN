@@ -17,8 +17,18 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Trash2 } from "lucide-react";
 import { Control, UseFormReturn } from "react-hook-form";
+import { useState, useEffect } from "react";
 import { CountryPreferences } from "./CountryPreferences";
 import { FormSchema } from "@/schemas/registrationForm";
+import { appConfig } from "@/lib/app-config";
+
+const defaultInstitutions = [
+  "Vasavi College of Engineering",
+  "CVR College of Engineering",
+  "G Narayanamma Institute of Technology and Science",
+  "Sreenidhi Institute of Science and Technology",
+  "Jawaharlal Nehru Technological University Hyderabad",
+];
 
 interface ParticipantDetailsProps {
   field: Record<string, string>;
@@ -38,6 +48,24 @@ export function ParticipantDetails({
   onRemove,
   fields,
 }: ParticipantDetailsProps) {
+  const [fetchedInstitutions, setFetchedInstitutions] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch(`${appConfig.backendUrl}/api/institutions`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((arr) => setFetchedInstitutions(Array.isArray(arr) ? arr : []))
+      .catch(() => setFetchedInstitutions([]));
+  }, []);
+
+  const otherCollegeOptions = [
+    ...defaultInstitutions,
+    ...fetchedInstitutions,
+  ].filter((name, i, arr) => arr.indexOf(name) === i);
+  const institutionOptions = [
+    "Vardhaman College of Engineering",
+    ...otherCollegeOptions,
+  ];
+
   return (
     <div className="space-y-6 p-4 border border-primary/10 rounded-lg">
       <div className="flex justify-between items-center">
@@ -156,24 +184,11 @@ export function ParticipantDetails({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Vardhaman College of Engineering">
-                    Vardhaman College of Engineering
-                  </SelectItem>
-                  <SelectItem value="Vasavi College of Engineering">
-                    Vasavi College of Engineering
-                  </SelectItem>
-                  <SelectItem value="CVR College of Engineering">
-                    CVR College of Engineering
-                  </SelectItem>
-                  <SelectItem value="G Narayanamma Institute of Technology and Science">
-                    G Narayanamma Institute of Technology and Science
-                  </SelectItem>
-                  <SelectItem value="Sreenidhi Institute of Science and Technology">
-                    Sreenidhi Institute of Science and Technology
-                  </SelectItem>
-                  <SelectItem value="Jawaharlal Nehru Technological University Hyderabad">
-                    Jawaharlal Nehru Technological University Hyderabad
-                  </SelectItem>
+                  {institutionOptions.map((inst) => (
+                    <SelectItem key={inst} value={inst}>
+                      {inst}
+                    </SelectItem>
+                  ))}
                   <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
@@ -183,7 +198,7 @@ export function ParticipantDetails({
         />
       </div>
 
-      {/* Additional Institution Fields */}
+      {/* Other institution: dropdown (default + from registrations) or type custom */}
       {form.getValues(`participants.${index}.institution`) === "Other" && (
         <FormField
           control={control}
@@ -193,13 +208,29 @@ export function ParticipantDetails({
               <FormLabel className="text-foreground/80">
                 Other Institution *
               </FormLabel>
-              <FormControl>
-                <Input
-                  className="border-primary/20 focus:border-primary"
-                  placeholder="Enter your institution"
-                  {...field}
-                />
-              </FormControl>
+              <Select
+                onValueChange={field.onChange}
+                value={otherCollegeOptions.includes(field.value || "") ? field.value || "" : ""}
+              >
+                <FormControl>
+                  <SelectTrigger className="border-primary/20 focus:border-primary">
+                    <SelectValue placeholder="Select your institution" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {otherCollegeOptions.map((inst) => (
+                    <SelectItem key={inst} value={inst}>
+                      {inst}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Input
+                className="mt-2 border-primary/20 focus:border-primary"
+                placeholder="Or type your institution name"
+                value={otherCollegeOptions.includes(field.value || "") ? "" : (field.value || "")}
+                onChange={(e) => field.onChange(e.target.value)}
+              />
               <FormMessage />
             </FormItem>
           )}

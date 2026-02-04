@@ -62,17 +62,17 @@ function formatDate(val: string | { $date: string } | undefined): string {
   }
 }
 
-function getCommitteeSummary(doc: PriorityDoc): string {
+function getCommitteePreferenceItems(doc: PriorityDoc): { rank: number; committee: string }[] {
   if (doc.committeePreferences && Array.isArray(doc.committeePreferences)) {
     return doc.committeePreferences
       .sort((a, b) => a.rank - b.rank)
-      .map((p) => `${p.rank}: ${p.committee}`)
-      .join(", ");
+      .map((p) => ({ rank: p.rank, committee: p.committee }));
   }
-  const a = doc.firstPreferenceCommittee || "—";
-  const b = doc.secondPreferenceCommittee || "—";
-  const c = doc.thirdPreferenceCommittee || "—";
-  return `1: ${a}, 2: ${b}, 3: ${c}`;
+  return [
+    { rank: 1, committee: doc.firstPreferenceCommittee ?? "" },
+    { rank: 2, committee: doc.secondPreferenceCommittee ?? "" },
+    { rank: 3, committee: doc.thirdPreferenceCommittee ?? "" },
+  ].filter((p) => p.committee);
 }
 
 const TARGET_OPTIONS = [
@@ -87,6 +87,18 @@ const COMMITTEE_OPTIONS = [
   { value: "aippm", label: "AIPPM" },
   { value: "ip", label: "IP" },
 ];
+
+const COMMITTEE_COLORS: Record<string, string> = {
+  unhrc: "bg-red-500/25 text-red-300 border-red-500/50",
+  disec: "bg-blue-500/25 text-blue-300 border-blue-500/50",
+  aippm: "bg-orange-500/25 text-orange-300 border-orange-500/50",
+  ip: "bg-white/20 text-white border-white/40",
+};
+
+function getCommitteeBadgeClass(committee: string): string {
+  const c = (committee || "").toLowerCase().trim();
+  return COMMITTEE_COLORS[c] ?? "border-white/20 bg-white/10";
+}
 
 function getAdminHeaders(): HeadersInit {
   const token =
@@ -105,9 +117,17 @@ export function PriorityRegistrationsView() {
   const [firstPreferenceCommittee, setFirstPreferenceCommittee] = useState("");
   const [country, setCountry] = useState("");
   const [college, setCollege] = useState("");
+  const [collegeOptions, setCollegeOptions] = useState<string[]>([]);
   const [list, setList] = useState<PriorityDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
+
+  useEffect(() => {
+    fetch(`${appConfig.backendUrl}/api/admin/priority-colleges`, { headers: getAdminHeaders() })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((arr) => setCollegeOptions(Array.isArray(arr) ? arr : []))
+      .catch(() => setCollegeOptions([]));
+  }, []);
 
   const fetchList = useCallback(() => {
     setLoading(true);
@@ -198,12 +218,19 @@ export function PriorityRegistrationsView() {
         </div>
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">College</Label>
-          <Input
-            placeholder="Any"
-            value={college}
-            onChange={(e) => setCollege(e.target.value)}
-            className="w-[120px] border-white/20 bg-white/5 md:w-[140px]"
-          />
+          <Select value={college || "all"} onValueChange={(v) => setCollege(v === "all" ? "" : v)}>
+            <SelectTrigger className="w-[180px] border-white/20 bg-white/5 md:w-[200px]">
+              <SelectValue placeholder="All" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              {collegeOptions.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <Button
           onClick={() => setApplyKey((k) => k + 1)}
@@ -251,7 +278,20 @@ export function PriorityRegistrationsView() {
                           {row.targetAudience ?? "—"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="max-w-[200px] truncate text-xs">{getCommitteeSummary(row)}</TableCell>
+                      <TableCell className="max-w-[220px]">
+                        <div className="flex flex-wrap gap-1">
+                          {getCommitteePreferenceItems(row).map((p) => (
+                            <Badge
+                              key={`${p.rank}-${p.committee}`}
+                              variant="outline"
+                              className={`text-xs shrink-0 ${getCommitteeBadgeClass(p.committee)}`}
+                            >
+                              {p.rank}: {p.committee}
+                            </Badge>
+                          ))}
+                          {getCommitteePreferenceItems(row).length === 0 && "—"}
+                        </div>
+                      </TableCell>
                       <TableCell className="font-mono text-xs">{row.transactionId ?? "—"}</TableCell>
                       <TableCell>₹{row.registrationFee ?? "—"}</TableCell>
                       <TableCell className="text-muted-foreground text-xs">{formatDate(row.registeredAt)}</TableCell>

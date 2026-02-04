@@ -67,6 +67,19 @@ const COMMITTEE_OPTIONS = [
   { value: "ecosoc", label: "ECOSOC" },
 ];
 
+const COMMITTEE_COLORS: Record<string, string> = {
+  unhrc: "bg-red-500/25 text-red-300 border-red-500/50",
+  disec: "bg-blue-500/25 text-blue-300 border-blue-500/50",
+  aippm: "bg-orange-500/25 text-orange-300 border-orange-500/50",
+  ip: "bg-white/20 text-white border-white/40",
+  ecosoc: "border-white/20 bg-white/10",
+};
+
+function getCommitteeBadgeClass(committee: string): string {
+  const c = (committee || "").toLowerCase().trim();
+  return COMMITTEE_COLORS[c] ?? "border-white/20 bg-white/10";
+}
+
 function getAdminHeaders(): HeadersInit {
   const token =
     typeof localStorage !== "undefined" ? localStorage.getItem("adminToken") : null;
@@ -187,7 +200,10 @@ export function PastRegistrationsView() {
                       <TableCell className="text-muted-foreground">{row.email ?? "—"}</TableCell>
                       <TableCell>{row.phone ?? "—"}</TableCell>
                       <TableCell>
-                        <Badge variant="secondary" className="border-white/20 bg-white/10">
+                        <Badge
+                          variant="outline"
+                          className={getCommitteeBadgeClass(row.committee ?? "")}
+                        >
                           {row.committee ?? "—"}
                         </Badge>
                       </TableCell>
