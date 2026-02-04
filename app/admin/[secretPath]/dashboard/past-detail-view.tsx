@@ -1,52 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { appConfig } from "@/lib/app-config";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { PastRegistrationDoc } from "@/lib/admin-types";
+import { isApiError } from "@/lib/admin-types";
+import { getAdminHeaders, formatAdminDate } from "@/lib/admin-utils";
+import {
+  getCached,
+  setCached,
+  invalidateAll,
+  pastDocKey,
+  CACHE_TTL,
+} from "@/lib/admin-api-cache";
 
-type PastDoc = {
-  _id?: unknown;
-  name?: string;
-  email?: string;
-  phone?: string;
-  committee?: string;
-  firstPreferenceCountry?: string;
-  secondPreferenceCountry?: string;
-  thirdPreferenceCountry?: string;
-  institution?: string;
-  otherInstitution?: string | null;
-  rollNumber?: string | null;
-  transactionId?: string;
-  registeredAt?: string | { $date: string };
-  registrationType?: string;
-  isGroupRegistration?: boolean;
-  groupId?: string;
-  qrUsed?: string;
-  role?: string | null;
-  priorExperiences?: string;
-  [key: string]: unknown;
-};
-
-function getAdminHeaders(): HeadersInit {
-  const token =
-    typeof localStorage !== "undefined" ? localStorage.getItem("adminToken") : null;
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
-
-function formatDate(val: string | { $date: string } | undefined): string {
-  if (!val) return "—";
-  const d = typeof val === "string" ? val : (val as { $date?: string })?.$date;
-  if (!d) return "—";
-  try {
-    return new Date(d).toLocaleString();
-  } catch {
-    return "—";
-  }
-}
-
-function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
+function DetailRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
   return (
     <div className="flex flex-wrap gap-2 border-b border-white/10 py-2 first:pt-0 last:border-0">
       <span className="text-muted-foreground shrink-0 w-44">{label}</span>
@@ -62,30 +39,80 @@ export function PastDetailView({
   id: string;
   onBack: () => void;
 }) {
-  const [doc, setDoc] = useState<PastDoc | null>(null);
+  const router = useRouter();
+  const params = useParams();
+  const secretPath = params.secretPath as string;
+  const [doc, setDoc] = useState<PastRegistrationDoc | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
-    setLoading(true);
+    mountedRef.current = true;
+    setFetchError(null);
+
+    const cacheKey = pastDocKey(id);
+    const cached = getCached<PastRegistrationDoc>(cacheKey);
+
+    if (cached !== undefined) {
+      setDoc(cached);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+
     fetch(`${appConfig.backendUrl}/api/admin/past-registrations/${id}`, {
       headers: getAdminHeaders(),
     })
       .then((r) => {
-        if (r.status === 401) return null;
+        if (r.status === 401) {
+          invalidateAll();
+          if (typeof localStorage !== "undefined")
+            localStorage.removeItem("adminToken");
+          router.replace(`/admin/${secretPath}`);
+          return null;
+        }
         return r.json();
       })
-      .then((data) => {
-        if (data && !data.message) setDoc(data);
-        else setDoc(null);
+      .then((data: unknown) => {
+        if (!mountedRef.current) return;
+        if (data !== null && !isApiError(data)) {
+          setDoc(data as PastRegistrationDoc);
+          setCached(cacheKey, data as PastRegistrationDoc, CACHE_TTL.doc);
+          setFetchError(null);
+        } else {
+          setDoc(null);
+          setFetchError(
+            data && isApiError(data)
+              ? (data as { message?: string }).message ?? "Not found"
+              : "Not found"
+          );
+        }
       })
-      .catch(() => setDoc(null))
-      .finally(() => setLoading(false));
-  }, [id]);
+      .catch(() => {
+        if (mountedRef.current) {
+          setDoc(null);
+          setFetchError("Failed to load registration.");
+        }
+      })
+      .finally(() => {
+        if (mountedRef.current) setLoading(false);
+      });
 
-  if (loading) {
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [id, router, secretPath]);
+
+  if (loading && !doc) {
     return (
       <div className="space-y-4">
-        <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onBack}
+          className="text-muted-foreground w-full sm:w-auto"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to list
         </Button>
@@ -97,11 +124,18 @@ export function PastDetailView({
   if (!doc) {
     return (
       <div className="space-y-4">
-        <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onBack}
+          className="text-muted-foreground w-full sm:w-auto"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to list
         </Button>
-        <p className="text-muted-foreground">Registration not found.</p>
+        <p className="text-muted-foreground">
+          {fetchError ?? "Registration not found."}
+        </p>
       </div>
     );
   }
@@ -115,13 +149,18 @@ export function PastDetailView({
     .join(", ") || "—";
 
   return (
-    <div className="space-y-6">
-      <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground">
+    <div className="space-y-6 px-4 sm:px-0">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onBack}
+        className="text-muted-foreground w-full sm:w-auto"
+      >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to list
       </Button>
 
-      <div className="glass-panel rounded-xl border border-white/10 p-6 space-y-1">
+      <div className="glass-panel rounded-xl border border-white/10 p-4 sm:p-6 space-y-1">
         <h2 className="text-xl font-semibold text-[var(--logo-gold-yellow)] mb-4">
           {doc.name ?? "—"}
         </h2>
@@ -129,16 +168,29 @@ export function PastDetailView({
         <DetailRow label="Phone" value={doc.phone} />
         <DetailRow label="Committee" value={doc.committee} />
         <DetailRow label="Country preferences" value={countries} />
-        <DetailRow label="Institution" value={doc.institution ?? doc.otherInstitution} />
+        <DetailRow
+          label="Institution"
+          value={doc.institution ?? doc.otherInstitution}
+        />
         <DetailRow label="Roll number" value={doc.rollNumber} />
         <DetailRow label="Transaction ID" value={doc.transactionId} />
         <DetailRow label="Registration type" value={doc.registrationType} />
-        <DetailRow label="Group registration" value={doc.isGroupRegistration != null ? String(doc.isGroupRegistration) : undefined} />
+        <DetailRow
+          label="Group registration"
+          value={
+            doc.isGroupRegistration != null
+              ? String(doc.isGroupRegistration)
+              : undefined
+          }
+        />
         <DetailRow label="Group ID" value={doc.groupId} />
         <DetailRow label="QR used" value={doc.qrUsed} />
         <DetailRow label="Role" value={doc.role} />
         <DetailRow label="Prior experiences" value={doc.priorExperiences} />
-        <DetailRow label="Registered at" value={formatDate(doc.registeredAt)} />
+        <DetailRow
+          label="Registered at"
+          value={formatAdminDate(doc.registeredAt)}
+        />
       </div>
     </div>
   );

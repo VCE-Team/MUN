@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,42 +23,21 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { RefreshCw } from "lucide-react";
 import { appConfig } from "@/lib/app-config";
 import { INSTITUTION_OPTIONS } from "@/lib/institutions";
 import { PastDetailView } from "@/app/admin/[secretPath]/dashboard/past-detail-view";
-
-type PastDoc = {
-  _id?: { $oid?: string };
-  name?: string;
-  email?: string;
-  phone?: string;
-  committee?: string;
-  firstPreferenceCountry?: string;
-  secondPreferenceCountry?: string;
-  thirdPreferenceCountry?: string;
-  institution?: string;
-  otherInstitution?: string | null;
-  rollNumber?: string | null;
-  transactionId?: string;
-  registeredAt?: string | { $date: string };
-  registrationType?: string;
-  isGroupRegistration?: boolean;
-  groupId?: string;
-  qrUsed?: string;
-  role?: string | null;
-  priorExperiences?: string;
-};
-
-function formatDate(val: string | { $date: string } | undefined): string {
-  if (!val) return "—";
-  const d = typeof val === "string" ? val : val?.$date;
-  if (!d) return "—";
-  try {
-    return new Date(d).toLocaleString();
-  } catch {
-    return "—";
-  }
-}
+import type { PastRegistrationListItem } from "@/lib/admin-types";
+import { normalizeId, isPastListResponse } from "@/lib/admin-types";
+import { getAdminHeaders, formatAdminDate } from "@/lib/admin-utils";
+import {
+  getCached,
+  setCached,
+  invalidate,
+  invalidateAll,
+  pastListKey,
+  CACHE_TTL,
+} from "@/lib/admin-api-cache";
 
 const COMMITTEE_OPTIONS = [
   { value: "all", label: "All" },
@@ -82,12 +61,12 @@ function getCommitteeBadgeClass(committee: string): string {
   return COMMITTEE_COLORS[c] ?? "border-white/20 bg-white/10";
 }
 
-function getAdminHeaders(): HeadersInit {
-  const token =
-    typeof localStorage !== "undefined" ? localStorage.getItem("adminToken") : null;
-  return {
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
+function buildPastQueryKey(
+  committee: string,
+  country: string,
+  collegeFilter: string
+): string {
+  return [committee, country.trim(), collegeFilter].join("|");
 }
 
 export function PastRegistrationsView() {
@@ -98,43 +77,96 @@ export function PastRegistrationsView() {
   const [country, setCountry] = useState("");
   const [collegeSelect, setCollegeSelect] = useState("");
   const [collegeInput, setCollegeInput] = useState("");
-  const [list, setList] = useState<PastDoc[]>([]);
+  const [list, setList] = useState<PastRegistrationListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [revalidateError, setRevalidateError] = useState<string | null>(null);
+  const [refreshLoading, setRefreshLoading] = useState(false);
+  const mountedRef = useRef(true);
 
-  const collegeFilter = (collegeInput.trim().replace(/\s+/g, " ") || collegeSelect || "").trim();
+  const collegeFilter = (
+    collegeInput.trim().replace(/\s+/g, " ") || collegeSelect || ""
+  ).trim();
+
+  const queryKey = buildPastQueryKey(committee, country, collegeFilter);
+
+  const performFetch = useCallback(
+    (skipCache: boolean) => {
+      const queryParams = new URLSearchParams();
+      if (committee) queryParams.set("committee", committee);
+      if (country.trim()) queryParams.set("country", country.trim());
+      if (collegeFilter) queryParams.set("college", collegeFilter);
+      const url = `${appConfig.backendUrl}/api/admin/past-registrations?${queryParams}`;
+      const currentKey = pastListKey(queryKey);
+
+      fetch(url, { headers: getAdminHeaders() })
+        .then((r) => {
+          if (r.status === 401) {
+            invalidateAll();
+            if (typeof localStorage !== "undefined")
+              localStorage.removeItem("adminToken");
+            router.replace(`/admin/${secretPath}`);
+            return null;
+          }
+          return r.json();
+        })
+        .then((data: unknown) => {
+          if (!mountedRef.current) return;
+          if (data !== null && isPastListResponse(data)) {
+            setList(data);
+            setCached(currentKey, data, CACHE_TTL.pastList);
+            setRevalidateError(null);
+          } else if (data === null) {
+            setRevalidateError(null);
+          }
+        })
+        .catch(() => {
+          if (!mountedRef.current) return;
+          if (!skipCache)
+            setRevalidateError("Could not refresh; showing cached data.");
+        })
+        .finally(() => {
+          if (mountedRef.current) {
+            setLoading(false);
+            setRefreshLoading(false);
+          }
+        });
+    },
+    [committee, country, collegeFilter, queryKey, router, secretPath]
+  );
 
   useEffect(() => {
-    setLoading(true);
-    const queryParams = new URLSearchParams();
-    if (committee) queryParams.set("committee", committee);
-    if (country.trim()) queryParams.set("country", country.trim());
-    if (collegeFilter) queryParams.set("college", collegeFilter);
-    fetch(`${appConfig.backendUrl}/api/admin/past-registrations?${queryParams}`, {
-      headers: getAdminHeaders(),
-    })
-      .then((r) => {
-        if (r.status === 401) {
-          if (typeof localStorage !== "undefined") localStorage.removeItem("adminToken");
-          router.replace(`/admin/${secretPath}`);
-          return null;
-        }
-        return r.json();
-      })
-      .then((data) => {
-        if (data !== null) setList(Array.isArray(data) ? data : []);
-      })
-      .catch(() => setList([]))
-      .finally(() => setLoading(false));
-  }, [applyKey, committee, country, collegeFilter, router, secretPath]);
+    mountedRef.current = true;
+    const currentKey = pastListKey(queryKey);
+    const cached = getCached<PastRegistrationListItem[]>(currentKey);
 
-  function getRowId(row: PastDoc): string {
-    const id = row._id;
-    if (id == null) return "";
-    if (typeof id === "string") return id;
-    return (id as { $oid?: string }).$oid ?? "";
-  }
+    if (cached !== undefined) {
+      setList(cached);
+      setLoading(false);
+      setRevalidateError(null);
+    } else {
+      setLoading(true);
+    }
+    setRefreshLoading(false);
+    performFetch(false);
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [applyKey]); // eslint-disable-line react-hooks/exhaustive-deps -- only refetch when Apply is clicked
+
+  const handleRefresh = useCallback(() => {
+    invalidate(pastListKey(queryKey));
+    setRefreshLoading(true);
+    setLoading(true);
+    setRevalidateError(null);
+    performFetch(true);
+  }, [queryKey, performFetch]);
+
+  const handleApplyFilters = useCallback(() => {
+    setApplyKey((k) => k + 1);
+  }, []);
 
   if (selectedId) {
     return (
@@ -149,10 +181,13 @@ export function PastRegistrationsView() {
 
   return (
     <div className="space-y-4">
-      <div className="glass-panel flex flex-wrap items-end gap-3 p-4">
+      <div className="glass-panel flex flex-wrap items-end gap-3 p-4 md:p-6">
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">Committee</Label>
-          <Select value={committee || "all"} onValueChange={(v) => setCommittee(v === "all" ? "" : v)}>
+          <Select
+            value={committee || "all"}
+            onValueChange={(v) => setCommittee(v === "all" ? "" : v)}
+          >
             <SelectTrigger className="w-[130px] border-white/20 bg-white/5">
               <SelectValue placeholder="All" />
             </SelectTrigger>
@@ -177,7 +212,10 @@ export function PastRegistrationsView() {
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">College</Label>
           <div className="flex flex-col gap-1">
-            <Select value={collegeSelect || "all"} onValueChange={(v) => setCollegeSelect(v === "all" ? "" : v)}>
+            <Select
+              value={collegeSelect || "all"}
+              onValueChange={(v) => setCollegeSelect(v === "all" ? "" : v)}
+            >
               <SelectTrigger className="w-[180px] border-white/20 bg-white/5 md:w-[200px]">
                 <SelectValue placeholder="All" />
               </SelectTrigger>
@@ -199,24 +237,45 @@ export function PastRegistrationsView() {
           </div>
         </div>
         <Button
-          onClick={() => setApplyKey((k) => k + 1)}
+          onClick={handleApplyFilters}
           className="bg-[var(--logo-gold-yellow)] text-black hover:opacity-90"
         >
           Apply filters
         </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="border-white/20"
+          onClick={handleRefresh}
+          disabled={refreshLoading || loading}
+        >
+          <RefreshCw
+            className={`mr-2 h-4 w-4 ${refreshLoading ? "animate-spin" : ""}`}
+          />
+          Refresh
+        </Button>
       </div>
 
-      <div className="glass-panel overflow-hidden">
+      {revalidateError && (
+        <p className="text-sm text-amber-500/90">{revalidateError}</p>
+      )}
+
+      <div className="glass-panel overflow-hidden w-full max-w-full">
         <ScrollArea className="w-full">
-          <div className="min-w-[700px]">
-            {loading ? (
+          <div className="min-w-[600px] sm:min-w-[700px]">
+            {loading && list.length === 0 ? (
               <div className="space-y-2 p-4">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <Skeleton key={i} className="h-10 w-full rounded border border-white/10" />
+                  <Skeleton
+                    key={i}
+                    className="h-10 w-full rounded border border-white/10"
+                  />
                 ))}
               </div>
             ) : list.length === 0 ? (
-              <p className="p-6 text-center text-muted-foreground">No registrations found.</p>
+              <p className="p-6 text-center text-muted-foreground">
+                No registrations found.
+              </p>
             ) : (
               <Table>
                 <TableHeader>
@@ -235,15 +294,19 @@ export function PastRegistrationsView() {
                 <TableBody>
                   {list.map((row) => (
                     <TableRow
-                      key={getRowId(row)}
+                      key={normalizeId(row._id)}
                       className="cursor-pointer border-white/10 hover:bg-white/10"
                       onClick={() => {
-                        const id = getRowId(row);
+                        const id = normalizeId(row._id);
                         if (id) setSelectedId(id);
                       }}
                     >
-                      <TableCell className="font-medium">{row.name ?? "—"}</TableCell>
-                      <TableCell className="text-muted-foreground">{row.email ?? "—"}</TableCell>
+                      <TableCell className="font-medium">
+                        {row.name ?? "—"}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {row.email ?? "—"}
+                      </TableCell>
                       <TableCell>{row.phone ?? "—"}</TableCell>
                       <TableCell>
                         <Badge
@@ -254,15 +317,27 @@ export function PastRegistrationsView() {
                         </Badge>
                       </TableCell>
                       <TableCell className="max-w-[180px] truncate text-xs">
-                        {[row.firstPreferenceCountry, row.secondPreferenceCountry, row.thirdPreferenceCountry]
+                        {[
+                          row.firstPreferenceCountry,
+                          row.secondPreferenceCountry,
+                          row.thirdPreferenceCountry,
+                        ]
                           .filter(Boolean)
                           .join(" / ") || "—"}
                       </TableCell>
-                      <TableCell>{row.institution ?? row.otherInstitution ?? "—"}</TableCell>
-                      <TableCell className="font-mono text-xs">{row.transactionId ?? "—"}</TableCell>
-                      <TableCell className="text-muted-foreground text-xs">{formatDate(row.registeredAt)}</TableCell>
+                      <TableCell>
+                        {row.institution ?? row.otherInstitution ?? "—"}
+                      </TableCell>
+                      <TableCell className="font-mono text-xs">
+                        {row.transactionId ?? "—"}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-xs">
+                        {formatAdminDate(row.registeredAt)}
+                      </TableCell>
                       <TableCell className="text-xs">
-                        {row.isGroupRegistration && <span className="text-muted-foreground">Group </span>}
+                        {row.isGroupRegistration && (
+                          <span className="text-muted-foreground">Group </span>
+                        )}
                         {row.qrUsed && <span>{row.qrUsed}</span>}
                         {!row.isGroupRegistration && !row.qrUsed && "—"}
                       </TableCell>

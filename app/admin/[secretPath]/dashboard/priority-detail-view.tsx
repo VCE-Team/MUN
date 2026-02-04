@@ -1,56 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ImageIcon } from "lucide-react";
 import { appConfig } from "@/lib/app-config";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { PriorityRegistrationDoc } from "@/lib/admin-types";
+import { isApiError } from "@/lib/admin-types";
+import { getAdminHeaders, formatAdminDate } from "@/lib/admin-utils";
+import {
+  getCached,
+  setCached,
+  invalidateAll,
+  priorityDocKey,
+  priorityScreenshotKey,
+  CACHE_TTL,
+} from "@/lib/admin-api-cache";
 
-type PriorityDoc = {
-  _id?: unknown;
-  targetAudience?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  institution?: string;
-  otherInstitution?: string | null;
-  rollNumber?: string | null;
-  committeePreferences?: Array<{
-    rank: number;
-    committee: string;
-    allocation: { type: string; first?: string; second?: string; third?: string; ipRole?: string };
-  }>;
-  firstPreferenceCommittee?: string;
-  secondPreferenceCommittee?: string;
-  thirdPreferenceCommittee?: string;
-  priorMUNExperience?: string;
-  transportationRequired?: string;
-  foodPreference?: string;
-  transactionId?: string;
-  registrationFee?: number;
-  registeredAt?: string | { $date: string };
-  [key: string]: unknown;
-};
-
-function getAdminHeaders(): HeadersInit {
-  const token =
-    typeof localStorage !== "undefined" ? localStorage.getItem("adminToken") : null;
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
-
-function formatDate(val: string | { $date: string } | undefined): string {
-  if (!val) return "—";
-  const d = typeof val === "string" ? val : (val as { $date?: string })?.$date;
-  if (!d) return "—";
-  try {
-    return new Date(d).toLocaleString();
-  } catch {
-    return "—";
-  }
-}
-
-function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
+function DetailRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
   return (
     <div className="flex flex-wrap gap-2 border-b border-white/10 py-2 first:pt-0 last:border-0">
       <span className="text-muted-foreground shrink-0 w-44">{label}</span>
@@ -66,35 +40,81 @@ export function PriorityDetailView({
   id: string;
   onBack: () => void;
 }) {
-  const [doc, setDoc] = useState<PriorityDoc | null>(null);
+  const router = useRouter();
+  const params = useParams();
+  const secretPath = params.secretPath as string;
+  const [doc, setDoc] = useState<PriorityRegistrationDoc | null>(null);
   const [loading, setLoading] = useState(true);
   const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null);
   const [screenshotLoading, setScreenshotLoading] = useState(false);
   const [screenshotError, setScreenshotError] = useState<string | null>(null);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
-    setLoading(true);
+    mountedRef.current = true;
     setScreenshotUrl(null);
     setScreenshotError(null);
+    setFetchError(null);
+
+    const cacheKey = priorityDocKey(id);
+    const cached = getCached<PriorityRegistrationDoc>(cacheKey);
+
+    if (cached !== undefined) {
+      setDoc(cached);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+
     fetch(`${appConfig.backendUrl}/api/admin/priority-registrations/${id}`, {
       headers: getAdminHeaders(),
     })
       .then((r) => {
-        if (r.status === 401) return null;
+        if (r.status === 401) {
+          invalidateAll();
+          if (typeof localStorage !== "undefined")
+            localStorage.removeItem("adminToken");
+          router.replace(`/admin/${secretPath}`);
+          return null;
+        }
         return r.json();
       })
-      .then((data) => {
-        if (data && !data.message) setDoc(data);
-        else setDoc(null);
+      .then((data: unknown) => {
+        if (!mountedRef.current) return;
+        if (data !== null && !isApiError(data)) {
+          setDoc(data as PriorityRegistrationDoc);
+          setCached(cacheKey, data as PriorityRegistrationDoc, CACHE_TTL.doc);
+          setFetchError(null);
+        } else {
+          setDoc(null);
+          setFetchError(data && isApiError(data) ? (data as { message?: string }).message ?? "Not found" : "Not found");
+        }
       })
-      .catch(() => setDoc(null))
-      .finally(() => setLoading(false));
-  }, [id]);
+      .catch(() => {
+        if (mountedRef.current) {
+          setDoc(null);
+          setFetchError("Failed to load registration.");
+        }
+      })
+      .finally(() => {
+        if (mountedRef.current) setLoading(false);
+      });
 
-  if (loading) {
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [id, router, secretPath]);
+
+  if (loading && !doc) {
     return (
       <div className="space-y-4">
-        <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onBack}
+          className="text-muted-foreground w-full sm:w-auto"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to list
         </Button>
@@ -106,11 +126,18 @@ export function PriorityDetailView({
   if (!doc) {
     return (
       <div className="space-y-4">
-        <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onBack}
+          className="text-muted-foreground w-full sm:w-auto"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to list
         </Button>
-        <p className="text-muted-foreground">Registration not found.</p>
+        <p className="text-muted-foreground">
+          {fetchError ?? "Registration not found."}
+        </p>
       </div>
     );
   }
@@ -133,17 +160,26 @@ export function PriorityDetailView({
         .join(", ");
 
   const fetchScreenshot = () => {
+    const screenshotCacheKey = priorityScreenshotKey(id);
+    const cached = getCached<string>(screenshotCacheKey);
+    if (cached !== undefined) {
+      setScreenshotUrl(cached);
+      setScreenshotError(null);
+      return;
+    }
     setScreenshotLoading(true);
     setScreenshotError(null);
     setScreenshotUrl(null);
-    fetch(`${appConfig.backendUrl}/api/admin/priority-registrations/${id}/screenshot`, {
-      headers: getAdminHeaders(),
-    })
+    fetch(
+      `${appConfig.backendUrl}/api/admin/priority-registrations/${id}/screenshot`,
+      { headers: getAdminHeaders() }
+    )
       .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
+      .then((data: { paymentScreenshotUrl?: string | null } | null) => {
         const url = data?.paymentScreenshotUrl;
         if (url && (url.startsWith("data:") || url.startsWith("https:"))) {
           setScreenshotUrl(url);
+          setCached(screenshotCacheKey, url, CACHE_TTL.screenshot);
         } else {
           setScreenshotError("No payment screenshot available.");
         }
@@ -153,19 +189,27 @@ export function PriorityDetailView({
   };
 
   return (
-    <div className="space-y-6">
-      <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground">
+    <div className="space-y-6 px-4 sm:px-0">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onBack}
+        className="text-muted-foreground w-full sm:w-auto"
+      >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to list
       </Button>
 
-      <div className="glass-panel rounded-xl border border-white/10 p-6 space-y-1">
+      <div className="glass-panel rounded-xl border border-white/10 p-4 sm:p-6 space-y-1">
         <h2 className="text-xl font-semibold text-[var(--logo-gold-yellow)] mb-4">
           {doc.name ?? "—"}
         </h2>
         <DetailRow label="Email" value={doc.email} />
         <DetailRow label="Phone" value={doc.phone} />
-        <DetailRow label="Institution" value={doc.institution ?? doc.otherInstitution} />
+        <DetailRow
+          label="Institution"
+          value={doc.institution ?? doc.otherInstitution}
+        />
         <DetailRow label="Target audience" value={doc.targetAudience} />
         <DetailRow label="Roll number" value={doc.rollNumber} />
         <DetailRow label="Committee preferences" value={prefs} />
@@ -173,14 +217,22 @@ export function PriorityDetailView({
         <DetailRow label="Transportation" value={doc.transportationRequired} />
         <DetailRow label="Food preference" value={doc.foodPreference} />
         <DetailRow label="Transaction ID" value={doc.transactionId} />
-        <DetailRow label="Registration fee" value={doc.registrationFee != null ? `₹${doc.registrationFee}` : undefined} />
-        <DetailRow label="Registered at" value={formatDate(doc.registeredAt)} />
+        <DetailRow
+          label="Registration fee"
+          value={
+            doc.registrationFee != null ? `₹${doc.registrationFee}` : undefined
+          }
+        />
+        <DetailRow
+          label="Registered at"
+          value={formatAdminDate(doc.registeredAt)}
+        />
 
         <div className="pt-4 border-t border-white/10 mt-4">
           <Button
             variant="outline"
             size="sm"
-            className="border-white/20"
+            className="border-white/20 w-full sm:w-auto"
             onClick={fetchScreenshot}
             disabled={screenshotLoading}
           >
