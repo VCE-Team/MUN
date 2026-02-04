@@ -24,6 +24,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { appConfig } from "@/lib/app-config";
+import { INSTITUTION_OPTIONS } from "@/lib/institutions";
 
 type PriorityDoc = {
   _id?: { $oid?: string };
@@ -116,18 +117,13 @@ export function PriorityRegistrationsView() {
   const [committee, setCommittee] = useState("");
   const [firstPreferenceCommittee, setFirstPreferenceCommittee] = useState("");
   const [country, setCountry] = useState("");
-  const [college, setCollege] = useState("");
-  const [collegeOptions, setCollegeOptions] = useState<string[]>([]);
+  const [collegeSelect, setCollegeSelect] = useState("");
+  const [collegeInput, setCollegeInput] = useState("");
   const [list, setList] = useState<PriorityDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
 
-  useEffect(() => {
-    fetch(`${appConfig.backendUrl}/api/admin/priority-colleges`, { headers: getAdminHeaders() })
-      .then((r) => (r.ok ? r.json() : []))
-      .then((arr) => setCollegeOptions(Array.isArray(arr) ? arr : []))
-      .catch(() => setCollegeOptions([]));
-  }, []);
+  const collegeFilter = (collegeInput.trim().replace(/\s+/g, " ") || collegeSelect || "").trim();
 
   const fetchList = useCallback(() => {
     setLoading(true);
@@ -136,7 +132,7 @@ export function PriorityRegistrationsView() {
     if (committee) queryParams.set("committee", committee);
     if (firstPreferenceCommittee) queryParams.set("firstPreferenceCommittee", firstPreferenceCommittee);
     if (country.trim()) queryParams.set("country", country.trim());
-    if (college.trim()) queryParams.set("college", college.trim());
+    if (collegeFilter) queryParams.set("college", collegeFilter);
     fetch(`${appConfig.backendUrl}/api/admin/priority-registrations?${queryParams}`, {
       headers: getAdminHeaders(),
     })
@@ -153,7 +149,7 @@ export function PriorityRegistrationsView() {
       })
       .catch(() => setList([]))
       .finally(() => setLoading(false));
-  }, [targetAudience, committee, firstPreferenceCommittee, country, college, router, secretPath]);
+  }, [targetAudience, committee, firstPreferenceCommittee, country, collegeFilter, router, secretPath]);
 
   useEffect(() => {
     fetchList();
@@ -218,19 +214,27 @@ export function PriorityRegistrationsView() {
         </div>
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">College</Label>
-          <Select value={college || "all"} onValueChange={(v) => setCollege(v === "all" ? "" : v)}>
-            <SelectTrigger className="w-[180px] border-white/20 bg-white/5 md:w-[200px]">
-              <SelectValue placeholder="All" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              {collegeOptions.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex flex-col gap-1">
+            <Select value={collegeSelect || "all"} onValueChange={(v) => setCollegeSelect(v === "all" ? "" : v)}>
+              <SelectTrigger className="w-[180px] border-white/20 bg-white/5 md:w-[200px]">
+                <SelectValue placeholder="All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                {INSTITUTION_OPTIONS.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input
+              placeholder="Or type to filter (any match)"
+              value={collegeInput}
+              onChange={(e) => setCollegeInput(e.target.value)}
+              className="w-[180px] border-white/20 bg-white/5 md:w-[200px]"
+            />
+          </div>
         </div>
         <Button
           onClick={() => setApplyKey((k) => k + 1)}

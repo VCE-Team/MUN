@@ -17,18 +17,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Trash2 } from "lucide-react";
 import { Control, UseFormReturn } from "react-hook-form";
-import { useState, useEffect } from "react";
 import { CountryPreferences } from "./CountryPreferences";
 import { FormSchema } from "@/schemas/registrationForm";
-import { appConfig } from "@/lib/app-config";
-
-const defaultInstitutions = [
-  "Vasavi College of Engineering",
-  "CVR College of Engineering",
-  "G Narayanamma Institute of Technology and Science",
-  "Sreenidhi Institute of Science and Technology",
-  "Jawaharlal Nehru Technological University Hyderabad",
-];
+import { INSTITUTION_OPTIONS } from "@/lib/institutions";
 
 interface ParticipantDetailsProps {
   field: Record<string, string>;
@@ -48,22 +39,10 @@ export function ParticipantDetails({
   onRemove,
   fields,
 }: ParticipantDetailsProps) {
-  const [fetchedInstitutions, setFetchedInstitutions] = useState<string[]>([]);
-
-  useEffect(() => {
-    fetch(`${appConfig.backendUrl}/api/institutions`)
-      .then((r) => (r.ok ? r.json() : []))
-      .then((arr) => setFetchedInstitutions(Array.isArray(arr) ? arr : []))
-      .catch(() => setFetchedInstitutions([]));
-  }, []);
-
-  const otherCollegeOptions = [
-    ...defaultInstitutions,
-    ...fetchedInstitutions,
-  ].filter((name, i, arr) => arr.indexOf(name) === i);
   const institutionOptions = [
     "Vardhaman College of Engineering",
-    ...otherCollegeOptions,
+    ...INSTITUTION_OPTIONS,
+    "Other",
   ];
 
   return (
@@ -186,10 +165,9 @@ export function ParticipantDetails({
                 <SelectContent>
                   {institutionOptions.map((inst) => (
                     <SelectItem key={inst} value={inst}>
-                      {inst}
+                      {inst === "Other" ? "Other (Type to add)" : inst}
                     </SelectItem>
                   ))}
-                  <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -198,7 +176,7 @@ export function ParticipantDetails({
         />
       </div>
 
-      {/* Other institution: dropdown (default + from registrations) or type custom */}
+      {/* Other institution: type and it goes to DB */}
       {form.getValues(`participants.${index}.institution`) === "Other" && (
         <FormField
           control={control}
@@ -208,29 +186,13 @@ export function ParticipantDetails({
               <FormLabel className="text-foreground/80">
                 Other Institution *
               </FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={otherCollegeOptions.includes(field.value || "") ? field.value || "" : ""}
-              >
-                <FormControl>
-                  <SelectTrigger className="border-primary/20 focus:border-primary">
-                    <SelectValue placeholder="Select your institution" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {otherCollegeOptions.map((inst) => (
-                    <SelectItem key={inst} value={inst}>
-                      {inst}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Input
-                className="mt-2 border-primary/20 focus:border-primary"
-                placeholder="Or type your institution name"
-                value={otherCollegeOptions.includes(field.value || "") ? "" : (field.value || "")}
-                onChange={(e) => field.onChange(e.target.value)}
-              />
+              <FormControl>
+                <Input
+                  className="border-primary/20 focus:border-primary"
+                  placeholder="Type your institution name"
+                  {...field}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

@@ -24,6 +24,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { appConfig } from "@/lib/app-config";
+import { INSTITUTION_OPTIONS } from "@/lib/institutions";
 
 type PastDoc = {
   _id?: { $oid?: string };
@@ -94,17 +95,20 @@ export function PastRegistrationsView() {
   const secretPath = routeParams.secretPath as string;
   const [committee, setCommittee] = useState("");
   const [country, setCountry] = useState("");
-  const [college, setCollege] = useState("");
+  const [collegeSelect, setCollegeSelect] = useState("");
+  const [collegeInput, setCollegeInput] = useState("");
   const [list, setList] = useState<PastDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
+
+  const collegeFilter = (collegeInput.trim().replace(/\s+/g, " ") || collegeSelect || "").trim();
 
   useEffect(() => {
     setLoading(true);
     const queryParams = new URLSearchParams();
     if (committee) queryParams.set("committee", committee);
     if (country.trim()) queryParams.set("country", country.trim());
-    if (college.trim()) queryParams.set("college", college.trim());
+    if (collegeFilter) queryParams.set("college", collegeFilter);
     fetch(`${appConfig.backendUrl}/api/admin/past-registrations?${queryParams}`, {
       headers: getAdminHeaders(),
     })
@@ -121,7 +125,7 @@ export function PastRegistrationsView() {
       })
       .catch(() => setList([]))
       .finally(() => setLoading(false));
-  }, [applyKey, committee, country, college, router, secretPath]);
+  }, [applyKey, committee, country, collegeFilter, router, secretPath]);
 
   return (
     <div className="space-y-4">
@@ -152,12 +156,27 @@ export function PastRegistrationsView() {
         </div>
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">College</Label>
-          <Input
-            placeholder="Any"
-            value={college}
-            onChange={(e) => setCollege(e.target.value)}
-            className="w-[120px] border-white/20 bg-white/5 md:w-[140px]"
-          />
+          <div className="flex flex-col gap-1">
+            <Select value={collegeSelect || "all"} onValueChange={(v) => setCollegeSelect(v === "all" ? "" : v)}>
+              <SelectTrigger className="w-[180px] border-white/20 bg-white/5 md:w-[200px]">
+                <SelectValue placeholder="All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                {INSTITUTION_OPTIONS.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input
+              placeholder="Or type to filter (any match)"
+              value={collegeInput}
+              onChange={(e) => setCollegeInput(e.target.value)}
+              className="w-[180px] border-white/20 bg-white/5 md:w-[200px]"
+            />
+          </div>
         </div>
         <Button
           onClick={() => setApplyKey((k) => k + 1)}

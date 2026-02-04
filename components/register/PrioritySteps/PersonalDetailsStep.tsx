@@ -23,36 +23,12 @@ import { Label } from "@/components/ui/label";
 import { Control, UseFormReturn } from "react-hook-form";
 import { PriorityRegistrationSchema } from "@/schemas/priorityRegistrationForm";
 import { useState, useEffect } from "react";
-import { appConfig } from "@/lib/app-config";
+import { INSTITUTION_OPTIONS } from "@/lib/institutions";
 
 interface PersonalDetailsStepProps {
   control: Control<PriorityRegistrationSchema>;
   form: UseFormReturn<PriorityRegistrationSchema>;
 }
-
-// Utility function to capitalize institution names properly
-function capitalizeInstitutionName(name: string): string {
-  const words = name.trim().split(/\s+/);
-  return words
-    .map((word, index) => {
-      const lowerWord = word.toLowerCase();
-      // Don't capitalize "of" unless it's the first word
-      if (lowerWord === "of" && index > 0) {
-        return lowerWord;
-      }
-      // Capitalize first letter of each word
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    })
-    .join(" ");
-}
-
-const defaultInstitutions = [
-  "Vasavi College of Engineering",
-  "CVR College of Engineering",
-  "G Narayanamma Institute of Technology and Science",
-  "Sreenidhi Institute of Science and Technology",
-  "Jawaharlal Nehru Technological University Hyderabad",
-];
 
 export function PersonalDetailsStep({
   control,
@@ -60,17 +36,8 @@ export function PersonalDetailsStep({
 }: PersonalDetailsStepProps) {
   const targetAudience = form.watch("targetAudience");
   const institution = form.watch("institution");
-  const [customInstitutions, setCustomInstitutions] = useState<string[]>([]);
-  const [fetchedInstitutions, setFetchedInstitutions] = useState<string[]>([]);
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [customInstitutionValue, setCustomInstitutionValue] = useState("");
-
-  useEffect(() => {
-    fetch(`${appConfig.backendUrl}/api/institutions`)
-      .then((r) => (r.ok ? r.json() : []))
-      .then((arr) => setFetchedInstitutions(Array.isArray(arr) ? arr : []))
-      .catch(() => setFetchedInstitutions([]));
-  }, []);
 
   // Auto-set institution for in-house users
   useEffect(() => {
@@ -90,35 +57,6 @@ export function PersonalDetailsStep({
       setShowCustomInput(false);
     }
   }, [institution]);
-
-  const handleCustomInstitutionSubmit = () => {
-    if (customInstitutionValue.trim()) {
-      const capitalized = capitalizeInstitutionName(customInstitutionValue);
-      
-      // Add to custom institutions list if not already present
-      if (!customInstitutions.includes(capitalized) && 
-          !defaultInstitutions.includes(capitalized) &&
-          capitalized !== "Vardhaman College of Engineering") {
-        setCustomInstitutions((prev) => [...prev, capitalized]);
-      }
-      
-      // Set the institution value
-      form.setValue("institution", capitalized);
-      form.setValue("otherInstitution", capitalized);
-      setShowCustomInput(false);
-      setCustomInstitutionValue("");
-      form.clearErrors("otherInstitution");
-    }
-  };
-
-  // Default + from registered users (API) + custom, exclude Vardhaman, dedupe
-  const allInstitutions = [
-    ...defaultInstitutions,
-    ...fetchedInstitutions,
-    ...customInstitutions,
-  ]
-    .filter((name) => name !== "Vardhaman College of Engineering")
-    .filter((name, i, arr) => arr.indexOf(name) === i);
 
   return (
     <div className="space-y-6">
@@ -246,12 +184,14 @@ export function PersonalDetailsStep({
                     onValueChange={(value) => {
                       if (value === "Other") {
                         setShowCustomInput(true);
+                        setCustomInstitutionValue("");
                         field.onChange("Other");
                         form.setValue("otherInstitution", "");
                       } else {
                         field.onChange(value);
-                        form.setValue("otherInstitution", "");
+                        form.setValue("otherInstitution", value);
                         setShowCustomInput(false);
+                        setCustomInstitutionValue("");
                       }
                     }}
                     value={field.value || ""}
@@ -262,7 +202,7 @@ export function PersonalDetailsStep({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {allInstitutions.map((inst) => (
+                      {INSTITUTION_OPTIONS.map((inst) => (
                         <SelectItem key={inst} value={inst}>
                           {inst}
                         </SelectItem>
@@ -271,55 +211,31 @@ export function PersonalDetailsStep({
                     </SelectContent>
                   </Select>
                   {showCustomInput && (
-                    <div className="mt-2 space-y-2">
-                      <FormField
-                        control={control}
-                        name="otherInstitution"
-                        render={({ field: otherField }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input
-                                placeholder="Type your institution name"
-                                value={customInstitutionValue}
-                                onChange={(e) => {
-                                  setCustomInstitutionValue(e.target.value);
-                                  otherField.onChange(e.target.value);
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    e.preventDefault();
-                                    handleCustomInstitutionSubmit();
-                                  }
-                                }}
-                                className="border-primary/20 focus:border-primary"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex gap-2">
-                        <button
-                          type="button"
-                          onClick={handleCustomInstitutionSubmit}
-                          className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
-                        >
-                          Add Institution
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setShowCustomInput(false);
-                            setCustomInstitutionValue("");
-                            field.onChange("");
-                            form.setValue("otherInstitution", "");
-                          }}
-                          className="px-4 py-2 text-sm bg-muted text-muted-foreground rounded-md hover:bg-muted/80"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
+                    <FormField
+                      control={control}
+                      name="otherInstitution"
+                      render={({ field: otherField }) => (
+                        <FormItem className="mt-2">
+                          <FormLabel className="text-foreground/80">
+                            Type your institution name
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Your institution name"
+                              value={customInstitutionValue}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setCustomInstitutionValue(v);
+                                otherField.onChange(v);
+                                form.setValue("institution", v ? v : "Other");
+                              }}
+                              className="border-primary/20 focus:border-primary"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   )}
                 </>
               )}
