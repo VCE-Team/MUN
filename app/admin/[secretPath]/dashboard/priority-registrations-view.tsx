@@ -25,6 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { appConfig } from "@/lib/app-config";
 import { INSTITUTION_OPTIONS } from "@/lib/institutions";
+import { PriorityDetailView } from "@/app/admin/[secretPath]/dashboard/priority-detail-view";
 
 type PriorityDoc = {
   _id?: { $oid?: string };
@@ -122,6 +123,7 @@ export function PriorityRegistrationsView() {
   const [list, setList] = useState<PriorityDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const collegeFilter = (collegeInput.trim().replace(/\s+/g, " ") || collegeSelect || "").trim();
 
@@ -154,6 +156,24 @@ export function PriorityRegistrationsView() {
   useEffect(() => {
     fetchList();
   }, [applyKey]);
+
+  function getRowId(row: PriorityDoc): string {
+    const id = row._id;
+    if (id == null) return "";
+    if (typeof id === "string") return id;
+    return (id as { $oid?: string }).$oid ?? "";
+  }
+
+  if (selectedId) {
+    return (
+      <div className="space-y-4">
+        <PriorityDetailView
+          id={selectedId}
+          onBack={() => setSelectedId(null)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -272,7 +292,14 @@ export function PriorityRegistrationsView() {
                 </TableHeader>
                 <TableBody>
                   {list.map((row) => (
-                    <TableRow key={String(row._id?.$oid ?? row._id)} className="border-white/10 hover:bg-white/5">
+                    <TableRow
+                      key={getRowId(row)}
+                      className="cursor-pointer border-white/10 hover:bg-white/10"
+                      onClick={() => {
+                        const id = getRowId(row);
+                        if (id) setSelectedId(id);
+                      }}
+                    >
                       <TableCell className="font-medium">{row.name ?? "—"}</TableCell>
                       <TableCell className="text-muted-foreground">{row.email ?? "—"}</TableCell>
                       <TableCell>{row.phone ?? "—"}</TableCell>

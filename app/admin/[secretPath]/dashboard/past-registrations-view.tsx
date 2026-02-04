@@ -25,6 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { appConfig } from "@/lib/app-config";
 import { INSTITUTION_OPTIONS } from "@/lib/institutions";
+import { PastDetailView } from "@/app/admin/[secretPath]/dashboard/past-detail-view";
 
 type PastDoc = {
   _id?: { $oid?: string };
@@ -100,6 +101,7 @@ export function PastRegistrationsView() {
   const [list, setList] = useState<PastDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const collegeFilter = (collegeInput.trim().replace(/\s+/g, " ") || collegeSelect || "").trim();
 
@@ -126,6 +128,24 @@ export function PastRegistrationsView() {
       .catch(() => setList([]))
       .finally(() => setLoading(false));
   }, [applyKey, committee, country, collegeFilter, router, secretPath]);
+
+  function getRowId(row: PastDoc): string {
+    const id = row._id;
+    if (id == null) return "";
+    if (typeof id === "string") return id;
+    return (id as { $oid?: string }).$oid ?? "";
+  }
+
+  if (selectedId) {
+    return (
+      <div className="space-y-4">
+        <PastDetailView
+          id={selectedId}
+          onBack={() => setSelectedId(null)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -214,7 +234,14 @@ export function PastRegistrationsView() {
                 </TableHeader>
                 <TableBody>
                   {list.map((row) => (
-                    <TableRow key={String(row._id?.$oid ?? row._id)} className="border-white/10 hover:bg-white/5">
+                    <TableRow
+                      key={getRowId(row)}
+                      className="cursor-pointer border-white/10 hover:bg-white/10"
+                      onClick={() => {
+                        const id = getRowId(row);
+                        if (id) setSelectedId(id);
+                      }}
+                    >
                       <TableCell className="font-medium">{row.name ?? "—"}</TableCell>
                       <TableCell className="text-muted-foreground">{row.email ?? "—"}</TableCell>
                       <TableCell>{row.phone ?? "—"}</TableCell>
