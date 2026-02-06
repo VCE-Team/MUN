@@ -36,27 +36,34 @@ export function PersonalDetailsStep({
 }: PersonalDetailsStepProps) {
   const targetAudience = form.watch("targetAudience");
   const institution = form.watch("institution");
+  const otherInstitution = form.watch("otherInstitution");
   const [showCustomInput, setShowCustomInput] = useState(false);
-  const [customInstitutionValue, setCustomInstitutionValue] = useState("");
 
   // Auto-set institution for in-house users
   useEffect(() => {
     if (targetAudience === "inHouse") {
       form.setValue("institution", "Vardhaman College of Engineering");
+      form.setValue("otherInstitution", "");
       setShowCustomInput(false);
     } else if (targetAudience === "otherCollege" && institution === "Vardhaman College of Engineering") {
       form.setValue("institution", "");
+      form.setValue("otherInstitution", "");
+      setShowCustomInput(false);
     }
-  }, [targetAudience, form]);
+  }, [targetAudience, form, institution]);
 
-  // Handle institution selection
+  // Handle institution selection - sync showCustomInput with institution value
   useEffect(() => {
     if (institution === "Other") {
       setShowCustomInput(true);
-    } else if (institution && institution !== "Vardhaman College of Engineering") {
+    } else {
       setShowCustomInput(false);
+      // Clear otherInstitution when a predefined institution is selected
+      if (institution && institution !== "Other" && institution !== "Vardhaman College of Engineering") {
+        form.setValue("otherInstitution", "");
+      }
     }
-  }, [institution]);
+  }, [institution, form]);
 
   return (
     <div className="space-y-6">
@@ -183,15 +190,11 @@ export function PersonalDetailsStep({
                   <Select
                     onValueChange={(value) => {
                       if (value === "Other") {
-                        setShowCustomInput(true);
-                        setCustomInstitutionValue("");
                         field.onChange("Other");
                         form.setValue("otherInstitution", "");
                       } else {
                         field.onChange(value);
-                        form.setValue("otherInstitution", value);
-                        setShowCustomInput(false);
-                        setCustomInstitutionValue("");
+                        form.setValue("otherInstitution", "");
                       }
                     }}
                     value={field.value || ""}
@@ -217,18 +220,12 @@ export function PersonalDetailsStep({
                       render={({ field: otherField }) => (
                         <FormItem className="mt-2">
                           <FormLabel className="text-foreground/80">
-                            Type your institution name
+                            Type your institution name *
                           </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Your institution name"
-                              value={customInstitutionValue}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setCustomInstitutionValue(v);
-                                otherField.onChange(v);
-                                form.setValue("institution", v ? v : "Other");
-                              }}
+                              {...otherField}
                               className="border-primary/20 focus:border-primary"
                             />
                           </FormControl>

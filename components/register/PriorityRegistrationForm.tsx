@@ -99,6 +99,12 @@ export function PriorityRegistrationForm() {
         ];
         if (targetAudience === "inHouse") {
           fieldsToValidate.push("rollNumber");
+        } else {
+          // For otherCollege, validate otherInstitution if "Other" is selected
+          const currentInstitution = form.getValues("institution");
+          if (currentInstitution === "Other") {
+            fieldsToValidate.push("otherInstitution");
+          }
         }
         break;
       // Step 2: Committees + allocation preferences + prior experience
