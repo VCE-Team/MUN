@@ -161,7 +161,7 @@ export function PaymentStep({
       <div className="flex items-center justify-center p-4 sm:p-6 bg-secondary/10 rounded-lg">
         <div className="relative w-48 h-48 sm:w-56 sm:h-56">
           <Image
-            src="/images/payment/VCEMUN2026QR.jpeg"
+            src="/images/payment/backupQR.jpeg"
             alt="Payment QR Code"
             fill
             className="object-contain"
