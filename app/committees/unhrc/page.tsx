@@ -1,72 +1,84 @@
 "use client";
 
 import { motion } from "framer-motion";
-// import { CallToAction } from "@/app/components/call-to-action";
 import Image from "next/image";
 
 export default function UNHRCPage() {
   return (
-    <div className="py-12 sm:py-16 md:py-24 space-y-12 sm:space-y-16 md:space-y-20 px-4">
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8 px-4"
-      >
-        <p className="text-lg leading-relaxed">
-          The United Nations Human Rights Council (UNHRC) is a key
-          intergovernmental body within the UN responsible for promoting and
-          protecting human rights worldwide. It plays a crucial role in
-          addressing allegations of genocide and human rights violations in
-          conflict zones, ensuring accountability, and advocating for justice.
-          Through investigations, resolutions, and diplomatic efforts, UNHRC
-          works to prevent atrocities, support affected communities, and uphold
-          international human rights law. By collaborating with states, NGOs,
-          and humanitarian organizations, the committee strives to implement
-          measures that safeguard human dignity and prevent future violations.
-        </p>
-      </motion.section>
+    <div className="py-12 sm:py-16 md:py-24 space-y-16 sm:space-y-20 md:space-y-24 px-4">
+      {/* Agenda + Description */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="space-y-8"
+        className="max-w-4xl mx-auto space-y-8 px-4"
       >
-        {/* <h2 className="text-4xl font-bold text-center">The Executive Board</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {[
-            {
-              name: "Krunal Samtani",
-              role: "Chair",
-              image: "/images/team/krunal.jpg",
-            },
-            {
-              name: "M V Krishna Vihar",
-              role: "Vice Chair",
-              image: "/images/team/krish.jpg",
-            },
-            {
-              name: "Anumita Choubey",
-              role: "Rapporteur",
-              image: "/images/team/anumita.png",
-            },
-          ].map(member => (
-            <div key={member.name} className="text-center space-y-4">
-              <div className="relative w-64 h-64 mx-auto">
-                <Image
-                  src={member.image || "/placeholder.svg"}
-                  alt={member.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-bold">{member.name}</h3>
-              <p className="text-gray-400">{member.role}</p>
-            </div>
-          ))}
-        </div> */}
+        <div className="space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-100">
+            Agenda
+          </h2>
+          <p className="text-base sm:text-lg leading-relaxed text-gray-300 text-center">
+            Addressing systemic discrimination and persecution of ethnic and
+            religious minorities in Southern Asia.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-100 text-center">
+            Committee Description
+          </h3>
+          <p className="text-base sm:text-lg leading-relaxed text-gray-300 text-justify">
+            The United Nations Human Rights Council (UNHRC) is a key
+            intergovernmental body within the UN responsible for promoting and
+            protecting human rights worldwide. It plays a crucial role in
+            addressing allegations of genocide and human rights violations in
+            conflict zones, ensuring accountability, and advocating for justice.
+            Through investigations, resolutions, and diplomatic efforts, UNHRC
+            works to prevent atrocities, support affected communities, and
+            uphold international human rights law. By collaborating with states,
+            NGOs, and humanitarian organizations, the committee strives to
+            implement measures that safeguard human dignity and prevent future
+            violations.
+          </p>
+        </div>
       </motion.section>
-      {/* <CallToAction delay={0.8} /> */}
+
+      {/* Chairperson */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
+        className="max-w-4xl mx-auto px-4"
+      >
+        <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-6">
+          Chairperson of the Committee
+        </h3>
+        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
+          <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border border-white/15 shadow-lg flex-shrink-0">
+            <Image
+              src="/images/chairs/Vishal Choudary.jpeg"
+              alt="Vishal Choudary - UNHRC Chairperson"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="space-y-2 text-center sm:text-left">
+            <p className="text-sm uppercase tracking-wide text-gray-400">
+              Chairperson, UNHRC
+            </p>
+            <h4 className="text-xl sm:text-2xl font-semibold text-gray-100">
+              Vishal Choudary
+            </h4>
+            <p className="text-sm sm:text-base leading-relaxed text-gray-300">
+              With a keen focus on human rights jurisprudence and conflict
+              resolution, Vishal Choudary brings clarity, empathy, and
+              structure to discussions on minority protection and systemic
+              discrimination. Delegates can expect a deeply engaging committee
+              that balances legal nuance with humanitarian urgency.
+            </p>
+          </div>
+        </div>
+      </motion.section>
     </div>
   );
 }
