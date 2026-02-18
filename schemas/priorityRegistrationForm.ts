@@ -59,7 +59,7 @@ export const priorityRegistrationSchema = z
     priorMUNExperience: z
       .string()
       .min(1, { message: "Prior MUN experience is required" })
-      .max(500, { message: "Prior experiences are too long" }),
+      .max(2000, { message: "Prior experiences are too long" }),
     transportationRequired: z.enum(["yes", "no"]),
     foodPreference: z.enum(["veg", "nonveg"]),
     transactionId: z
@@ -80,6 +80,17 @@ export const priorityRegistrationSchema = z
     {
       message: "Roll Number is required for In House registrations",
       path: ["rollNumber"],
+    }
+  )
+  .refine(
+    data => {
+      const text = data.priorMUNExperience || "";
+      const words = text.trim().split(/\s+/).filter(Boolean);
+      return words.length <= 300;
+    },
+    {
+      message: "Prior experience must be at most 300 words",
+      path: ["priorMUNExperience"],
     }
   )
   .refine(

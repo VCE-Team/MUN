@@ -280,12 +280,21 @@ export function ParticipantDetails({
                 events? *
               </FormLabel>
               <FormControl>
-                <Input
-                  className="border-primary/20 focus:border-primary"
-                  placeholder="Describe your experiences"
-                  {...field}
-                  required
-                />
+                <div className="space-y-1">
+                  <Input
+                    className="border-primary/20 focus:border-primary"
+                    placeholder="Describe your experiences (up to 300 words)"
+                    {...field}
+                    required
+                  />
+                  <p className="text-xs text-muted-foreground text-right">
+                    {/* simple word count for live feedback */}
+                    {field.value
+                      ? field.value.trim().split(/\s+/).filter(Boolean).length
+                      : 0}{" "}
+                    / 300 words
+                  </p>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

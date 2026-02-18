@@ -43,7 +43,7 @@ export const participantSchema = z
       .max(50, { message: "Country name is too long" }),
     priorExperiences: z
       .string()
-      .max(500, { message: "Prior experiences are too long" })
+      .max(2000, { message: "Prior experiences are too long" })
       .optional(),
     role: z.string().optional(),
   })
@@ -80,6 +80,20 @@ export const participantSchema = z
     },
     {
       message: "Prior experiences are required for this committee",
+      path: ["priorExperiences"],
+    }
+  )
+  .refine(
+    data => {
+      if (["disec", "unhrc", "aippm"].includes(data.committee)) {
+        const text = data.priorExperiences || "";
+        const words = text.trim().split(/\s+/).filter(Boolean);
+        return words.length <= 300;
+      }
+      return true;
+    },
+    {
+      message: "Prior experiences must be at most 300 words",
       path: ["priorExperiences"],
     }
   );
