@@ -2,7 +2,8 @@
 
 import { Instagram } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 export function Footer() {
+  const router = useRouter();
+  const pathname = usePathname();
   const [openCountryMatrix, setOpenCountryMatrix] = useState(false);
   const [openHandbook, setOpenHandbook] = useState(false);
 
@@ -25,6 +28,45 @@ export function Footer() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  useEffect(() => {
+    // Handle scrolling when navigating to home page with committees hash
+    if (pathname === "/" && typeof window !== "undefined") {
+      const hash = window.location.hash;
+      if (hash === "#committees") {
+        // Use a small delay to ensure DOM is ready
+        const timer = setTimeout(() => {
+          const committeesSection = document.getElementById("committees");
+          if (committeesSection) {
+            committeesSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [pathname]);
+
+  const handleCommitteesClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    if (pathname === "/") {
+      // On home page, scroll to committees section immediately
+      const committeesSection = document.getElementById("committees");
+      if (committeesSection) {
+        // Use a combination of methods to ensure mobile compatibility
+        committeesSection.scrollIntoView({ behavior: "auto" });
+        // Fallback for smooth scrolling using setTimeout if available
+        if ("requestAnimationFrame" in window) {
+          setTimeout(() => {
+            committeesSection.scrollIntoView({ behavior: "smooth" });
+          }, 0);
+        }
+      }
+    } else {
+      // On other pages, navigate to home with hash
+      router.push("/#committees");
+    }
   };
 
   return (
@@ -62,20 +104,13 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-4">Useful Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="/"
-                  className="text-gray-400 hover:text-white uppercase"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-400 hover:text-white uppercase"
+                <a
+                  href="/#committees"
+                  onClick={handleCommitteesClick}
+                  className="text-gray-400 hover:text-white uppercase cursor-pointer"
                 >
                   Committees
-                </Link>
+                </a>
               </li>
               <li>
                 <Link

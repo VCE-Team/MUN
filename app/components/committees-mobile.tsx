@@ -4,7 +4,7 @@ import { committees } from "./committees";
 
 export function CommitteesMobile() {
   return (
-    <section className="md:hidden bg-black py-8">
+    <section id="committees" className="md:hidden bg-black py-8">
       <h2 className="text-3xl font-bold text-center text-white mb-6">
         COMMITTEES
       </h2>

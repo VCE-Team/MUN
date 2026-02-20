@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { PortfolioDownload } from "@/app/components/portfolio-download";
 
 export default function AIPPMPage() {
   return (
     <div className="py-12 sm:py-16 md:py-24 space-y-16 sm:space-y-24 md:space-y-32 px-4">
-
       {/* Agenda + Description */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -42,6 +42,13 @@ export default function AIPPMPage() {
             party politics, and the legislative process while developing skills
             in negotiation, public speaking, and strategic thinking.
           </p>
+        </div>
+
+        <div className="flex justify-center pt-8">
+          <PortfolioDownload
+            filename="AIPPM_Portfolios.xlsx"
+            fileUrl="/spreadsheet/AIPPM_Portfolios.xlsx"
+          />
         </div>
       </motion.section>
 
@@ -84,4 +91,3 @@ export default function AIPPMPage() {
     </div>
   );
 }
-

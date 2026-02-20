@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { PortfolioDownload } from "@/app/components/portfolio-download";
 
 export default function DISECPage() {
   return (
@@ -40,6 +41,13 @@ export default function DISECPage() {
             security issues, encouraging collaboration among member states to
             create a safer world.
           </p>
+        </div>
+
+        <div className="flex justify-center pt-8">
+          <PortfolioDownload
+            filename="DISEC_Portfolio.xlsx"
+            fileUrl="/spreadsheet/DISEC_Portfolio.xlsx"
+          />
         </div>
       </motion.section>
 

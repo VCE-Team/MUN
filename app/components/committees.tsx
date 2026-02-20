@@ -127,7 +127,7 @@ export function Committees() {
                     href={committee.href}
                     className={cn(
                       "absolute overflow-hidden transition-all duration-700 cursor-pointer z-30",
-                      "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity",
+                      "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity before:pointer-events-none",
                       isActive
                         ? "scale-110 before:opacity-30"
                         : "hover:scale-95 before:opacity-60"
@@ -145,9 +145,9 @@ export function Committees() {
                       src={committee.url || "/placeholder.svg"}
                       alt={committee.title}
                       fill
-                      className="object-cover transition-transform duration-700"
+                      className="object-cover transition-transform duration-700 pointer-events-none"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center pointer-events-none z-20">
                       <div className="text-center">
                         <h3 className="text-xl font-semibold text-white">
                           {committee.title}

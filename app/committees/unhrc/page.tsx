@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { PortfolioDownload } from "@/app/components/portfolio-download";
 
 export default function UNHRCPage() {
   return (
@@ -41,6 +42,13 @@ export default function UNHRCPage() {
             violations.
           </p>
         </div>
+
+        <div className="flex justify-center pt-8">
+          <PortfolioDownload
+            filename="UNHRC_Portfolio.xlsx"
+            fileUrl="/spreadsheet/UNHRC_Portfolio.xlsx"
+          />
+        </div>
       </motion.section>
 
       {/* Chairperson */}
@@ -71,10 +79,10 @@ export default function UNHRCPage() {
             </h4>
             <p className="text-sm sm:text-base leading-relaxed text-gray-300">
               With a keen focus on human rights jurisprudence and conflict
-              resolution, Vishal Choudary brings clarity, empathy, and
-              structure to discussions on minority protection and systemic
-              discrimination. Delegates can expect a deeply engaging committee
-              that balances legal nuance with humanitarian urgency.
+              resolution, Vishal Choudary brings clarity, empathy, and structure
+              to discussions on minority protection and systemic discrimination.
+              Delegates can expect a deeply engaging committee that balances
+              legal nuance with humanitarian urgency.
             </p>
           </div>
         </div>
