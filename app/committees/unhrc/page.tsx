@@ -3,8 +3,21 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { PortfolioDownload } from "@/app/components/portfolio-download";
+import { CommitteeEBGrid } from "@/app/components/committee-eb-grid";
 
 export default function UNHRCPage() {
+  const unhrcMembers = [
+    {
+      name: "Vishal Chowdary",
+      position: "Chairperson, UNHRC",
+      image: "/images/chairs/Vishal Choudary.jpeg",
+    },
+    {
+      name: "Pranathi Vemuri",
+      position: "Vice Chair, UNHRC",
+      image: "/images/chairs/pranathi vemuri.jpeg",
+    },
+  ];
   return (
     <div className="py-12 sm:py-16 md:py-24 space-y-16 sm:space-y-20 md:space-y-24 px-4">
       {/* Agenda + Description */}
@@ -52,41 +65,7 @@ export default function UNHRCPage() {
       </motion.section>
 
       {/* Chairperson */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-        className="max-w-4xl mx-auto px-4"
-      >
-        <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-6">
-          Chairperson of the Committee
-        </h3>
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
-          <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border border-white/15 shadow-lg flex-shrink-0">
-            <Image
-              src="/images/chairs/Vishal Choudary.jpeg"
-              alt="Vishal Choudary - UNHRC Chairperson"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="space-y-2 text-center sm:text-left">
-            <p className="text-sm uppercase tracking-wide text-gray-400">
-              Chairperson, UNHRC
-            </p>
-            <h4 className="text-xl sm:text-2xl font-semibold text-gray-100">
-              Vishal Choudary
-            </h4>
-            <p className="text-sm sm:text-base leading-relaxed text-gray-300">
-              With a keen focus on human rights jurisprudence and conflict
-              resolution, Vishal Choudary brings clarity, empathy, and structure
-              to discussions on minority protection and systemic discrimination.
-              Delegates can expect a deeply engaging committee that balances
-              legal nuance with humanitarian urgency.
-            </p>
-          </div>
-        </div>
-      </motion.section>
+      <CommitteeEBGrid title="Executive Board" members={unhrcMembers} />
     </div>
   );
 }

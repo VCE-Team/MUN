@@ -14,6 +14,7 @@ export default function RegisterPage() {
             </CardTitle>
             <p className="text-gray-300 text-sm sm:text-base">
               Register now for the Priority Round and secure your spot early.
+              Closes on 21 Feb 2026.
             </p>
           </CardHeader>
 

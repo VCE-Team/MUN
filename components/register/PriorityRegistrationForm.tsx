@@ -52,8 +52,8 @@ export function PriorityRegistrationForm() {
       thirdPreferenceCommittee3rdCountry: "",
       thirdPreferenceCommitteeIPRole: undefined,
       priorMUNExperience: "",
-       transportationRequired: "no",
-       foodPreference: "veg",
+      transportationRequired: "no",
+      foodPreference: "veg",
       transactionId: "",
       paymentScreenshotUrl: "",
     },
@@ -67,11 +67,11 @@ export function PriorityRegistrationForm() {
       const normalizedEmail = email.trim().toLowerCase();
       const response = await fetch(
         `${appConfig.backendUrl}/api/check-priority-email?email=${encodeURIComponent(
-          normalizedEmail
+          normalizedEmail,
         )}`,
         {
           method: "GET",
-        }
+        },
       );
       if (!response.ok) {
         return false;
@@ -130,10 +130,7 @@ export function PriorityRegistrationForm() {
         break;
       // Step 3: Payment
       case 3:
-        fieldsToValidate = [
-          "transactionId",
-          "paymentScreenshotUrl",
-        ];
+        fieldsToValidate = ["transactionId", "paymentScreenshotUrl"];
         break;
     }
 
@@ -215,15 +212,24 @@ export function PriorityRegistrationForm() {
         firstPreferenceCommittee: values.firstPreferenceCommittee,
         secondPreferenceCommittee: values.secondPreferenceCommittee,
         thirdPreferenceCommittee: values.thirdPreferenceCommittee,
-        firstPreferenceCommittee1stCountry: values.firstPreferenceCommittee1stCountry,
-        firstPreferenceCommittee2ndCountry: values.firstPreferenceCommittee2ndCountry,
-        firstPreferenceCommittee3rdCountry: values.firstPreferenceCommittee3rdCountry,
-        secondPreferenceCommittee1stCountry: values.secondPreferenceCommittee1stCountry,
-        secondPreferenceCommittee2ndCountry: values.secondPreferenceCommittee2ndCountry,
-        secondPreferenceCommittee3rdCountry: values.secondPreferenceCommittee3rdCountry,
-        thirdPreferenceCommittee1stCountry: values.thirdPreferenceCommittee1stCountry,
-        thirdPreferenceCommittee2ndCountry: values.thirdPreferenceCommittee2ndCountry,
-        thirdPreferenceCommittee3rdCountry: values.thirdPreferenceCommittee3rdCountry,
+        firstPreferenceCommittee1stCountry:
+          values.firstPreferenceCommittee1stCountry,
+        firstPreferenceCommittee2ndCountry:
+          values.firstPreferenceCommittee2ndCountry,
+        firstPreferenceCommittee3rdCountry:
+          values.firstPreferenceCommittee3rdCountry,
+        secondPreferenceCommittee1stCountry:
+          values.secondPreferenceCommittee1stCountry,
+        secondPreferenceCommittee2ndCountry:
+          values.secondPreferenceCommittee2ndCountry,
+        secondPreferenceCommittee3rdCountry:
+          values.secondPreferenceCommittee3rdCountry,
+        thirdPreferenceCommittee1stCountry:
+          values.thirdPreferenceCommittee1stCountry,
+        thirdPreferenceCommittee2ndCountry:
+          values.thirdPreferenceCommittee2ndCountry,
+        thirdPreferenceCommittee3rdCountry:
+          values.thirdPreferenceCommittee3rdCountry,
         firstPreferenceCommitteeIPRole: values.firstPreferenceCommitteeIPRole,
         secondPreferenceCommitteeIPRole: values.secondPreferenceCommitteeIPRole,
         thirdPreferenceCommitteeIPRole: values.thirdPreferenceCommitteeIPRole,
@@ -234,19 +240,24 @@ export function PriorityRegistrationForm() {
         paymentScreenshotUrl: values.paymentScreenshotUrl,
       };
 
-      const response = await fetch(`${appConfig.backendUrl}/api/priority-register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${appConfig.backendUrl}/api/priority-register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({
           message: `Server error: ${response.status}`,
         }));
-        throw new Error(errorData.message || `Server error: ${response.status}`);
+        throw new Error(
+          errorData.message || `Server error: ${response.status}`,
+        );
       }
 
       const data = await response.json();
@@ -264,16 +275,21 @@ export function PriorityRegistrationForm() {
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      let errorMessage = "There was an error processing your registration. Please try again.";
-      
+      let errorMessage =
+        "There was an error processing your registration. Please try again.";
+
       if (error instanceof Error) {
         errorMessage = error.message;
         // Handle network errors
-        if (error.message.includes("fetch") || error.message.includes("network")) {
-          errorMessage = "Network error. Please check your connection and try again.";
+        if (
+          error.message.includes("fetch") ||
+          error.message.includes("network")
+        ) {
+          errorMessage =
+            "Network error. Please check your connection and try again.";
         }
       }
-      
+
       toast({
         title: "Registration Failed",
         description: errorMessage,
@@ -301,12 +317,17 @@ export function PriorityRegistrationForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="text-center space-y-2 mb-6 px-4">
-          <h2 className="text-xl sm:text-2xl font-bold">Priority Round Registration</h2>
+          <h2 className="text-xl sm:text-2xl font-bold">
+            Priority Round Registration
+          </h2>
+          <p className="text-xs sm:text-sm text-muted-foreground">
+            Closing Date: 21 February 2026
+          </p>
           <p className="text-xs sm:text-sm text-muted-foreground">
             Step {step} of 4: {getStepTitle()}
           </p>
           <div className="flex justify-center gap-1 mt-4">
-            {[1, 2, 3, 4].map((s) => (
+            {[1, 2, 3, 4].map(s => (
               <div
                 key={s}
                 className={`h-2 w-6 sm:w-8 rounded-full transition-colors ${

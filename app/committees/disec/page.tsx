@@ -3,8 +3,26 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { PortfolioDownload } from "@/app/components/portfolio-download";
+import { CommitteeEBGrid } from "@/app/components/committee-eb-grid";
 
 export default function DISECPage() {
+  const disecMembers = [
+    {
+      name: "Eswar Chava",
+      position: "Chairperson, DISEC",
+      image: "/images/chairs/Eswar Chava.jpeg",
+    },
+    {
+      name: "Suraj Veerubhotla",
+      position: "Vice Chair, DISEC",
+      image: "/images/chairs/suraj veerubhotla.jpeg",
+    },
+    {
+      name: "Kaniganti Tejasvi",
+      position: "Rapporteur, DISEC",
+      image: "/images/chairs/kaniganti tejasvi.jpeg",
+    },
+  ];
   return (
     <div className="py-12 sm:py-16 md:py-24 space-y-16 sm:space-y-24 md:space-y-32 px-4">
       {/* Agenda + Description */}
@@ -52,42 +70,7 @@ export default function DISECPage() {
       </motion.section>
 
       {/* Chairperson */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-        className="max-w-4xl mx-auto px-4"
-      >
-        <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-6">
-          Chairperson of the Committee
-        </h3>
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
-          <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border border-white/15 shadow-lg flex-shrink-0">
-            <Image
-              src="/images/chairs/Eswar Chava.jpeg"
-              alt="Eswar Chava - DISEC Chairperson"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="space-y-2 text-center sm:text-left">
-            <p className="text-sm uppercase tracking-wide text-gray-400">
-              Chairperson, DISEC
-            </p>
-            <h4 className="text-xl sm:text-2xl font-semibold text-gray-100">
-              Eswar Chava
-            </h4>
-            <p className="text-sm sm:text-base leading-relaxed text-gray-300">
-              With a strong command over disarmament regimes and multilateral
-              diplomacy, Eswar Chava ensures that DISEC sessions remain focused,
-              solution-oriented, and deeply aligned with real-world UN
-              procedures. Delegates can expect a challenging yet rewarding
-              experience that sharpens their understanding of global security
-              and arms control.
-            </p>
-          </div>
-        </div>
-      </motion.section>
+      <CommitteeEBGrid title="Executive Board" members={disecMembers} />
     </div>
   );
 }
