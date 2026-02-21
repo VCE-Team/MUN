@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { CommitteeEBGrid } from "@/app/components/committee-eb-grid";
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { CommitteeEBGrid } from '@/app/components/committee-eb-grid';
 
 export default function InternationalPressPage() {
   const ipMembers = [
     {
-      name: "Sai Preethi Polu",
-      position: "Head of International Press",
-      image: "/images/chairs/Sai Preethi Polu.jpeg",
+      name: 'Sai Preethi Polu',
+      position: 'Head of International Press',
+      image: '/images/chairs/Sai Preethi Polu.jpeg',
     },
     {
-      name: "Sai Vardhan Barla",
-      position: "Director of Photography",
-      image: "/images/chairs/sai vardhan.jpeg",
+      name: 'Sai Vardhan Barla',
+      position: 'Director of Photography',
+      image: '/images/chairs/sai vardhan.jpeg',
     },
   ];
   return (

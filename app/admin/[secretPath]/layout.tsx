@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
-import type React from "react";
-import { appConfig } from "@/lib/app-config";
+import { notFound } from 'next/navigation';
+import type React from 'react';
+import { appConfig } from '@/lib/app-config';
 
 export async function generateStaticParams() {
   return [{ secretPath: appConfig.adminSecretPath }];

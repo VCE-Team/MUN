@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { ScrollReset } from "./scroll-reset";
-import { Volume2, VolumeX } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from 'react';
+import { ScrollReset } from './scroll-reset';
+import { Volume2, VolumeX } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function Hero() {
   const [bgLoaded, setBgLoaded] = useState(false);
@@ -27,9 +27,9 @@ export function Hero() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -39,14 +39,14 @@ export function Hero() {
 
     // Load the (large) hero video only when the section is about to be visible.
     const observer = new IntersectionObserver(
-      entries => {
+      (entries) => {
         const first = entries[0];
         if (first?.isIntersecting) {
           setShouldLoadVideo(true);
           observer.disconnect();
         }
       },
-      { root: null, rootMargin: "300px 0px", threshold: 0.01 }
+      { root: null, rootMargin: '300px 0px', threshold: 0.01 }
     );
 
     observer.observe(el);
@@ -59,7 +59,7 @@ export function Hero() {
       setIsMuted(videoRef.current.muted);
       return;
     }
-    setIsMuted(prev => !prev);
+    setIsMuted((prev) => !prev);
   };
 
   return (
@@ -68,9 +68,9 @@ export function Hero() {
       <section ref={sectionRef} className="relative w-full overflow-hidden">
         <div
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-            bgLoaded ? "opacity-100" : "opacity-0"
+            bgLoaded ? 'opacity-100' : 'opacity-0'
           }`}
-          style={{ backgroundColor: "#000" }}
+          style={{ backgroundColor: '#000' }}
         />
         {bgLoaded && (
           <div className="relative w-screen pb-[56.25%] md:pb-0 md:h-[56vh] lg:h-[70vh] xl:h-[90vh] 2xl:h-[92vh]">

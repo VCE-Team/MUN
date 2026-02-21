@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { RouteLoading } from "@/app/components/route-loading";
-import Image from "next/image";
+import { RouteLoading } from '@/app/components/route-loading';
+import Image from 'next/image';
 
 type ChairCardProps = {
   title: string;
@@ -78,7 +78,7 @@ export default function Chairs() {
               imageSrc="/images/chairs/Sangras Bhargav.jpeg"
               imageAlt="Sangras Bhargav - AIPPM Speaker"
               description={
-                "Sangras Bhargav is a fourth-generation lawyer and computer science graduate who chose to dedicate his career to the practice of law. He is currently an Advocate at the Telangana High Court, where he specializes in criminal law and matrimonial disputes. Known for his commitment, sharp legal acumen, and persuasive advocacy, Sangras strongly believes that law is the most powerful instrument to uphold justice.\n\nWith nearly a decade of experience in AIPPMs and Youth Parliaments, he has earned a reputation for his clarity of thought, analytical depth, and the ability to simplify complex legal and political issues for diverse audiences. His arguments balance wit with wisdom, making him a dynamic voice in every forum he participates in.\n\nBeyond the courtroom and debating floor, Sangras is an avid reader and a dedicated mentor, guiding aspiring students with integrity and purpose. His presence ensures that every discussion is not only engaging but also rooted in knowledge and conviction."
+                'Sangras Bhargav is a fourth-generation lawyer and computer science graduate who chose to dedicate his career to the practice of law. He is currently an Advocate at the Telangana High Court, where he specializes in criminal law and matrimonial disputes. Known for his commitment, sharp legal acumen, and persuasive advocacy, Sangras strongly believes that law is the most powerful instrument to uphold justice.\n\nWith nearly a decade of experience in AIPPMs and Youth Parliaments, he has earned a reputation for his clarity of thought, analytical depth, and the ability to simplify complex legal and political issues for diverse audiences. His arguments balance wit with wisdom, making him a dynamic voice in every forum he participates in.\n\nBeyond the courtroom and debating floor, Sangras is an avid reader and a dedicated mentor, guiding aspiring students with integrity and purpose. His presence ensures that every discussion is not only engaging but also rooted in knowledge and conviction.'
               }
             />
 
@@ -102,7 +102,7 @@ export default function Chairs() {
               imageSrc="/images/chairs/Vishal Choudary.jpeg"
               imageAlt="Vishal Chowdary - UNHRC Chairperson"
               description={
-                "Vishal Chowdary is a law graduate from Jindal Global Law School, whose deep interest in international relations is reflected in his extensive experiences at the United Nations. He has received exclusive letters of recommendation from a former Swedish diplomat, and from UNITAR during an Immersion Programme in Geneva, attended the World Congress on Enforced Disappearances, visited the UN Headquarters in New York, and observed treaty-body proceedings at the OHCHR.\n\nWith more than a decade of involvement in over 70 Model UNs and parliamentary debates across Hyderabad and Delhi, including two terms as Secretary-General, Vishal brings seasoned insight to humanitarian committees and crisis simulations. Approachable, thoughtful, and deeply committed to meaningful dialogue, he looks forward to guiding the UNHRC committee at VCEMUN 2026."
+                'Vishal Chowdary is a law graduate from Jindal Global Law School, whose deep interest in international relations is reflected in his extensive experiences at the United Nations. He has received exclusive letters of recommendation from a former Swedish diplomat, and from UNITAR during an Immersion Programme in Geneva, attended the World Congress on Enforced Disappearances, visited the UN Headquarters in New York, and observed treaty-body proceedings at the OHCHR.\n\nWith more than a decade of involvement in over 70 Model UNs and parliamentary debates across Hyderabad and Delhi, including two terms as Secretary-General, Vishal brings seasoned insight to humanitarian committees and crisis simulations. Approachable, thoughtful, and deeply committed to meaningful dialogue, he looks forward to guiding the UNHRC committee at VCEMUN 2026.'
               }
             />
 
@@ -114,7 +114,7 @@ export default function Chairs() {
               imageSrc="/images/chairs/Sai Preethi Polu.jpeg"
               imageAlt="Sai Preethi Polu - Head of International Press"
               description={
-                "Sai Preethi Polu is an avid munner who has attended over 100 MUNs in several circuits. Although she graduated B.Tech. in Information Technology, her passion for MUNs keeps her frequently exposed to worldly events that keep her up to date with current affairs of the world. Preethi takes a keen interest in taking part in MUNs and believes them to be an excellent platform for people to improve their analytical skills and leadership skills.\n\nWhile she is known for her experience in the International Press, she has an affinity towards humanitarian committees. She wishes the best for the participants and looks forward to the conference."
+                'Sai Preethi Polu is an avid munner who has attended over 100 MUNs in several circuits. Although she graduated B.Tech. in Information Technology, her passion for MUNs keeps her frequently exposed to worldly events that keep her up to date with current affairs of the world. Preethi takes a keen interest in taking part in MUNs and believes them to be an excellent platform for people to improve their analytical skills and leadership skills.\n\nWhile she is known for her experience in the International Press, she has an affinity towards humanitarian committees. She wishes the best for the participants and looks forward to the conference.'
               }
             />
           </div>

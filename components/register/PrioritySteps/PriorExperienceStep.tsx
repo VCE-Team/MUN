@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   FormControl,
@@ -6,10 +6,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Control } from "react-hook-form";
-import { PriorityRegistrationSchema } from "@/schemas/priorityRegistrationForm";
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { Control } from 'react-hook-form';
+import { PriorityRegistrationSchema } from '@/schemas/priorityRegistrationForm';
 
 interface PriorExperienceStepProps {
   control: Control<PriorityRegistrationSchema>;
@@ -32,7 +32,7 @@ export function PriorExperienceStep({ control }: PriorExperienceStepProps) {
         control={control}
         name="priorMUNExperience"
         render={({ field }) => {
-          const value = field.value ?? "";
+          const value = field.value ?? '';
           const words = value.trim().split(/\s+/).filter(Boolean);
           const wordCount = value.trim().length === 0 ? 0 : words.length;
           const overLimit = wordCount > MAX_WORDS;
@@ -51,7 +51,7 @@ export function PriorExperienceStep({ control }: PriorExperienceStepProps) {
                   />
                   <p
                     className={`text-xs text-right ${
-                      overLimit ? "text-destructive" : "text-muted-foreground"
+                      overLimit ? 'text-destructive' : 'text-muted-foreground'
                     }`}
                   >
                     {wordCount} / {MAX_WORDS} words

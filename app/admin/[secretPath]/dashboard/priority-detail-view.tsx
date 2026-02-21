@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ImageIcon } from "lucide-react";
-import { appConfig } from "@/lib/app-config";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { PriorityRegistrationDoc } from "@/lib/admin-types";
-import { isApiError } from "@/lib/admin-types";
-import { getAdminHeaders, formatAdminDate } from "@/lib/admin-utils";
+import { useEffect, useState, useRef } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, ImageIcon } from 'lucide-react';
+import { appConfig } from '@/lib/app-config';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { PriorityRegistrationDoc } from '@/lib/admin-types';
+import { isApiError } from '@/lib/admin-types';
+import { getAdminHeaders, formatAdminDate } from '@/lib/admin-utils';
 import {
   getCached,
   setCached,
@@ -16,7 +16,7 @@ import {
   priorityDocKey,
   priorityScreenshotKey,
   CACHE_TTL,
-} from "@/lib/admin-api-cache";
+} from '@/lib/admin-api-cache';
 
 function DetailRow({
   label,
@@ -28,7 +28,7 @@ function DetailRow({
   return (
     <div className="flex flex-wrap gap-2 border-b border-white/10 py-2 first:pt-0 last:border-0">
       <span className="text-muted-foreground shrink-0 w-44">{label}</span>
-      <span className="break-words">{value ?? "—"}</span>
+      <span className="break-words">{value ?? '—'}</span>
     </div>
   );
 }
@@ -73,8 +73,8 @@ export function PriorityDetailView({
       .then((r) => {
         if (r.status === 401) {
           invalidateAll();
-          if (typeof localStorage !== "undefined")
-            localStorage.removeItem("adminToken");
+          if (typeof localStorage !== 'undefined')
+            localStorage.removeItem('adminToken');
           router.replace(`/admin/${secretPath}`);
           return null;
         }
@@ -88,13 +88,17 @@ export function PriorityDetailView({
           setFetchError(null);
         } else {
           setDoc(null);
-          setFetchError(data && isApiError(data) ? (data as { message?: string }).message ?? "Not found" : "Not found");
+          setFetchError(
+            data && isApiError(data)
+              ? ((data as { message?: string }).message ?? 'Not found')
+              : 'Not found'
+          );
         }
       })
       .catch(() => {
         if (mountedRef.current) {
           setDoc(null);
-          setFetchError("Failed to load registration.");
+          setFetchError('Failed to load registration.');
         }
       })
       .finally(() => {
@@ -136,7 +140,7 @@ export function PriorityDetailView({
           Back to list
         </Button>
         <p className="text-muted-foreground">
-          {fetchError ?? "Registration not found."}
+          {fetchError ?? 'Registration not found.'}
         </p>
       </div>
     );
@@ -148,16 +152,20 @@ export function PriorityDetailView({
         .map(
           (p) =>
             `${p.rank}: ${p.committee}` +
-            (p.allocation?.type === "countries"
-              ? ` (${[p.allocation.first, p.allocation.second, p.allocation.third].filter(Boolean).join(", ")})`
-              : p.allocation?.type === "ipRole"
+            (p.allocation?.type === 'countries'
+              ? ` (${[p.allocation.first, p.allocation.second, p.allocation.third].filter(Boolean).join(', ')})`
+              : p.allocation?.type === 'ipRole'
                 ? ` (${p.allocation.ipRole})`
-                : "")
+                : '')
         )
-        .join(" · ")
-    : [doc.firstPreferenceCommittee, doc.secondPreferenceCommittee, doc.thirdPreferenceCommittee]
+        .join(' · ')
+    : [
+        doc.firstPreferenceCommittee,
+        doc.secondPreferenceCommittee,
+        doc.thirdPreferenceCommittee,
+      ]
         .filter(Boolean)
-        .join(", ");
+        .join(', ');
 
   const fetchScreenshot = () => {
     const screenshotCacheKey = priorityScreenshotKey(id);
@@ -177,14 +185,14 @@ export function PriorityDetailView({
       .then((r) => (r.ok ? r.json() : null))
       .then((data: { paymentScreenshotUrl?: string | null } | null) => {
         const url = data?.paymentScreenshotUrl;
-        if (url && (url.startsWith("data:") || url.startsWith("https:"))) {
+        if (url && (url.startsWith('data:') || url.startsWith('https:'))) {
           setScreenshotUrl(url);
           setCached(screenshotCacheKey, url, CACHE_TTL.screenshot);
         } else {
-          setScreenshotError("No payment screenshot available.");
+          setScreenshotError('No payment screenshot available.');
         }
       })
-      .catch(() => setScreenshotError("Failed to load screenshot."))
+      .catch(() => setScreenshotError('Failed to load screenshot.'))
       .finally(() => setScreenshotLoading(false));
   };
 
@@ -202,7 +210,7 @@ export function PriorityDetailView({
 
       <div className="glass-panel rounded-xl border border-white/10 p-4 sm:p-6 space-y-1">
         <h2 className="text-xl font-semibold text-[var(--logo-gold-yellow)] mb-4">
-          {doc.name ?? "—"}
+          {doc.name ?? '—'}
         </h2>
         <DetailRow label="Email" value={doc.email} />
         <DetailRow label="Phone" value={doc.phone} />
@@ -213,7 +221,10 @@ export function PriorityDetailView({
         <DetailRow label="Target audience" value={doc.targetAudience} />
         <DetailRow label="Roll number" value={doc.rollNumber} />
         <DetailRow label="Committee preferences" value={prefs} />
-        <DetailRow label="Prior MUN experience" value={doc.priorMUNExperience} />
+        <DetailRow
+          label="Prior MUN experience"
+          value={doc.priorMUNExperience}
+        />
         <DetailRow label="Transportation" value={doc.transportationRequired} />
         <DetailRow label="Food preference" value={doc.foodPreference} />
         <DetailRow label="Transaction ID" value={doc.transactionId} />
@@ -237,7 +248,7 @@ export function PriorityDetailView({
             disabled={screenshotLoading}
           >
             <ImageIcon className="mr-2 h-4 w-4" />
-            {screenshotLoading ? "Loading…" : "Show Payment Screenshot"}
+            {screenshotLoading ? 'Loading…' : 'Show Payment Screenshot'}
           </Button>
           {screenshotError && (
             <p className="mt-2 text-sm text-amber-500/90">{screenshotError}</p>

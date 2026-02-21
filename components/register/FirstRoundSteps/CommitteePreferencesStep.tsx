@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   FormControl,
@@ -6,16 +6,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Control, UseFormReturn } from "react-hook-form";
-import { FirstRoundRegistrationSchema } from "@/schemas/firstRoundRegistrationForm";
+} from '@/components/ui/select';
+import { Control, UseFormReturn } from 'react-hook-form';
+import { FirstRoundRegistrationSchema } from '@/schemas/firstRoundRegistrationForm';
 
 interface CommitteePreferencesStepProps {
   control: Control<FirstRoundRegistrationSchema>;
@@ -31,18 +31,18 @@ export function CommitteePreferencesStep({
   control,
   form,
 }: CommitteePreferencesStepProps) {
-  const firstPreference = form.watch("firstPreferenceCommittee");
-  const secondPreference = form.watch("secondPreferenceCommittee");
-  const thirdPreference = form.watch("thirdPreferenceCommittee");
+  const firstPreference = form.watch('firstPreferenceCommittee');
+  const secondPreference = form.watch('secondPreferenceCommittee');
+  const thirdPreference = form.watch('thirdPreferenceCommittee');
 
   const committees = [
     {
-      value: "disec",
-      label: "Disarmament and International Security Committee (DISEC)",
+      value: 'disec',
+      label: 'Disarmament and International Security Committee (DISEC)',
     },
-    { value: "unhrc", label: "United Nations Human Rights Council (UNHRC)" },
-    { value: "aippm", label: "All India Political Parties Meet (AIPPM)" },
-    { value: "ip", label: "International Press (IP)" },
+    { value: 'unhrc', label: 'United Nations Human Rights Council (UNHRC)' },
+    { value: 'aippm', label: 'All India Political Parties Meet (AIPPM)' },
+    { value: 'ip', label: 'International Press (IP)' },
   ];
 
   return (
@@ -66,14 +66,14 @@ export function CommitteePreferencesStep({
               <FormLabel className="text-foreground/80">
                 1st Preference Committee *
               </FormLabel>
-              <Select onValueChange={field.onChange} value={field.value || ""}>
+              <Select onValueChange={field.onChange} value={field.value || ''}>
                 <FormControl>
                   <SelectTrigger className="border-primary/20 focus:border-primary">
                     <SelectValue placeholder="Select first preference" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {committees.map(committee => {
+                  {committees.map((committee) => {
                     const isDisabled =
                       committee.value === secondPreference ||
                       committee.value === thirdPreference;
@@ -102,14 +102,14 @@ export function CommitteePreferencesStep({
               <FormLabel className="text-foreground/80">
                 2nd Preference Committee *
               </FormLabel>
-              <Select onValueChange={field.onChange} value={field.value || ""}>
+              <Select onValueChange={field.onChange} value={field.value || ''}>
                 <FormControl>
                   <SelectTrigger className="border-primary/20 focus:border-primary">
                     <SelectValue placeholder="Select second preference" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {committees.map(committee => {
+                  {committees.map((committee) => {
                     const isDisabled =
                       committee.value === firstPreference ||
                       committee.value === thirdPreference;
@@ -138,14 +138,14 @@ export function CommitteePreferencesStep({
               <FormLabel className="text-foreground/80">
                 3rd Preference Committee *
               </FormLabel>
-              <Select onValueChange={field.onChange} value={field.value || ""}>
+              <Select onValueChange={field.onChange} value={field.value || ''}>
                 <FormControl>
                   <SelectTrigger className="border-primary/20 focus:border-primary">
                     <SelectValue placeholder="Select third preference" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {committees.map(committee => {
+                  {committees.map((committee) => {
                     const isDisabled =
                       committee.value === firstPreference ||
                       committee.value === secondPreference;

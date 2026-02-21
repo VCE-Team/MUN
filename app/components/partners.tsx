@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { RevealAnimation } from "./reveal-animation";
-import Image from "next/image";
+import Link from 'next/link';
+import { RevealAnimation } from './reveal-animation';
+import Image from 'next/image';
 
 const PartnersSection = () => {
   return (
@@ -41,9 +41,7 @@ const PartnersSection = () => {
                 className="rounded-full"
               />
             </div>
-            <h2 className="text-2xl font-bold text-center">
-              Organized by
-            </h2>
+            <h2 className="text-2xl font-bold text-center">Organized by</h2>
             <p className="text-lg text-muted-foreground">
               VCE MUNSoc under Student Affairs Cell
             </p>

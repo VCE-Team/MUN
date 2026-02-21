@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === "/") {
+    if (pathname === '/') {
       setIsLoading(true);
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add('overflow-hidden');
 
       const timer = setTimeout(() => {
         setIsLoading(false);
-        document.body.classList.remove("overflow-hidden");
+        document.body.classList.remove('overflow-hidden');
       }, 1500);
 
       return () => {
         clearTimeout(timer);
-        document.body.classList.remove("overflow-hidden");
+        document.body.classList.remove('overflow-hidden');
       };
     } else {
       setIsLoading(false);
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove('overflow-hidden');
     }
   }, [pathname]);
 
@@ -41,8 +41,8 @@ export function LoadingScreen() {
         <div className="relative">
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            animate={{ width: '100%' }}
+            transition={{ duration: 1, ease: 'easeOut' }}
             className="absolute left-0 top-1/2 h-[3px] bg-white"
           />
           <motion.h1

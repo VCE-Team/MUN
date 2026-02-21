@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { PortfolioDownload } from "@/app/components/portfolio-download";
-import { CommitteeEBGrid } from "@/app/components/committee-eb-grid";
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { PortfolioDownload } from '@/app/components/portfolio-download';
+import { CommitteeEBGrid } from '@/app/components/committee-eb-grid';
 
 export default function DISECPage() {
   const disecMembers = [
     {
-      name: "Eswar Chava",
-      position: "Chairperson, DISEC",
-      image: "/images/chairs/Eswar Chava.jpeg",
+      name: 'Eswar Chava',
+      position: 'Chairperson, DISEC',
+      image: '/images/chairs/Eswar Chava.jpeg',
     },
     {
-      name: "Suraj Veerubhotla",
-      position: "Vice Chair, DISEC",
-      image: "/images/chairs/suraj veerubhotla.jpeg",
+      name: 'Suraj Veerubhotla',
+      position: 'Vice Chair, DISEC',
+      image: '/images/chairs/suraj veerubhotla.jpeg',
     },
     {
-      name: "Kaniganti Tejasvi",
-      position: "Rapporteur, DISEC",
-      image: "/images/chairs/kaniganti tejasvi.jpeg",
+      name: 'Kaniganti Tejasvi',
+      position: 'Rapporteur, DISEC',
+      image: '/images/chairs/kaniganti tejasvi.jpeg',
     },
   ];
   return (

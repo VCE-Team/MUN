@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,17 +9,17 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+} from '@/components/ui/navigation-menu';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 const committees = [
-  { title: "DISEC", href: "/committees/disec" },
-  { title: "UNHRC", href: "/committees/unhrc" },
-  { title: "AIPPM", href: "/committees/aippm" },
-  { title: "International Press (IP)", href: "/committees/internationalpress" },
+  { title: 'DISEC', href: '/committees/disec' },
+  { title: 'UNHRC', href: '/committees/unhrc' },
+  { title: 'AIPPM', href: '/committees/aippm' },
+  { title: 'International Press (IP)', href: '/committees/internationalpress' },
 ];
 
 export function Header() {
@@ -27,7 +27,7 @@ export function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const controlHeader = () => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       if (window.scrollY > lastScrollY) {
         setIsVisible(false);
       } else {
@@ -38,9 +38,9 @@ export function Header() {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", controlHeader);
+    window.addEventListener('scroll', controlHeader);
     return () => {
-      window.removeEventListener("scroll", controlHeader);
+      window.removeEventListener('scroll', controlHeader);
     };
   }, [lastScrollY]);
 
@@ -48,7 +48,7 @@ export function Header() {
     <AnimatePresence>
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
+          isVisible ? 'translate-y-0' : '-translate-y-full'
         } transition-transform duration-300`}
       >
         <div className="container flex h-16 items-center justify-between">
@@ -63,7 +63,7 @@ export function Header() {
             />
             <p
               className="font-bold text-xl"
-              style={{ color: "var(--logo-gold-yellow)" }}
+              style={{ color: 'var(--logo-gold-yellow)' }}
             >
               VCEMUN
             </p>
@@ -74,10 +74,7 @@ export function Header() {
               <NavigationMenuList className="flex gap-3">
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link
-                      href="/"
-                      className={navigationMenuTriggerStyle()}
-                    >
+                    <Link href="/" className={navigationMenuTriggerStyle()}>
                       Home
                     </Link>
                   </NavigationMenuLink>
@@ -87,7 +84,7 @@ export function Header() {
                   <NavigationMenuTrigger>Committees</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="flex flex-col w-[200px] gap-1 p-2">
-                      {committees.map(committee => (
+                      {committees.map((committee) => (
                         <li key={committee.title}>
                           <NavigationMenuLink asChild>
                             <Link
@@ -107,10 +104,7 @@ export function Header() {
 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link
-                      href="/usg"
-                      className={navigationMenuTriggerStyle()}
-                    >
+                    <Link href="/usg" className={navigationMenuTriggerStyle()}>
                       USG
                     </Link>
                   </NavigationMenuLink>
@@ -136,7 +130,11 @@ export function Header() {
           </div>
 
           <div className="flex items-center space-x-1 sm:space-x-2 mr-2 sm:mr-6">
-            <Link href="https://vardhaman.org/" target="_blank" className="flex-shrink-0 flex items-center h-8 sm:h-10 md:h-11">
+            <Link
+              href="https://vardhaman.org/"
+              target="_blank"
+              className="flex-shrink-0 flex items-center h-8 sm:h-10 md:h-11"
+            >
               <Image
                 className="px-0.5 sm:px-1 h-full w-auto object-contain"
                 src="/images/logos/vardhamanlogo.png"

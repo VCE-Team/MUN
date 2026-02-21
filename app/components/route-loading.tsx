@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 export function RouteLoading() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +21,7 @@ export function RouteLoading() {
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         exit={{ scaleX: 0 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
+        transition={{ duration: 0.4, ease: 'easeInOut' }}
       />
     )
   );

@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Mail, Phone } from "lucide-react";
-import Link from "next/link";
+import { Card, CardContent } from '@/components/ui/card';
+import { MapPin, Mail, Phone } from 'lucide-react';
+import Link from 'next/link';
 
 export function Contact() {
   return (
@@ -59,7 +59,7 @@ export function Contact() {
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3810.2651117136415!2d78.3052800148745!3d17.2544042881584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcbbe831da8cbad%3A0x4a90e51ab5b5a62c!2sVardhaman%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1690184667661!5m2!1sen!2sin"
             width="100%"
-            style={{ border: 0, minHeight: "300px", height: "450px" }}
+            style={{ border: 0, minHeight: '300px', height: '450px' }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="rounded-lg"

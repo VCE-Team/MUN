@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { RouteLoading } from "@/app/components/route-loading";
+import Image from 'next/image';
+import { RouteLoading } from '@/app/components/route-loading';
 
 export default function UNHRCLayout({
   children,

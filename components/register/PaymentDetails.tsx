@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import Image from "next/image";
-import { Control, UseFormSetValue } from "react-hook-form";
-import { FormSchema } from "@/schemas/registrationForm";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { Control, UseFormSetValue } from 'react-hook-form';
+import { FormSchema } from '@/schemas/registrationForm';
 
 interface PaymentDetailsProps {
   control: Control<FormSchema>;
@@ -20,7 +20,7 @@ interface PaymentDetailsProps {
     setValue: UseFormSetValue<FormSchema>;
   };
   calculatePrice: () => number;
-  registrationType: "single" | "multiple";
+  registrationType: 'single' | 'multiple';
 }
 
 export function PaymentDetails({
@@ -53,7 +53,7 @@ export function PaymentDetails({
             className="flex items-center justify-center border-primary/40 hover:bg-primary/5"
             onClick={() => {
               setShowFirstQR(true);
-              form.setValue("qrUsed", "qr1");
+              form.setValue('qrUsed', 'qr1');
             }}
           >
             <ArrowLeft className="h-4 w-4" />
@@ -64,8 +64,8 @@ export function PaymentDetails({
           <Image
             src={
               showFirstQR
-                ? "/images/payment/qr1min.jpg"
-                : "/images/payment/qr2min.jpg"
+                ? '/images/payment/qr1min.jpg'
+                : '/images/payment/qr2min.jpg'
             }
             alt="Payment QR Code"
             fill
@@ -82,7 +82,7 @@ export function PaymentDetails({
             className="flex items-center justify-center border-primary/40 hover:bg-primary/5"
             onClick={() => {
               setShowFirstQR(false);
-              form.setValue("qrUsed", "qr2");
+              form.setValue('qrUsed', 'qr2');
             }}
           >
             <ArrowRight className="h-4 w-4" />
@@ -97,7 +97,7 @@ export function PaymentDetails({
         <p className="text-sm text-muted-foreground mt-2">
           Scan to pay via UPI
         </p>
-        {registrationType === "multiple" && (
+        {registrationType === 'multiple' && (
           <p className="text-sm text-primary mt-2">
             You&apos;re saving ₹599 with the group registration!
           </p>

@@ -4,10 +4,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Control } from "react-hook-form";
-import { FormSchema } from "@/schemas/registrationForm";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Control } from 'react-hook-form';
+import { FormSchema } from '@/schemas/registrationForm';
 
 interface CountryPreferencesProps {
   control: Control<FormSchema>;

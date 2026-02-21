@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { PortfolioDownload } from "@/app/components/portfolio-download";
-import { CommitteeEBGrid } from "@/app/components/committee-eb-grid";
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { PortfolioDownload } from '@/app/components/portfolio-download';
+import { CommitteeEBGrid } from '@/app/components/committee-eb-grid';
 
 export default function UNHRCPage() {
   const unhrcMembers = [
     {
-      name: "Vishal Chowdary",
-      position: "Chairperson, UNHRC",
-      image: "/images/chairs/Vishal Choudary.jpeg",
+      name: 'Vishal Chowdary',
+      position: 'Chairperson, UNHRC',
+      image: '/images/chairs/Vishal Choudary.jpeg',
     },
     {
-      name: "Pranathi Vemuri",
-      position: "Vice Chair, UNHRC",
-      image: "/images/chairs/pranathi vemuri.jpeg",
+      name: 'Pranathi Vemuri',
+      position: 'Vice Chair, UNHRC',
+      image: '/images/chairs/pranathi vemuri.jpeg',
     },
   ];
   return (

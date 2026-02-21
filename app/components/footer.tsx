@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Instagram } from "lucide-react";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { Instagram } from 'lucide-react';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   Dialog,
   DialogContent,
@@ -12,8 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 export function Footer() {
   const router = useRouter();
@@ -22,9 +22,9 @@ export function Footer() {
   const [openHandbook, setOpenHandbook] = useState(false);
 
   const handleDownload = (fileUrl: string) => {
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = fileUrl;
-    link.download = fileUrl.split("/").pop() || "download";
+    link.download = fileUrl.split('/').pop() || 'download';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -32,14 +32,14 @@ export function Footer() {
 
   useEffect(() => {
     // Handle scrolling when navigating to home page with committees hash
-    if (pathname === "/" && typeof window !== "undefined") {
+    if (pathname === '/' && typeof window !== 'undefined') {
       const hash = window.location.hash;
-      if (hash === "#committees") {
+      if (hash === '#committees') {
         // Use a small delay to ensure DOM is ready
         const timer = setTimeout(() => {
-          const committeesSection = document.getElementById("committees");
+          const committeesSection = document.getElementById('committees');
           if (committeesSection) {
-            committeesSection.scrollIntoView({ behavior: "smooth" });
+            committeesSection.scrollIntoView({ behavior: 'smooth' });
           }
         }, 100);
         return () => clearTimeout(timer);
@@ -50,22 +50,22 @@ export function Footer() {
   const handleCommitteesClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    if (pathname === "/") {
+    if (pathname === '/') {
       // On home page, scroll to committees section immediately
-      const committeesSection = document.getElementById("committees");
+      const committeesSection = document.getElementById('committees');
       if (committeesSection) {
         // Use a combination of methods to ensure mobile compatibility
-        committeesSection.scrollIntoView({ behavior: "auto" });
+        committeesSection.scrollIntoView({ behavior: 'auto' });
         // Fallback for smooth scrolling using setTimeout if available
-        if ("requestAnimationFrame" in window) {
+        if ('requestAnimationFrame' in window) {
           setTimeout(() => {
-            committeesSection.scrollIntoView({ behavior: "smooth" });
+            committeesSection.scrollIntoView({ behavior: 'smooth' });
           }, 0);
         }
       }
     } else {
       // On other pages, navigate to home with hash
-      router.push("/#committees");
+      router.push('/#committees');
     }
   };
 

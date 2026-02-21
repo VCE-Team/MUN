@@ -8,9 +8,9 @@ export type DocId = string | { $oid?: string };
 
 /** Normalize _id to string for API params and keys */
 export function normalizeId(id: DocId | null | undefined): string {
-  if (id == null) return "";
-  if (typeof id === "string") return id;
-  return (id as { $oid?: string }).$oid ?? "";
+  if (id == null) return '';
+  if (typeof id === 'string') return id;
+  return (id as { $oid?: string }).$oid ?? '';
 }
 
 /** Committee preference allocation (priority registration) */
@@ -95,23 +95,23 @@ export interface ScreenshotResponse {
 /** Type guard: is API response an error (has message and not array) */
 export function isApiError(data: unknown): data is ApiError {
   return (
-    typeof data === "object" &&
+    typeof data === 'object' &&
     data !== null &&
-    "message" in data &&
+    'message' in data &&
     !Array.isArray(data)
   );
 }
 
 /** Type guard: priority list response is array */
 export function isPriorityListResponse(
-  data: unknown,
+  data: unknown
 ): data is PriorityRegistrationListItem[] {
   return Array.isArray(data);
 }
 
 /** Type guard: past list response is array */
 export function isPastListResponse(
-  data: unknown,
+  data: unknown
 ): data is PastRegistrationListItem[] {
   return Array.isArray(data);
 }

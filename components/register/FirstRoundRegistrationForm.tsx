@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, ArrowRight, ArrowLeft, Check } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { toast } from '@/hooks/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   FirstRoundRegistrationSchema,
   firstRoundRegistrationSchema,
-} from "@/schemas/firstRoundRegistrationForm";
-import { PersonalDetailsStep } from "./FirstRoundSteps/PersonalDetailsStep";
-import { CommitteePreferencesStep } from "./FirstRoundSteps/CommitteePreferencesStep";
-import { CountryPreferencesStep } from "./FirstRoundSteps/CountryPreferencesStep";
-import { PriorExperienceStep } from "./FirstRoundSteps/PriorExperienceStep";
-import { PaymentStep } from "./FirstRoundSteps/PaymentStep";
-import { ReviewStep } from "./FirstRoundSteps/ReviewStep";
-import { appConfig } from "@/lib/app-config";
+} from '@/schemas/firstRoundRegistrationForm';
+import { PersonalDetailsStep } from './FirstRoundSteps/PersonalDetailsStep';
+import { CommitteePreferencesStep } from './FirstRoundSteps/CommitteePreferencesStep';
+import { CountryPreferencesStep } from './FirstRoundSteps/CountryPreferencesStep';
+import { PriorExperienceStep } from './FirstRoundSteps/PriorExperienceStep';
+import { PaymentStep } from './FirstRoundSteps/PaymentStep';
+import { ReviewStep } from './FirstRoundSteps/ReviewStep';
+import { appConfig } from '@/lib/app-config';
 
 /**
  * First Round Registration Form Component
@@ -44,38 +44,38 @@ export function FirstRoundRegistrationForm() {
     resolver: zodResolver(firstRoundRegistrationSchema),
     defaultValues: {
       targetAudience: undefined,
-      name: "",
-      email: "",
-      phone: "",
-      institution: "",
-      otherInstitution: "",
-      rollNumber: "",
-      firstPreferenceCommittee: "",
-      secondPreferenceCommittee: "",
-      thirdPreferenceCommittee: "",
-      firstPreferenceCommittee1stCountry: "",
-      firstPreferenceCommittee2ndCountry: "",
-      firstPreferenceCommittee3rdCountry: "",
+      name: '',
+      email: '',
+      phone: '',
+      institution: '',
+      otherInstitution: '',
+      rollNumber: '',
+      firstPreferenceCommittee: '',
+      secondPreferenceCommittee: '',
+      thirdPreferenceCommittee: '',
+      firstPreferenceCommittee1stCountry: '',
+      firstPreferenceCommittee2ndCountry: '',
+      firstPreferenceCommittee3rdCountry: '',
       firstPreferenceCommitteeIPRole: undefined,
-      secondPreferenceCommittee1stCountry: "",
-      secondPreferenceCommittee2ndCountry: "",
-      secondPreferenceCommittee3rdCountry: "",
+      secondPreferenceCommittee1stCountry: '',
+      secondPreferenceCommittee2ndCountry: '',
+      secondPreferenceCommittee3rdCountry: '',
       secondPreferenceCommitteeIPRole: undefined,
-      thirdPreferenceCommittee1stCountry: "",
-      thirdPreferenceCommittee2ndCountry: "",
-      thirdPreferenceCommittee3rdCountry: "",
+      thirdPreferenceCommittee1stCountry: '',
+      thirdPreferenceCommittee2ndCountry: '',
+      thirdPreferenceCommittee3rdCountry: '',
       thirdPreferenceCommitteeIPRole: undefined,
-      priorMUNExperience: "",
-      transportationRequired: "no",
-      foodPreference: "veg",
-      transactionId: "",
-      paymentScreenshotUrl: "",
+      priorMUNExperience: '',
+      transportationRequired: 'no',
+      foodPreference: 'veg',
+      transactionId: '',
+      paymentScreenshotUrl: '',
     },
   });
 
-  const targetAudience = form.watch("targetAudience");
+  const targetAudience = form.watch('targetAudience');
   // First Round pricing: inHouse = ₹800, otherColleges = ₹1300
-  const registrationFee = targetAudience === "inHouse" ? 800 : 1300;
+  const registrationFee = targetAudience === 'inHouse' ? 800 : 1300;
 
   /**
    * Check if email already exists in First Round or past registrations
@@ -85,11 +85,11 @@ export function FirstRoundRegistrationForm() {
       const normalizedEmail = email.trim().toLowerCase();
       const response = await fetch(
         `${appConfig.backendUrl}/api/check-email?email=${encodeURIComponent(
-          normalizedEmail,
+          normalizedEmail
         )}`,
         {
-          method: "GET",
-        },
+          method: 'GET',
+        }
       );
       if (!response.ok) {
         return false;
@@ -98,7 +98,7 @@ export function FirstRoundRegistrationForm() {
       return data.exists || false;
     } catch (error) {
       // On any network/CORS error, treat as "not existing" to allow retry
-      console.error("Email check error:", error);
+      console.error('Email check error:', error);
       return false;
     }
   };
@@ -113,19 +113,19 @@ export function FirstRoundRegistrationForm() {
       // Step 1: Personal details only
       case 1:
         fieldsToValidate = [
-          "targetAudience",
-          "name",
-          "email",
-          "phone",
-          "institution",
+          'targetAudience',
+          'name',
+          'email',
+          'phone',
+          'institution',
         ];
-        if (targetAudience === "inHouse") {
-          fieldsToValidate.push("rollNumber");
+        if (targetAudience === 'inHouse') {
+          fieldsToValidate.push('rollNumber');
         } else {
           // For otherCollege, validate otherInstitution if "Other" is selected
-          const currentInstitution = form.getValues("institution");
-          if (currentInstitution === "Other") {
-            fieldsToValidate.push("otherInstitution");
+          const currentInstitution = form.getValues('institution');
+          if (currentInstitution === 'Other') {
+            fieldsToValidate.push('otherInstitution');
           }
         }
         break;
@@ -133,28 +133,28 @@ export function FirstRoundRegistrationForm() {
       // Step 2: Committees + allocation preferences + prior experience
       case 2:
         fieldsToValidate = [
-          "firstPreferenceCommittee",
-          "secondPreferenceCommittee",
-          "thirdPreferenceCommittee",
-          "firstPreferenceCommittee1stCountry",
-          "firstPreferenceCommittee2ndCountry",
-          "firstPreferenceCommittee3rdCountry",
-          "firstPreferenceCommitteeIPRole",
-          "secondPreferenceCommittee1stCountry",
-          "secondPreferenceCommittee2ndCountry",
-          "secondPreferenceCommittee3rdCountry",
-          "secondPreferenceCommitteeIPRole",
-          "thirdPreferenceCommittee1stCountry",
-          "thirdPreferenceCommittee2ndCountry",
-          "thirdPreferenceCommittee3rdCountry",
-          "thirdPreferenceCommitteeIPRole",
-          "priorMUNExperience",
+          'firstPreferenceCommittee',
+          'secondPreferenceCommittee',
+          'thirdPreferenceCommittee',
+          'firstPreferenceCommittee1stCountry',
+          'firstPreferenceCommittee2ndCountry',
+          'firstPreferenceCommittee3rdCountry',
+          'firstPreferenceCommitteeIPRole',
+          'secondPreferenceCommittee1stCountry',
+          'secondPreferenceCommittee2ndCountry',
+          'secondPreferenceCommittee3rdCountry',
+          'secondPreferenceCommitteeIPRole',
+          'thirdPreferenceCommittee1stCountry',
+          'thirdPreferenceCommittee2ndCountry',
+          'thirdPreferenceCommittee3rdCountry',
+          'thirdPreferenceCommitteeIPRole',
+          'priorMUNExperience',
         ];
         break;
 
       // Step 3: Payment
       case 3:
-        fieldsToValidate = ["transactionId", "paymentScreenshotUrl"];
+        fieldsToValidate = ['transactionId', 'paymentScreenshotUrl'];
         break;
     }
 
@@ -162,14 +162,14 @@ export function FirstRoundRegistrationForm() {
 
     // Check email uniqueness on step 1
     if (stepNumber === 1 && result) {
-      const email = form.getValues("email");
+      const email = form.getValues('email');
       if (email) {
         const emailExists = await checkEmailExists(email);
         if (emailExists) {
           toast({
-            title: "Email already registered",
-            description: "This email is already registered for First Round.",
-            variant: "destructive",
+            title: 'Email already registered',
+            description: 'This email is already registered for First Round.',
+            variant: 'destructive',
           });
           return false;
         }
@@ -190,9 +190,9 @@ export function FirstRoundRegistrationForm() {
       }
     } else {
       toast({
-        title: "Validation Error",
-        description: "Please fill all required fields correctly.",
-        variant: "destructive",
+        title: 'Validation Error',
+        description: 'Please fill all required fields correctly.',
+        variant: 'destructive',
       });
     }
   };
@@ -218,10 +218,10 @@ export function FirstRoundRegistrationForm() {
     setIsLoading(true);
     try {
       // For in-house, institution is automatically set to VCE
-      let institutionValue = "";
-      if (values.targetAudience === "inHouse") {
-        institutionValue = "Vardhaman College of Engineering";
-      } else if (values.institution === "Other" && values.otherInstitution) {
+      let institutionValue = '';
+      if (values.targetAudience === 'inHouse') {
+        institutionValue = 'Vardhaman College of Engineering';
+      } else if (values.institution === 'Other' && values.otherInstitution) {
         institutionValue = values.otherInstitution;
       } else {
         institutionValue = values.institution;
@@ -234,7 +234,7 @@ export function FirstRoundRegistrationForm() {
         phone: values.phone,
         institution: institutionValue,
         otherInstitution:
-          values.institution === "Other" ? values.otherInstitution : undefined,
+          values.institution === 'Other' ? values.otherInstitution : undefined,
         rollNumber: values.rollNumber,
         firstPreferenceCommittee: values.firstPreferenceCommittee,
         secondPreferenceCommittee: values.secondPreferenceCommittee,
@@ -270,12 +270,12 @@ export function FirstRoundRegistrationForm() {
       const response = await fetch(
         `${appConfig.backendUrl}/api/first-round-register`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
-        },
+        }
       );
 
       if (!response.ok) {
@@ -283,44 +283,44 @@ export function FirstRoundRegistrationForm() {
           message: `Server error: ${response.status}`,
         }));
         throw new Error(
-          errorData.message || `Server error: ${response.status}`,
+          errorData.message || `Server error: ${response.status}`
         );
       }
 
       const data = await response.json();
       if (data.success) {
         toast({
-          title: "Registration Successful",
+          title: 'Registration Successful',
           description:
-            "First Round registration completed! You will receive a confirmation email shortly.",
+            'First Round registration completed! You will receive a confirmation email shortly.',
         });
         setTimeout(() => {
-          router.push("/");
+          router.push('/');
         }, 3000);
       } else {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message || 'Registration failed');
       }
     } catch (error) {
-      console.error("Error during First Round registration:", error);
+      console.error('Error during First Round registration:', error);
       let errorMessage =
-        "There was an error processing your registration. Please try again.";
+        'There was an error processing your registration. Please try again.';
 
       if (error instanceof Error) {
         errorMessage = error.message;
         // Handle network errors
         if (
-          error.message.includes("fetch") ||
-          error.message.includes("network")
+          error.message.includes('fetch') ||
+          error.message.includes('network')
         ) {
           errorMessage =
-            "Network error. Please check your connection and try again.";
+            'Network error. Please check your connection and try again.';
         }
       }
 
       toast({
-        title: "Registration Failed",
+        title: 'Registration Failed',
         description: errorMessage,
-        variant: "destructive",
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -330,15 +330,15 @@ export function FirstRoundRegistrationForm() {
   const getStepTitle = () => {
     switch (step) {
       case 1:
-        return "Personal Details";
+        return 'Personal Details';
       case 2:
-        return "Committee Preferences";
+        return 'Committee Preferences';
       case 3:
-        return "Payment Details";
+        return 'Payment Details';
       case 4:
-        return "Review & Confirm";
+        return 'Review & Confirm';
       default:
-        return "First Round Registration";
+        return 'First Round Registration';
     }
   };
 
@@ -350,11 +350,11 @@ export function FirstRoundRegistrationForm() {
             Step {step} of 4: {getStepTitle()}
           </p>
           <div className="flex justify-center gap-1 mt-4">
-            {[1, 2, 3, 4].map(s => (
+            {[1, 2, 3, 4].map((s) => (
               <div
                 key={s}
                 className={`h-2 w-6 sm:w-8 rounded-full transition-colors ${
-                  s <= step ? "bg-primary" : "bg-muted"
+                  s <= step ? 'bg-primary' : 'bg-muted'
                 }`}
               />
             ))}

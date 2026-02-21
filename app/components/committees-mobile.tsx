@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { committees } from "./committees";
+import Image from 'next/image';
+import Link from 'next/link';
+import { committees } from './committees';
 
 export function CommitteesMobile() {
   return (
@@ -9,7 +9,7 @@ export function CommitteesMobile() {
         COMMITTEES
       </h2>
       <div className="flex flex-col items-center space-y-6 px-4">
-        {committees.map(committee => (
+        {committees.map((committee) => (
           <Link
             key={committee.title}
             href={committee.href}
@@ -17,7 +17,7 @@ export function CommitteesMobile() {
           >
             <div className="relative w-full h-48 overflow-hidden rounded-lg">
               <Image
-                src={committee.url || "/placeholder.svg"}
+                src={committee.url || '/placeholder.svg'}
                 alt={committee.title}
                 fill
                 className="object-cover"

@@ -4,10 +4,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Control } from "react-hook-form";
-import { FormSchema } from "@/schemas/registrationForm";
+} from '@/components/ui/form';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Control } from 'react-hook-form';
+import { FormSchema } from '@/schemas/registrationForm';
 
 interface RegistrationTypeProps {
   control: Control<FormSchema>;

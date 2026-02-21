@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
-import { FirstRoundRegistrationsView } from "@/app/admin/[secretPath]/dashboard/first-round-registrations-view";
-import { PriorityRegistrationsView } from "@/app/admin/[secretPath]/dashboard/priority-registrations-view";
-import { PastRegistrationsView } from "@/app/admin/[secretPath]/dashboard/past-registrations-view";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ErrorBoundary } from "@/components/error-boundary";
-import { invalidateAll } from "@/lib/admin-api-cache";
-import { appConfig } from "@/lib/app-config";
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
+import { FirstRoundRegistrationsView } from '@/app/admin/[secretPath]/dashboard/first-round-registrations-view';
+import { PriorityRegistrationsView } from '@/app/admin/[secretPath]/dashboard/priority-registrations-view';
+import { PastRegistrationsView } from '@/app/admin/[secretPath]/dashboard/past-registrations-view';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ErrorBoundary } from '@/components/error-boundary';
+import { invalidateAll } from '@/lib/admin-api-cache';
+import { appConfig } from '@/lib/app-config';
 
 export default function AdminDashboardPage() {
   const params = useParams();
@@ -20,8 +20,8 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     const token =
-      typeof localStorage !== "undefined"
-        ? localStorage.getItem("adminToken")
+      typeof localStorage !== 'undefined'
+        ? localStorage.getItem('adminToken')
         : null;
     if (!token) {
       setAuthOk(false);
@@ -30,7 +30,7 @@ export default function AdminDashboardPage() {
     fetch(`${appConfig.backendUrl}/api/admin/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then(r => {
+      .then((r) => {
         if (r.ok) setAuthOk(true);
         else setAuthOk(false);
       })
@@ -45,8 +45,8 @@ export default function AdminDashboardPage() {
 
   function handleLogout() {
     invalidateAll();
-    if (typeof localStorage !== "undefined") {
-      localStorage.removeItem("adminToken");
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('adminToken');
     }
     router.replace(`/admin/${secretPath}`);
     router.refresh();

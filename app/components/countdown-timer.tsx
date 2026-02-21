@@ -1,9 +1,9 @@
- "use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
-const targetDate = new Date("2026-02-27T09:00:00+05:30").getTime();
+const targetDate = new Date('2026-02-27T09:00:00+05:30').getTime();
 
 interface TimeLeft {
   days: number;
@@ -24,7 +24,12 @@ function calculateTimeLeft(): TimeLeft {
   return { days, hours, minutes, seconds };
 }
 
-const INITIAL_PLACEHOLDER: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+const INITIAL_PLACEHOLDER: TimeLeft = {
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+};
 
 export function CountdownTimer() {
   const [mounted, setMounted] = useState(false);
@@ -45,10 +50,10 @@ export function CountdownTimer() {
   }, [mounted]);
 
   const items: { label: string; value: number }[] = [
-    { label: "Days", value: timeLeft.days },
-    { label: "Hours", value: timeLeft.hours },
-    { label: "Minutes", value: timeLeft.minutes },
-    { label: "Seconds", value: timeLeft.seconds },
+    { label: 'Days', value: timeLeft.days },
+    { label: 'Hours', value: timeLeft.hours },
+    { label: 'Minutes', value: timeLeft.minutes },
+    { label: 'Seconds', value: timeLeft.seconds },
   ];
 
   return (
@@ -89,9 +94,9 @@ export function CountdownTimer() {
               className="text-2xl md:text-3xl font-semibold text-red-500 tabular-nums"
               initial={{ scale: 0.9, opacity: 0.8 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 120, damping: 12 }}
+              transition={{ type: 'spring', stiffness: 120, damping: 12 }}
             >
-              {item.value.toString().padStart(2, "0")}
+              {item.value.toString().padStart(2, '0')}
             </motion.span>
             <span className="mt-1 text-xs md:text-sm uppercase tracking-wide text-gray-400">
               {item.label}

@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Control, UseFormReturn } from "react-hook-form";
-import { FirstRoundRegistrationSchema } from "@/schemas/firstRoundRegistrationForm";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/select';
+import { Control, UseFormReturn } from 'react-hook-form';
+import { FirstRoundRegistrationSchema } from '@/schemas/firstRoundRegistrationForm';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface CountryPreferencesStepProps {
   control: Control<FirstRoundRegistrationSchema>;
@@ -32,53 +32,53 @@ interface CountryPreferencesStepProps {
  */
 
 const committeeNames: Record<string, string> = {
-  disec: "DISEC",
-  unhrc: "UNHRC",
-  aippm: "AIPPM",
-  ip: "International Press (IP)",
+  disec: 'DISEC',
+  unhrc: 'UNHRC',
+  aippm: 'AIPPM',
+  ip: 'International Press (IP)',
 };
 
 const IP_ROLES = [
-  { value: "photographer", label: "Photographer" },
-  { value: "journalist", label: "Journalist" },
+  { value: 'photographer', label: 'Photographer' },
+  { value: 'journalist', label: 'Journalist' },
 ] as const;
 
 export function CountryPreferencesStep({
   control,
   form,
 }: CountryPreferencesStepProps) {
-  const firstCommittee = form.watch("firstPreferenceCommittee");
-  const secondCommittee = form.watch("secondPreferenceCommittee");
-  const thirdCommittee = form.watch("thirdPreferenceCommittee");
+  const firstCommittee = form.watch('firstPreferenceCommittee');
+  const secondCommittee = form.watch('secondPreferenceCommittee');
+  const thirdCommittee = form.watch('thirdPreferenceCommittee');
 
   // When committee changes to/from IP, clear the other allocation type
   useEffect(() => {
-    if (firstCommittee === "ip") {
-      form.setValue("firstPreferenceCommittee1stCountry", "");
-      form.setValue("firstPreferenceCommittee2ndCountry", "");
-      form.setValue("firstPreferenceCommittee3rdCountry", "");
+    if (firstCommittee === 'ip') {
+      form.setValue('firstPreferenceCommittee1stCountry', '');
+      form.setValue('firstPreferenceCommittee2ndCountry', '');
+      form.setValue('firstPreferenceCommittee3rdCountry', '');
     } else {
-      form.setValue("firstPreferenceCommitteeIPRole", undefined);
+      form.setValue('firstPreferenceCommitteeIPRole', undefined);
     }
   }, [firstCommittee, form]);
 
   useEffect(() => {
-    if (secondCommittee === "ip") {
-      form.setValue("secondPreferenceCommittee1stCountry", "");
-      form.setValue("secondPreferenceCommittee2ndCountry", "");
-      form.setValue("secondPreferenceCommittee3rdCountry", "");
+    if (secondCommittee === 'ip') {
+      form.setValue('secondPreferenceCommittee1stCountry', '');
+      form.setValue('secondPreferenceCommittee2ndCountry', '');
+      form.setValue('secondPreferenceCommittee3rdCountry', '');
     } else {
-      form.setValue("secondPreferenceCommitteeIPRole", undefined);
+      form.setValue('secondPreferenceCommitteeIPRole', undefined);
     }
   }, [secondCommittee, form]);
 
   useEffect(() => {
-    if (thirdCommittee === "ip") {
-      form.setValue("thirdPreferenceCommittee1stCountry", "");
-      form.setValue("thirdPreferenceCommittee2ndCountry", "");
-      form.setValue("thirdPreferenceCommittee3rdCountry", "");
+    if (thirdCommittee === 'ip') {
+      form.setValue('thirdPreferenceCommittee1stCountry', '');
+      form.setValue('thirdPreferenceCommittee2ndCountry', '');
+      form.setValue('thirdPreferenceCommittee3rdCountry', '');
     } else {
-      form.setValue("thirdPreferenceCommitteeIPRole", undefined);
+      form.setValue('thirdPreferenceCommitteeIPRole', undefined);
     }
   }, [thirdCommittee, form]);
 
@@ -98,16 +98,16 @@ export function CountryPreferencesStep({
       <Card className="border-primary/20 bg-muted/30">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm sm:text-base break-words">
-            <span className="block sm:inline">1st Preference Committee:</span>{" "}
+            <span className="block sm:inline">1st Preference Committee:</span>{' '}
             <span className="font-semibold">
               {firstCommittee
                 ? committeeNames[firstCommittee] || firstCommittee
-                : "Not selected"}
+                : 'Not selected'}
             </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {firstCommittee === "ip" ? (
+          {firstCommittee === 'ip' ? (
             <FormField
               control={control}
               name="firstPreferenceCommitteeIPRole"
@@ -118,7 +118,7 @@ export function CountryPreferencesStep({
                   </FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value ?? ""}
+                    value={field.value ?? ''}
                   >
                     <FormControl>
                       <SelectTrigger className="border-primary/20 focus:border-primary">
@@ -126,7 +126,7 @@ export function CountryPreferencesStep({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {IP_ROLES.map(role => (
+                      {IP_ROLES.map((role) => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
                         </SelectItem>
@@ -205,16 +205,16 @@ export function CountryPreferencesStep({
       <Card className="border-primary/20 bg-muted/30">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm sm:text-base break-words">
-            <span className="block sm:inline">2nd Preference Committee:</span>{" "}
+            <span className="block sm:inline">2nd Preference Committee:</span>{' '}
             <span className="font-semibold">
               {secondCommittee
                 ? committeeNames[secondCommittee] || secondCommittee
-                : "Not selected"}
+                : 'Not selected'}
             </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {secondCommittee === "ip" ? (
+          {secondCommittee === 'ip' ? (
             <FormField
               control={control}
               name="secondPreferenceCommitteeIPRole"
@@ -225,7 +225,7 @@ export function CountryPreferencesStep({
                   </FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value ?? ""}
+                    value={field.value ?? ''}
                   >
                     <FormControl>
                       <SelectTrigger className="border-primary/20 focus:border-primary">
@@ -233,7 +233,7 @@ export function CountryPreferencesStep({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {IP_ROLES.map(role => (
+                      {IP_ROLES.map((role) => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
                         </SelectItem>
@@ -312,16 +312,16 @@ export function CountryPreferencesStep({
       <Card className="border-primary/20 bg-muted/30">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm sm:text-base break-words">
-            <span className="block sm:inline">3rd Preference Committee:</span>{" "}
+            <span className="block sm:inline">3rd Preference Committee:</span>{' '}
             <span className="font-semibold">
               {thirdCommittee
                 ? committeeNames[thirdCommittee] || thirdCommittee
-                : "Not selected"}
+                : 'Not selected'}
             </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {thirdCommittee === "ip" ? (
+          {thirdCommittee === 'ip' ? (
             <FormField
               control={control}
               name="thirdPreferenceCommitteeIPRole"
@@ -332,7 +332,7 @@ export function CountryPreferencesStep({
                   </FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value ?? ""}
+                    value={field.value ?? ''}
                   >
                     <FormControl>
                       <SelectTrigger className="border-primary/20 focus:border-primary">
@@ -340,7 +340,7 @@ export function CountryPreferencesStep({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {IP_ROLES.map(role => (
+                      {IP_ROLES.map((role) => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
                         </SelectItem>

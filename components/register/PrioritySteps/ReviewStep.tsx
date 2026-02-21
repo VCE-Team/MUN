@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Control, UseFormReturn } from "react-hook-form";
-import { PriorityRegistrationSchema } from "@/schemas/priorityRegistrationForm";
-import { Edit2 } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Control, UseFormReturn } from 'react-hook-form';
+import { PriorityRegistrationSchema } from '@/schemas/priorityRegistrationForm';
+import { Edit2 } from 'lucide-react';
 
 interface ReviewStepProps {
   control: Control<PriorityRegistrationSchema>;
@@ -15,15 +15,15 @@ interface ReviewStepProps {
 }
 
 const committeeNames: Record<string, string> = {
-  disec: "Disarmament and International Security Committee (DISEC)",
-  unhrc: "United Nations Human Rights Council (UNHRC)",
-  aippm: "All India Political Parties Meet (AIPPM)",
-  ip: "International Press (IP)",
+  disec: 'Disarmament and International Security Committee (DISEC)',
+  unhrc: 'United Nations Human Rights Council (UNHRC)',
+  aippm: 'All India Political Parties Meet (AIPPM)',
+  ip: 'International Press (IP)',
 };
 
 const ipRoleLabels: Record<string, string> = {
-  photographer: "Photographer",
-  journalist: "Journalist",
+  photographer: 'Photographer',
+  journalist: 'Journalist',
 };
 
 export function ReviewStep({
@@ -65,9 +65,9 @@ export function ReviewStep({
             <div>
               <p className="text-muted-foreground">Registration Type</p>
               <p className="font-medium">
-                {values.targetAudience === "inHouse"
-                  ? "In House (VCE Student)"
-                  : "Other Colleges"}
+                {values.targetAudience === 'inHouse'
+                  ? 'In House (VCE Student)'
+                  : 'Other Colleges'}
               </p>
             </div>
             <div>
@@ -85,8 +85,8 @@ export function ReviewStep({
             <div>
               <p className="text-muted-foreground">Institution</p>
               <p className="font-medium">
-                {values.targetAudience === "inHouse"
-                  ? "Vardhaman College of Engineering"
+                {values.targetAudience === 'inHouse'
+                  ? 'Vardhaman College of Engineering'
                   : values.otherInstitution || values.institution}
               </p>
             </div>
@@ -120,13 +120,13 @@ export function ReviewStep({
           {/* 1st Preference Committee */}
           <div className="space-y-2 pb-3 border-b border-border/50">
             <p className="font-semibold text-foreground/90 text-sm sm:text-base break-words">
-              <span className="block sm:inline">1st Preference Committee:</span>{" "}
+              <span className="block sm:inline">1st Preference Committee:</span>{' '}
               <span>
                 {committeeNames[values.firstPreferenceCommittee] ||
                   values.firstPreferenceCommittee}
               </span>
             </p>
-            {values.firstPreferenceCommittee === "ip" ? (
+            {values.firstPreferenceCommittee === 'ip' ? (
               <div className="sm:ml-4">
                 <p className="text-muted-foreground text-xs">
                   Allocation Preference
@@ -134,7 +134,7 @@ export function ReviewStep({
                 <p className="font-medium">
                   {values.firstPreferenceCommitteeIPRole
                     ? ipRoleLabels[values.firstPreferenceCommitteeIPRole]
-                    : "—"}
+                    : '—'}
                 </p>
               </div>
             ) : (
@@ -170,13 +170,13 @@ export function ReviewStep({
           {/* 2nd Preference Committee */}
           <div className="space-y-2 pb-3 border-b border-border/50">
             <p className="font-semibold text-foreground/90 text-sm sm:text-base break-words">
-              <span className="block sm:inline">2nd Preference Committee:</span>{" "}
+              <span className="block sm:inline">2nd Preference Committee:</span>{' '}
               <span>
                 {committeeNames[values.secondPreferenceCommittee] ||
                   values.secondPreferenceCommittee}
               </span>
             </p>
-            {values.secondPreferenceCommittee === "ip" ? (
+            {values.secondPreferenceCommittee === 'ip' ? (
               <div className="sm:ml-4">
                 <p className="text-muted-foreground text-xs">
                   Allocation Preference
@@ -184,7 +184,7 @@ export function ReviewStep({
                 <p className="font-medium">
                   {values.secondPreferenceCommitteeIPRole
                     ? ipRoleLabels[values.secondPreferenceCommitteeIPRole]
-                    : "—"}
+                    : '—'}
                 </p>
               </div>
             ) : (
@@ -220,13 +220,13 @@ export function ReviewStep({
           {/* 3rd Preference Committee */}
           <div className="space-y-2">
             <p className="font-semibold text-foreground/90 text-sm sm:text-base break-words">
-              <span className="block sm:inline">3rd Preference Committee:</span>{" "}
+              <span className="block sm:inline">3rd Preference Committee:</span>{' '}
               <span>
                 {committeeNames[values.thirdPreferenceCommittee] ||
                   values.thirdPreferenceCommittee}
               </span>
             </p>
-            {values.thirdPreferenceCommittee === "ip" ? (
+            {values.thirdPreferenceCommittee === 'ip' ? (
               <div className="sm:ml-4">
                 <p className="text-muted-foreground text-xs">
                   Allocation Preference
@@ -234,7 +234,7 @@ export function ReviewStep({
                 <p className="font-medium">
                   {values.thirdPreferenceCommitteeIPRole
                     ? ipRoleLabels[values.thirdPreferenceCommitteeIPRole]
-                    : "—"}
+                    : '—'}
                 </p>
               </div>
             ) : (

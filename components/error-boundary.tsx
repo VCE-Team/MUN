@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+import { Button } from '@/components/ui/button';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -27,8 +27,8 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    if (typeof console !== "undefined" && console.error) {
-      console.error("ErrorBoundary caught an error:", error, errorInfo);
+    if (typeof console !== 'undefined' && console.error) {
+      console.error('ErrorBoundary caught an error:', error, errorInfo);
     }
   }
 
@@ -52,7 +52,9 @@ export class ErrorBoundary extends React.Component<
             variant="ghost"
             size="sm"
             className="text-muted-foreground"
-            onClick={() => typeof window !== "undefined" && window.location.reload()}
+            onClick={() =>
+              typeof window !== 'undefined' && window.location.reload()
+            }
           >
             Reload page
           </Button>

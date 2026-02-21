@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { appConfig } from "@/lib/app-config";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { PastRegistrationDoc } from "@/lib/admin-types";
-import { isApiError } from "@/lib/admin-types";
-import { getAdminHeaders, formatAdminDate } from "@/lib/admin-utils";
+import { useEffect, useState, useRef } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { appConfig } from '@/lib/app-config';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { PastRegistrationDoc } from '@/lib/admin-types';
+import { isApiError } from '@/lib/admin-types';
+import { getAdminHeaders, formatAdminDate } from '@/lib/admin-utils';
 import {
   getCached,
   setCached,
   invalidateAll,
   pastDocKey,
   CACHE_TTL,
-} from "@/lib/admin-api-cache";
+} from '@/lib/admin-api-cache';
 
 function DetailRow({
   label,
@@ -27,7 +27,7 @@ function DetailRow({
   return (
     <div className="flex flex-wrap gap-2 border-b border-white/10 py-2 first:pt-0 last:border-0">
       <span className="text-muted-foreground shrink-0 w-44">{label}</span>
-      <span className="break-words">{value ?? "—"}</span>
+      <span className="break-words">{value ?? '—'}</span>
     </div>
   );
 }
@@ -67,8 +67,8 @@ export function PastDetailView({
       .then((r) => {
         if (r.status === 401) {
           invalidateAll();
-          if (typeof localStorage !== "undefined")
-            localStorage.removeItem("adminToken");
+          if (typeof localStorage !== 'undefined')
+            localStorage.removeItem('adminToken');
           router.replace(`/admin/${secretPath}`);
           return null;
         }
@@ -84,15 +84,15 @@ export function PastDetailView({
           setDoc(null);
           setFetchError(
             data && isApiError(data)
-              ? (data as { message?: string }).message ?? "Not found"
-              : "Not found"
+              ? ((data as { message?: string }).message ?? 'Not found')
+              : 'Not found'
           );
         }
       })
       .catch(() => {
         if (mountedRef.current) {
           setDoc(null);
-          setFetchError("Failed to load registration.");
+          setFetchError('Failed to load registration.');
         }
       })
       .finally(() => {
@@ -134,19 +134,20 @@ export function PastDetailView({
           Back to list
         </Button>
         <p className="text-muted-foreground">
-          {fetchError ?? "Registration not found."}
+          {fetchError ?? 'Registration not found.'}
         </p>
       </div>
     );
   }
 
-  const countries = [
-    doc.firstPreferenceCountry,
-    doc.secondPreferenceCountry,
-    doc.thirdPreferenceCountry,
-  ]
-    .filter(Boolean)
-    .join(", ") || "—";
+  const countries =
+    [
+      doc.firstPreferenceCountry,
+      doc.secondPreferenceCountry,
+      doc.thirdPreferenceCountry,
+    ]
+      .filter(Boolean)
+      .join(', ') || '—';
 
   return (
     <div className="space-y-6 px-4 sm:px-0">
@@ -162,7 +163,7 @@ export function PastDetailView({
 
       <div className="glass-panel rounded-xl border border-white/10 p-4 sm:p-6 space-y-1">
         <h2 className="text-xl font-semibold text-[var(--logo-gold-yellow)] mb-4">
-          {doc.name ?? "—"}
+          {doc.name ?? '—'}
         </h2>
         <DetailRow label="Email" value={doc.email} />
         <DetailRow label="Phone" value={doc.phone} />

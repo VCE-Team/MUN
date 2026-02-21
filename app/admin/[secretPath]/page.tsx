@@ -1,53 +1,53 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { appConfig } from "@/lib/app-config";
+} from '@/components/ui/card';
+import { appConfig } from '@/lib/app-config';
 
 export default function AdminLoginPage() {
   const params = useParams();
   const router = useRouter();
   const secretPath = params.secretPath as string;
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
     try {
       const res = await fetch(`${appConfig.backendUrl}/api/admin/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ secretPath, password }),
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.message || "Login failed");
+        setError(data.message || 'Login failed');
         return;
       }
       if (data.token) {
-        if (typeof localStorage !== "undefined") {
-          localStorage.setItem("adminToken", data.token);
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('adminToken', data.token);
         }
         router.push(`/admin/${secretPath}/dashboard`);
         router.refresh();
       } else {
-        setError("Invalid response");
+        setError('Invalid response');
       }
     } catch {
-      setError("Something went wrong");
+      setError('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -79,15 +79,9 @@ export default function AdminLoginPage() {
                 autoFocus
               />
             </div>
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loading}
-            >
-              {loading ? "Signing in…" : "Sign in"}
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Signing in…' : 'Sign in'}
             </Button>
           </form>
         </CardContent>

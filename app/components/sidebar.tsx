@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useState } from 'react';
+import Link from 'next/link';
+import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
 const committees = [
-  { title: "DISEC", href: "/committees/disec" },
-  { title: "UNHRC", href: "/committees/unhrc" },
-  { title: "AIPPM", href: "/committees/aippm" },
-  { title: "International Press (IP)", href: "/committees/internationalpress" },
+  { title: 'DISEC', href: '/committees/disec' },
+  { title: 'UNHRC', href: '/committees/unhrc' },
+  { title: 'AIPPM', href: '/committees/aippm' },
+  { title: 'International Press (IP)', href: '/committees/internationalpress' },
 ];
 
 export function Sidebar() {
@@ -44,7 +44,7 @@ export function Sidebar() {
                 <AccordionTrigger>Committees</AccordionTrigger>
                 <AccordionContent>
                   <ul className="ml-4 space-y-2">
-                    {committees.map(committee => (
+                    {committees.map((committee) => (
                       <li key={committee.title}>
                         <Link
                           href={committee.href}

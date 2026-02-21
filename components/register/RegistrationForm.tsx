@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { FormSchema, formSchema } from "@/schemas/registrationForm";
-import { ParticipantDetails } from "./ParticipantDetails";
-import { PaymentDetails } from "./PaymentDetails";
-import { RegistrationType } from "./RegistrationType";
-import { appConfig } from "@/lib/app-config";
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { toast } from '@/hooks/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { FormSchema, formSchema } from '@/schemas/registrationForm';
+import { ParticipantDetails } from './ParticipantDetails';
+import { PaymentDetails } from './PaymentDetails';
+import { RegistrationType } from './RegistrationType';
+import { appConfig } from '@/lib/app-config';
 
 export function RegistrationForm() {
   const [step, setStep] = useState(1);
@@ -18,39 +18,39 @@ export function RegistrationForm() {
   const router = useRouter();
   const [showFirstQR, setShowFirstQR] = useState(true);
   const [registrationType, setRegistrationType] = useState<
-    "single" | "multiple"
-  >("single");
+    'single' | 'multiple'
+  >('single');
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      registrationType: "single",
+      registrationType: 'single',
       participants: [
         {
-          name: "",
-          email: "",
-          phone: "",
-          institution: "",
-          committee: "",
-          firstPreferenceCountry: "",
-          secondPreferenceCountry: "",
-          thirdPreferenceCountry: "",
-          priorExperiences: "",
-          role: "",
+          name: '',
+          email: '',
+          phone: '',
+          institution: '',
+          committee: '',
+          firstPreferenceCountry: '',
+          secondPreferenceCountry: '',
+          thirdPreferenceCountry: '',
+          priorExperiences: '',
+          role: '',
         },
       ],
-      transactionId: "",
-      qrUsed: "qr1",
+      transactionId: '',
+      qrUsed: 'qr1',
     },
   });
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: "participants",
+    name: 'participants',
   });
 
   const calculatePrice = () => {
-    if (registrationType === "single") {
+    if (registrationType === 'single') {
       return 599;
     } else {
       return 599 * 5;
@@ -70,15 +70,15 @@ export function RegistrationForm() {
     if (step === 1) {
       setIsLoading(true);
       try {
-        isValid = await form.trigger("participants");
+        isValid = await form.trigger('participants');
 
         if (isValid) {
-          const participants = form.getValues("participants");
-          if (registrationType === "multiple" && participants.length < 6) {
+          const participants = form.getValues('participants');
+          if (registrationType === 'multiple' && participants.length < 6) {
             toast({
-              title: "Incomplete Group Registration",
-              description: "Please add details for all 6 participants.",
-              variant: "destructive",
+              title: 'Incomplete Group Registration',
+              description: 'Please add details for all 6 participants.',
+              variant: 'destructive',
             });
             setIsLoading(false);
             return;
@@ -88,9 +88,9 @@ export function RegistrationForm() {
             const emailExists = await checkEmailExists(participant.email);
             if (emailExists) {
               toast({
-                title: "Email already used for registration",
+                title: 'Email already used for registration',
                 description: `Email ${participant.email} is already registered.`,
-                variant: "destructive",
+                variant: 'destructive',
               });
               setIsLoading(false);
               return;
@@ -100,16 +100,16 @@ export function RegistrationForm() {
           setStep(2);
         } else {
           toast({
-            title: "Validation Error",
-            description: "Please check all the fields properly.",
-            variant: "destructive",
+            title: 'Validation Error',
+            description: 'Please check all the fields properly.',
+            variant: 'destructive',
           });
         }
       } catch (error) {
         toast({
-          title: "Error",
-          description: "An error occurred. Please try again.",
-          variant: "destructive",
+          title: 'Error',
+          description: 'An error occurred. Please try again.',
+          variant: 'destructive',
         });
         console.error(error);
       } finally {
@@ -125,7 +125,7 @@ export function RegistrationForm() {
   async function onSubmit(values: FormSchema) {
     setIsLoading(true);
     try {
-      if (values.registrationType === "single") {
+      if (values.registrationType === 'single') {
         const participant = values.participants[0];
         const payload = {
           ...participant,
@@ -134,9 +134,9 @@ export function RegistrationForm() {
         };
 
         const response = await fetch(`${appConfig.backendUrl}/api/register`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
         });
@@ -144,50 +144,53 @@ export function RegistrationForm() {
         const data = await response.json();
         if (data.success) {
           toast({
-            title: "Registration Successful",
+            title: 'Registration Successful',
             description:
-              "Registered Successfully! You will receive a mail in a few days.",
+              'Registered Successfully! You will receive a mail in a few days.',
           });
           setTimeout(() => {
-            router.push("/");
+            router.push('/');
           }, 5000);
         } else {
           throw new Error(data.message);
         }
       } else {
-        const response = await fetch(`${appConfig.backendUrl}/api/register-multiple`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            participants: values.participants,
-            transactionId: values.transactionId,
-            registrationType: values.registrationType,
-            qrUsed: values.qrUsed,
-          }),
-        });
+        const response = await fetch(
+          `${appConfig.backendUrl}/api/register-multiple`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              participants: values.participants,
+              transactionId: values.transactionId,
+              registrationType: values.registrationType,
+              qrUsed: values.qrUsed,
+            }),
+          }
+        );
 
         const data = await response.json();
         if (data.success) {
           toast({
-            title: "Group Registration Successful",
+            title: 'Group Registration Successful',
             description:
-              "All participants registered successfully! You will receive a mail in a few days.",
+              'All participants registered successfully! You will receive a mail in a few days.',
           });
           setTimeout(() => {
-            router.push("/");
+            router.push('/');
           }, 5000);
         } else {
           throw new Error(data.message);
         }
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error('Error during registration:', error);
       toast({
-        title: "Registration Failed",
-        description: "There was an error processing your registration.",
-        variant: "destructive",
+        title: 'Registration Failed',
+        description: 'There was an error processing your registration.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -195,41 +198,41 @@ export function RegistrationForm() {
   }
 
   useEffect(() => {
-    const currentType = form.getValues("registrationType");
+    const currentType = form.getValues('registrationType');
     if (currentType !== registrationType) {
-      setRegistrationType(currentType as "single" | "multiple");
+      setRegistrationType(currentType as 'single' | 'multiple');
 
-      if (currentType === "single") {
-        form.setValue("participants", [
+      if (currentType === 'single') {
+        form.setValue('participants', [
           {
-            name: "",
-            email: "",
-            phone: "",
-            institution: "",
-            committee: "",
-            firstPreferenceCountry: "",
-            secondPreferenceCountry: "",
-            thirdPreferenceCountry: "",
-            priorExperiences: "",
-            role: "",
+            name: '',
+            email: '',
+            phone: '',
+            institution: '',
+            committee: '',
+            firstPreferenceCountry: '',
+            secondPreferenceCountry: '',
+            thirdPreferenceCountry: '',
+            priorExperiences: '',
+            role: '',
           },
         ]);
       } else {
-        const currentParticipants = form.getValues("participants");
+        const currentParticipants = form.getValues('participants');
         const newParticipants = [...currentParticipants];
 
         while (newParticipants.length < 6) {
           newParticipants.push({
-            name: "",
-            email: "",
-            phone: "",
-            institution: "",
-            committee: "",
-            firstPreferenceCountry: "",
-            secondPreferenceCountry: "",
-            thirdPreferenceCountry: "",
-            priorExperiences: "",
-            role: "",
+            name: '',
+            email: '',
+            phone: '',
+            institution: '',
+            committee: '',
+            firstPreferenceCountry: '',
+            secondPreferenceCountry: '',
+            thirdPreferenceCountry: '',
+            priorExperiences: '',
+            role: '',
           });
         }
 
@@ -237,21 +240,21 @@ export function RegistrationForm() {
           newParticipants.length = 6;
         }
 
-        form.setValue("participants", newParticipants);
+        form.setValue('participants', newParticipants);
       }
     }
-  }, [form.watch("registrationType")]);
+  }, [form.watch('registrationType')]);
 
   useEffect(() => {
     fields.forEach((field, index) => {
       const committee = form.getValues(`participants.${index}.committee`);
-      if (committee === "ip") {
-        form.setValue(`participants.${index}.priorExperiences`, "");
-      } else if (["disec", "unhrc", "ecosoc"].includes(committee)) {
-        form.setValue(`participants.${index}.role`, "");
+      if (committee === 'ip') {
+        form.setValue(`participants.${index}.priorExperiences`, '');
+      } else if (['disec', 'unhrc', 'ecosoc'].includes(committee)) {
+        form.setValue(`participants.${index}.role`, '');
       }
     });
-  }, [fields, form.watch("participants")]);
+  }, [fields, form.watch('participants')]);
 
   return (
     <Form {...form}>
@@ -273,22 +276,22 @@ export function RegistrationForm() {
               />
             ))}
 
-            {registrationType === "multiple" && fields.length < 6 && (
+            {registrationType === 'multiple' && fields.length < 6 && (
               <Button
                 type="button"
                 variant="outline"
                 onClick={() =>
                   append({
-                    name: "",
-                    email: "",
-                    phone: "",
-                    institution: "",
-                    committee: "",
-                    firstPreferenceCountry: "",
-                    secondPreferenceCountry: "",
-                    thirdPreferenceCountry: "",
-                    priorExperiences: "",
-                    role: "",
+                    name: '',
+                    email: '',
+                    phone: '',
+                    institution: '',
+                    committee: '',
+                    firstPreferenceCountry: '',
+                    secondPreferenceCountry: '',
+                    thirdPreferenceCountry: '',
+                    priorExperiences: '',
+                    role: '',
                   })
                 }
                 className="w-full border-dashed border-primary/40 hover:bg-primary/5"
@@ -300,9 +303,9 @@ export function RegistrationForm() {
 
             <div className="mt-6 p-4 bg-secondary/20 rounded-lg">
               <p className="text-sm text-muted-foreground">
-                {registrationType === "single"
-                  ? "Registration fee: ₹599 per person"
-                  : "Registration package: Register 5 participants at ₹599 each and get 1 registration free. Total: ₹2,995"}
+                {registrationType === 'single'
+                  ? 'Registration fee: ₹599 per person'
+                  : 'Registration package: Register 5 participants at ₹599 each and get 1 registration free. Total: ₹2,995'}
               </p>
             </div>
           </div>
@@ -343,7 +346,7 @@ export function RegistrationForm() {
                   Please wait
                 </>
               ) : (
-                "Continue to Payment"
+                'Continue to Payment'
               )}
             </Button>
           ) : (
@@ -358,7 +361,7 @@ export function RegistrationForm() {
                   Submitting...
                 </>
               ) : (
-                "Complete Registration"
+                'Complete Registration'
               )}
             </Button>
           )}

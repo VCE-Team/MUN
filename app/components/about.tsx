@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import Image from 'next/image';
+import { Card, CardContent } from '@/components/ui/card';
 
 export function About() {
   return (
@@ -34,24 +34,24 @@ export function About() {
         <div className="grid md:grid-cols-3 gap-8 mt-16">
           {[
             {
-              number: "01",
-              title: "Advocate",
+              number: '01',
+              title: 'Advocate',
               description:
-                "Be the passionate advocate of diplomacy, justice, and progress - Join the Model United Nations and make your voice heard on the global stage, shaping a better world for all.",
+                'Be the passionate advocate of diplomacy, justice, and progress - Join the Model United Nations and make your voice heard on the global stage, shaping a better world for all.',
             },
             {
-              number: "02",
-              title: "Aspire",
+              number: '02',
+              title: 'Aspire',
               description:
-                "Aspire to make a difference on the global stage - Embrace the challenge of diplomacy at the Model United Nations and unlock your potential as a future leader of positive change.",
+                'Aspire to make a difference on the global stage - Embrace the challenge of diplomacy at the Model United Nations and unlock your potential as a future leader of positive change.',
             },
             {
-              number: "03",
-              title: "Achieve",
+              number: '03',
+              title: 'Achieve',
               description:
-                "Believe, act, and achieve - at the Model United Nations, you have the power to influence global affairs and make your mark as a diplomat of tomorrow.",
+                'Believe, act, and achieve - at the Model United Nations, you have the power to influence global affairs and make your mark as a diplomat of tomorrow.',
             },
-          ].map(item => (
+          ].map((item) => (
             <Card
               key={item.number}
               className="bg-card hover:bg-accent transition-colors"

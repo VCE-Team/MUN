@@ -1,12 +1,12 @@
-import { Hero } from "@/app/components/hero";
-import { Committees } from "@/app/components/committees";
-import { Contact } from "@/app/components/contact";
-import { RevealAnimation } from "@/app/components/reveal-animation";
-import Partners from "./components/partners";
-import { LoadingScreen } from "./components/loading-screen";
-import DateAnnouncement from "./components/date-announcement";
-import { RouteLoading } from "./components/route-loading";
-import { CountdownTimer } from "./components/countdown-timer";
+import { Hero } from '@/app/components/hero';
+import { Committees } from '@/app/components/committees';
+import { Contact } from '@/app/components/contact';
+import { RevealAnimation } from '@/app/components/reveal-animation';
+import Partners from './components/partners';
+import { LoadingScreen } from './components/loading-screen';
+import DateAnnouncement from './components/date-announcement';
+import { RouteLoading } from './components/route-loading';
+import { CountdownTimer } from './components/countdown-timer';
 
 export default function Home() {
   return (

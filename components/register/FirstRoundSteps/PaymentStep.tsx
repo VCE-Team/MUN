@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   FormControl,
@@ -6,12 +6,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import Image from "next/image";
-import { Control, UseFormReturn } from "react-hook-form";
-import { FirstRoundRegistrationSchema } from "@/schemas/firstRoundRegistrationForm";
-import { useState, useEffect } from "react";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import Image from 'next/image';
+import { Control, UseFormReturn } from 'react-hook-form';
+import { FirstRoundRegistrationSchema } from '@/schemas/firstRoundRegistrationForm';
+import { useState, useEffect } from 'react';
 
 interface PaymentStepProps {
   control: Control<FirstRoundRegistrationSchema>;
@@ -39,10 +39,10 @@ export function PaymentStep({
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
-      reader.onload = e => {
-        const img = document.createElement("img");
+      reader.onload = (e) => {
+        const img = document.createElement('img');
         img.onload = () => {
-          const canvas = document.createElement("canvas");
+          const canvas = document.createElement('canvas');
           let width = img.width;
           let height = img.height;
 
@@ -56,9 +56,9 @@ export function PaymentStep({
           canvas.width = width;
           canvas.height = height;
 
-          const ctx = canvas.getContext("2d");
+          const ctx = canvas.getContext('2d');
           if (!ctx) {
-            reject(new Error("Failed to get canvas context"));
+            reject(new Error('Failed to get canvas context'));
             return;
           }
 
@@ -67,24 +67,24 @@ export function PaymentStep({
 
           // Convert to JPEG with quality 0.75 (good balance between quality and size)
           // This typically reduces file size by 60-80% while maintaining readability
-          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.75);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
 
           // Check if compressed size is reasonable (base64 is ~33% larger than binary)
           // Target: ~500KB base64 = ~375KB binary
           if (compressedDataUrl.length > 500 * 1024) {
             // Try lower quality (0.6) if still too large
-            const smallerDataUrl = canvas.toDataURL("image/jpeg", 0.6);
+            const smallerDataUrl = canvas.toDataURL('image/jpeg', 0.6);
             resolve(smallerDataUrl);
           } else {
             resolve(compressedDataUrl);
           }
         };
 
-        img.onerror = () => reject(new Error("Failed to load image"));
+        img.onerror = () => reject(new Error('Failed to load image'));
         img.src = e.target?.result as string;
       };
 
-      reader.onerror = () => reject(new Error("Failed to read file"));
+      reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsDataURL(file);
     });
   };
@@ -92,7 +92,7 @@ export function PaymentStep({
   const handleFileChange = async (file: File | undefined) => {
     if (!file) {
       // Clear URL and preview
-      form.setValue("paymentScreenshotUrl", "");
+      form.setValue('paymentScreenshotUrl', '');
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
         setPreviewUrl(null);
@@ -102,19 +102,19 @@ export function PaymentStep({
 
     // Validate file size (max 10MB original)
     if (file.size > 10 * 1024 * 1024) {
-      form.setError("paymentScreenshotUrl", {
-        type: "manual",
-        message: "File size must be less than 10MB",
+      form.setError('paymentScreenshotUrl', {
+        type: 'manual',
+        message: 'File size must be less than 10MB',
       });
       return;
     }
 
     // Validate file type
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
-      form.setError("paymentScreenshotUrl", {
-        type: "manual",
-        message: "Only image files are allowed (JPEG, JPG, PNG, WebP)",
+      form.setError('paymentScreenshotUrl', {
+        type: 'manual',
+        message: 'Only image files are allowed (JPEG, JPG, PNG, WebP)',
       });
       return;
     }
@@ -126,18 +126,18 @@ export function PaymentStep({
       const compressedDataUrl = await compressImage(file);
 
       // Save compressed base64 data URL in form state
-      form.setValue("paymentScreenshotUrl", compressedDataUrl, {
+      form.setValue('paymentScreenshotUrl', compressedDataUrl, {
         shouldValidate: true,
       });
       setPreviewUrl(compressedDataUrl);
-      form.clearErrors("paymentScreenshotUrl");
+      form.clearErrors('paymentScreenshotUrl');
     } catch (error) {
-      form.setError("paymentScreenshotUrl", {
-        type: "manual",
+      form.setError('paymentScreenshotUrl', {
+        type: 'manual',
         message:
           error instanceof Error
             ? error.message
-            : "Failed to process image. Please try again.",
+            : 'Failed to process image. Please try again.',
       });
     } finally {
       setIsUploading(false);
@@ -146,7 +146,7 @@ export function PaymentStep({
 
   // When revisiting this step, restore preview from existing URL in form
   useEffect(() => {
-    const existingUrl = form.getValues("paymentScreenshotUrl");
+    const existingUrl = form.getValues('paymentScreenshotUrl');
     if (existingUrl && !previewUrl) {
       setPreviewUrl(existingUrl);
     }
@@ -162,7 +162,7 @@ export function PaymentStep({
           Please scan the QR code to make the payment
         </p>
         <p className="text-sm text-primary">
-          Registration Fee:{" "}
+          Registration Fee:{' '}
           <span className="font-bold">₹{registrationFee}</span>
         </p>
       </div>
@@ -213,7 +213,7 @@ export function PaymentStep({
                 type="file"
                 accept="image/jpeg,image/jpg,image/png,image/webp"
                 className="border-primary/20 focus:border-primary cursor-pointer"
-                onChange={e => {
+                onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
                     handleFileChange(file);

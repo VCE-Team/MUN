@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   FormControl,
@@ -6,10 +6,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Control } from "react-hook-form";
-import { FirstRoundRegistrationSchema } from "@/schemas/firstRoundRegistrationForm";
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { Control } from 'react-hook-form';
+import { FirstRoundRegistrationSchema } from '@/schemas/firstRoundRegistrationForm';
 
 interface PriorExperienceStepProps {
   control: Control<FirstRoundRegistrationSchema>;
@@ -39,7 +39,7 @@ export function PriorExperienceStep({ control }: PriorExperienceStepProps) {
         control={control}
         name="priorMUNExperience"
         render={({ field }) => {
-          const value = field.value ?? "";
+          const value = field.value ?? '';
           const words = value.trim().split(/\s+/).filter(Boolean);
           const wordCount = value.trim().length === 0 ? 0 : words.length;
           const overLimit = wordCount > MAX_WORDS;
@@ -54,8 +54,8 @@ export function PriorExperienceStep({ control }: PriorExperienceStepProps) {
                   <Textarea
                     className={`border-primary/20 focus:border-primary min-h-[150px] ${
                       overLimit
-                        ? "border-destructive focus:border-destructive"
-                        : ""
+                        ? 'border-destructive focus:border-destructive'
+                        : ''
                     }`}
                     placeholder="Describe your prior experiences with MUNs, debates, public speaking events, etc. (up to 300 words)"
                     {...field}
@@ -63,8 +63,8 @@ export function PriorExperienceStep({ control }: PriorExperienceStepProps) {
                   <p
                     className={`text-xs text-right ${
                       overLimit
-                        ? "text-destructive font-medium"
-                        : "text-muted-foreground"
+                        ? 'text-destructive font-medium'
+                        : 'text-muted-foreground'
                     }`}
                   >
                     {wordCount} / {MAX_WORDS} words

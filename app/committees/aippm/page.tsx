@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { PortfolioDownload } from "@/app/components/portfolio-download";
-import { CommitteeEBGrid } from "@/app/components/committee-eb-grid";
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { PortfolioDownload } from '@/app/components/portfolio-download';
+import { CommitteeEBGrid } from '@/app/components/committee-eb-grid';
 
 export default function AIPPMPage() {
   const aippmMembers = [
     {
-      name: "Sangras Bhargav",
-      position: "Speaker, AIPPM",
-      image: "/images/chairs/Sangras Bhargav.jpeg",
+      name: 'Sangras Bhargav',
+      position: 'Speaker, AIPPM',
+      image: '/images/chairs/Sangras Bhargav.jpeg',
     },
     {
-      name: "Manda Vedik Raj",
-      position: "Co-Deputy Speaker, AIPPM",
-      image: "/images/chairs/manda vedik reddy.jpeg",
+      name: 'Manda Vedik Raj',
+      position: 'Co-Deputy Speaker, AIPPM',
+      image: '/images/chairs/manda vedik reddy.jpeg',
     },
     {
-      name: "T Navneet Reddy",
-      position: "Co-Deputy Speaker, AIPPM",
-      image: "/images/chairs/navaneeth reddy.jpeg",
+      name: 'T Navneet Reddy',
+      position: 'Co-Deputy Speaker, AIPPM',
+      image: '/images/chairs/navaneeth reddy.jpeg',
     },
   ];
 

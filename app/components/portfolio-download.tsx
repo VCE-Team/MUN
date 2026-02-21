@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Download } from "lucide-react";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Download } from 'lucide-react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 interface PortfolioDownloadProps {
   filename: string;
@@ -23,7 +23,7 @@ interface PortfolioDownloadProps {
 export function PortfolioDownload({
   filename,
   fileUrl,
-  label = "Portfolio Matrix",
+  label = 'Portfolio Matrix',
 }: PortfolioDownloadProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -32,7 +32,7 @@ export function PortfolioDownload({
   const handleDownload = async () => {
     try {
       setIsDownloading(true);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = fileUrl;
       link.download = filename;
       document.body.appendChild(link);
@@ -48,7 +48,7 @@ export function PortfolioDownload({
         setShowSuccess(false);
       }, 3000);
     } catch (error) {
-      console.error("Download failed:", error);
+      console.error('Download failed:', error);
     } finally {
       setIsDownloading(false);
     }
@@ -91,7 +91,7 @@ export function PortfolioDownload({
               disabled={isDownloading}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              {isDownloading ? "Downloading..." : "Download"}
+              {isDownloading ? 'Downloading...' : 'Download'}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState, useRef } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import "../DateAnnouncement.css";
+import React, { useEffect, useState, useRef } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import '../DateAnnouncement.css';
 
 const DateAnnouncement: React.FC = () => {
-  const [mainText, setMainText] = useState("");
-  const [promotionText, setPromotionText] = useState("");
+  const [mainText, setMainText] = useState('');
+  const [promotionText, setPromotionText] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [mainTextComplete, setMainTextComplete] = useState(false);
   const [allTextComplete, setAllTextComplete] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
-  const fullMainText = "VCEMUN will be held on February 27th & 28th, 2026.";
+  const fullMainText = 'VCEMUN will be held on February 27th & 28th, 2026.';
   const fullPromotionText =
-    "Priority Round is finished, now the First Round registrations are open!";
+    'Priority Round is finished, now the First Round registrations are open!';
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      entries => {
+      (entries) => {
         if (entries[0].isIntersecting) {
           setIsVisible(true);
           observer.disconnect();
@@ -27,7 +27,7 @@ const DateAnnouncement: React.FC = () => {
       },
       {
         threshold: 0.1,
-      },
+      }
     );
 
     if (elementRef.current) {
@@ -83,7 +83,7 @@ const DateAnnouncement: React.FC = () => {
       >
         <div
           className={`text-base sm:text-xl md:text-3xl text-center text-white font-bold ${
-            !mainTextComplete ? "typewriter" : ""
+            !mainTextComplete ? 'typewriter' : ''
           }`}
         >
           {mainText}
@@ -92,7 +92,7 @@ const DateAnnouncement: React.FC = () => {
         {mainTextComplete && (
           <div
             className={`text-xs sm:text-sm md:text-xl text-center text-amber-400 font-semibold mt-4 ${
-              !allTextComplete ? "typewriter" : ""
+              !allTextComplete ? 'typewriter' : ''
             }`}
           >
             {promotionText}

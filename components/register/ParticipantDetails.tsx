@@ -1,32 +1,32 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Trash2 } from "lucide-react";
-import { Control, UseFormReturn } from "react-hook-form";
-import { CountryPreferences } from "./CountryPreferences";
-import { FormSchema } from "@/schemas/registrationForm";
-import { INSTITUTION_OPTIONS } from "@/lib/institutions";
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Trash2 } from 'lucide-react';
+import { Control, UseFormReturn } from 'react-hook-form';
+import { CountryPreferences } from './CountryPreferences';
+import { FormSchema } from '@/schemas/registrationForm';
+import { INSTITUTION_OPTIONS } from '@/lib/institutions';
 
 interface ParticipantDetailsProps {
   field: Record<string, string>;
   index: number;
   control: Control<FormSchema>;
   form: UseFormReturn<FormSchema>;
-  registrationType: "single" | "multiple";
+  registrationType: 'single' | 'multiple';
   onRemove: () => void;
   fields: Array<Record<string, string>>;
 }
@@ -40,20 +40,20 @@ export function ParticipantDetails({
   fields,
 }: ParticipantDetailsProps) {
   const institutionOptions = [
-    "Vardhaman College of Engineering",
+    'Vardhaman College of Engineering',
     ...INSTITUTION_OPTIONS,
-    "Other",
+    'Other',
   ];
 
   return (
     <div className="space-y-6 p-4 border border-primary/10 rounded-lg">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-foreground/90">
-          {registrationType === "single"
-            ? "Participant Details"
-            : `Participant ${index + 1} ${index === 5 ? "(Free)" : ""}`}
+          {registrationType === 'single'
+            ? 'Participant Details'
+            : `Participant ${index + 1} ${index === 5 ? '(Free)' : ''}`}
         </h3>
-        {registrationType === "multiple" && fields.length > 1 && (
+        {registrationType === 'multiple' && fields.length > 1 && (
           <Button
             type="button"
             variant="ghost"
@@ -136,18 +136,18 @@ export function ParticipantDetails({
                 Institution *
               </FormLabel>
               <Select
-                onValueChange={value => {
+                onValueChange={(value) => {
                   field.onChange(value);
-                  if (value === "Other") {
-                    form.setValue(`participants.${index}.otherInstitution`, "");
+                  if (value === 'Other') {
+                    form.setValue(`participants.${index}.otherInstitution`, '');
                   } else {
                     form.setValue(
                       `participants.${index}.otherInstitution`,
                       undefined
                     );
                   }
-                  if (value === "Vardhaman College of Engineering") {
-                    form.setValue(`participants.${index}.rollNumber`, "");
+                  if (value === 'Vardhaman College of Engineering') {
+                    form.setValue(`participants.${index}.rollNumber`, '');
                   } else {
                     form.setValue(
                       `participants.${index}.rollNumber`,
@@ -165,7 +165,7 @@ export function ParticipantDetails({
                 <SelectContent>
                   {institutionOptions.map((inst) => (
                     <SelectItem key={inst} value={inst}>
-                      {inst === "Other" ? "Other (Type to add)" : inst}
+                      {inst === 'Other' ? 'Other (Type to add)' : inst}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -177,7 +177,7 @@ export function ParticipantDetails({
       </div>
 
       {/* Other institution: type and it goes to DB */}
-      {form.getValues(`participants.${index}.institution`) === "Other" && (
+      {form.getValues(`participants.${index}.institution`) === 'Other' && (
         <FormField
           control={control}
           name={`participants.${index}.otherInstitution`}
@@ -200,7 +200,7 @@ export function ParticipantDetails({
       )}
 
       {form.getValues(`participants.${index}.institution`) ===
-        "Vardhaman College of Engineering" && (
+        'Vardhaman College of Engineering' && (
         <FormField
           control={control}
           name={`participants.${index}.rollNumber`}
@@ -267,7 +267,7 @@ export function ParticipantDetails({
       )} */}
 
       {/* Committee-specific Fields */}
-      {["disec", "unhrc", "aippm"].includes(
+      {['disec', 'unhrc', 'aippm'].includes(
         form.getValues(`participants.${index}.committee`)
       ) && (
         <FormField
@@ -291,7 +291,7 @@ export function ParticipantDetails({
                     {/* simple word count for live feedback */}
                     {field.value
                       ? field.value.trim().split(/\s+/).filter(Boolean).length
-                      : 0}{" "}
+                      : 0}{' '}
                     / 300 words
                   </p>
                 </div>
@@ -302,7 +302,7 @@ export function ParticipantDetails({
         />
       )}
 
-      {form.getValues(`participants.${index}.committee`) === "ip" && (
+      {form.getValues(`participants.${index}.committee`) === 'ip' && (
         <FormField
           control={control}
           name={`participants.${index}.role`}

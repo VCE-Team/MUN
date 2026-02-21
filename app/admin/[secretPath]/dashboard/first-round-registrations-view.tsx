@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -19,16 +19,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
-import { RefreshCw } from "lucide-react";
-import { appConfig } from "@/lib/app-config";
-import { INSTITUTION_OPTIONS } from "@/lib/institutions";
-import type { PriorityRegistrationListItem } from "@/lib/admin-types";
-import { normalizeId, isPriorityListResponse } from "@/lib/admin-types";
-import { getAdminHeaders, formatAdminDate } from "@/lib/admin-utils";
+} from '@/components/ui/table';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
+import { RefreshCw } from 'lucide-react';
+import { appConfig } from '@/lib/app-config';
+import { INSTITUTION_OPTIONS } from '@/lib/institutions';
+import type { PriorityRegistrationListItem } from '@/lib/admin-types';
+import { normalizeId, isPriorityListResponse } from '@/lib/admin-types';
+import { getAdminHeaders, formatAdminDate } from '@/lib/admin-utils';
 import {
   getCached,
   setCached,
@@ -36,41 +36,41 @@ import {
   invalidateAll,
   firstRoundListKey,
   CACHE_TTL,
-} from "@/lib/admin-api-cache";
+} from '@/lib/admin-api-cache';
 
 function getCommitteePreferenceItems(
-  doc: PriorityRegistrationListItem,
+  doc: PriorityRegistrationListItem
 ): { rank: number; committee: string }[] {
   return [
-    { rank: 1, committee: doc.firstPreferenceCommittee ?? "" },
-    { rank: 2, committee: doc.secondPreferenceCommittee ?? "" },
-    { rank: 3, committee: doc.thirdPreferenceCommittee ?? "" },
-  ].filter(p => p.committee);
+    { rank: 1, committee: doc.firstPreferenceCommittee ?? '' },
+    { rank: 2, committee: doc.secondPreferenceCommittee ?? '' },
+    { rank: 3, committee: doc.thirdPreferenceCommittee ?? '' },
+  ].filter((p) => p.committee);
 }
 
 const TARGET_OPTIONS = [
-  { value: "all", label: "All" },
-  { value: "inHouse", label: "In House" },
-  { value: "otherCollege", label: "Other College" },
+  { value: 'all', label: 'All' },
+  { value: 'inHouse', label: 'In House' },
+  { value: 'otherCollege', label: 'Other College' },
 ];
 const COMMITTEE_OPTIONS = [
-  { value: "all", label: "All" },
-  { value: "disec", label: "DISEC" },
-  { value: "unhrc", label: "UNHRC" },
-  { value: "aippm", label: "AIPPM" },
-  { value: "ip", label: "IP" },
+  { value: 'all', label: 'All' },
+  { value: 'disec', label: 'DISEC' },
+  { value: 'unhrc', label: 'UNHRC' },
+  { value: 'aippm', label: 'AIPPM' },
+  { value: 'ip', label: 'IP' },
 ];
 
 const COMMITTEE_COLORS: Record<string, string> = {
-  unhrc: "bg-red-500/25 text-red-300 border-red-500/50",
-  disec: "bg-blue-500/25 text-blue-300 border-blue-500/50",
-  aippm: "bg-orange-500/25 text-orange-300 border-orange-500/50",
-  ip: "bg-white/20 text-white border-white/40",
+  unhrc: 'bg-red-500/25 text-red-300 border-red-500/50',
+  disec: 'bg-blue-500/25 text-blue-300 border-blue-500/50',
+  aippm: 'bg-orange-500/25 text-orange-300 border-orange-500/50',
+  ip: 'bg-white/20 text-white border-white/40',
 };
 
 function getCommitteeBadgeClass(committee: string): string {
-  const c = (committee || "").toLowerCase().trim();
-  return COMMITTEE_COLORS[c] ?? "border-white/20 bg-white/10";
+  const c = (committee || '').toLowerCase().trim();
+  return COMMITTEE_COLORS[c] ?? 'border-white/20 bg-white/10';
 }
 
 function buildFirstRoundQueryKey(
@@ -78,7 +78,7 @@ function buildFirstRoundQueryKey(
   committee: string,
   firstPreferenceCommittee: string,
   country: string,
-  collegeFilter: string,
+  collegeFilter: string
 ): string {
   return [
     targetAudience,
@@ -86,19 +86,19 @@ function buildFirstRoundQueryKey(
     firstPreferenceCommittee,
     country.trim(),
     collegeFilter,
-  ].join("|");
+  ].join('|');
 }
 
 export function FirstRoundRegistrationsView() {
   const router = useRouter();
   const routeParams = useParams();
   const secretPath = routeParams.secretPath as string;
-  const [targetAudience, setTargetAudience] = useState("");
-  const [committee, setCommittee] = useState("");
-  const [firstPreferenceCommittee, setFirstPreferenceCommittee] = useState("");
-  const [country, setCountry] = useState("");
-  const [collegeSelect, setCollegeSelect] = useState("");
-  const [collegeInput, setCollegeInput] = useState("");
+  const [targetAudience, setTargetAudience] = useState('');
+  const [committee, setCommittee] = useState('');
+  const [firstPreferenceCommittee, setFirstPreferenceCommittee] = useState('');
+  const [country, setCountry] = useState('');
+  const [collegeSelect, setCollegeSelect] = useState('');
+  const [collegeInput, setCollegeInput] = useState('');
   const [list, setList] = useState<PriorityRegistrationListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
@@ -109,15 +109,15 @@ export function FirstRoundRegistrationsView() {
   const mountedRef = useRef(true);
 
   const collegeFilter = (
-    collegeInput.trim().replace(/\s+/g, " ") ||
+    collegeInput.trim().replace(/\s+/g, ' ') ||
     collegeSelect ||
-    ""
+    ''
   ).trim();
 
   // Auto-set targetAudience to inHouse when Vardhaman College is selected
   useEffect(() => {
-    if (collegeSelect === "Vardhaman College of Engineering") {
-      setTargetAudience("inHouse");
+    if (collegeSelect === 'Vardhaman College of Engineering') {
+      setTargetAudience('inHouse');
     }
   }, [collegeSelect]);
 
@@ -126,27 +126,27 @@ export function FirstRoundRegistrationsView() {
     committee,
     firstPreferenceCommittee,
     country,
-    collegeFilter,
+    collegeFilter
   );
 
   const performFetch = useCallback(
     (skipCache: boolean) => {
       const queryParams = new URLSearchParams();
-      if (targetAudience) queryParams.set("targetAudience", targetAudience);
-      if (committee) queryParams.set("committee", committee);
+      if (targetAudience) queryParams.set('targetAudience', targetAudience);
+      if (committee) queryParams.set('committee', committee);
       if (firstPreferenceCommittee)
-        queryParams.set("firstPreferenceCommittee", firstPreferenceCommittee);
-      if (country.trim()) queryParams.set("country", country.trim());
-      if (collegeFilter) queryParams.set("college", collegeFilter);
+        queryParams.set('firstPreferenceCommittee', firstPreferenceCommittee);
+      if (country.trim()) queryParams.set('country', country.trim());
+      if (collegeFilter) queryParams.set('college', collegeFilter);
       const url = `${appConfig.backendUrl}/api/admin/first-round-registrations?${queryParams}`;
       const currentKey = firstRoundListKey(queryKey);
 
       fetch(url, { headers: getAdminHeaders() })
-        .then(r => {
+        .then((r) => {
           if (r.status === 401) {
             invalidateAll();
-            if (typeof localStorage !== "undefined")
-              localStorage.removeItem("adminToken");
+            if (typeof localStorage !== 'undefined')
+              localStorage.removeItem('adminToken');
             router.replace(`/admin/${secretPath}`);
             return null;
           }
@@ -165,7 +165,7 @@ export function FirstRoundRegistrationsView() {
         .catch(() => {
           if (!mountedRef.current) return;
           if (!skipCache)
-            setRevalidateError("Could not refresh; showing cached data.");
+            setRevalidateError('Could not refresh; showing cached data.');
         })
         .finally(() => {
           if (mountedRef.current) {
@@ -183,7 +183,7 @@ export function FirstRoundRegistrationsView() {
       queryKey,
       router,
       secretPath,
-    ],
+    ]
   );
 
   useEffect(() => {
@@ -216,7 +216,7 @@ export function FirstRoundRegistrationsView() {
 
   const handleApplyFilters = useCallback(() => {
     setCurrentPage(1);
-    setApplyKey(k => k + 1);
+    setApplyKey((k) => k + 1);
   }, []);
 
   return (
@@ -225,14 +225,14 @@ export function FirstRoundRegistrationsView() {
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">Target</Label>
           <Select
-            value={targetAudience || "all"}
-            onValueChange={v => setTargetAudience(v === "all" ? "" : v)}
+            value={targetAudience || 'all'}
+            onValueChange={(v) => setTargetAudience(v === 'all' ? '' : v)}
           >
             <SelectTrigger className="w-[130px] border-white/20 bg-white/5">
               <SelectValue placeholder="All" />
             </SelectTrigger>
             <SelectContent>
-              {TARGET_OPTIONS.map(o => (
+              {TARGET_OPTIONS.map((o) => (
                 <SelectItem key={o.value} value={o.value}>
                   {o.label}
                 </SelectItem>
@@ -243,14 +243,14 @@ export function FirstRoundRegistrationsView() {
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">Committee</Label>
           <Select
-            value={committee || "all"}
-            onValueChange={v => setCommittee(v === "all" ? "" : v)}
+            value={committee || 'all'}
+            onValueChange={(v) => setCommittee(v === 'all' ? '' : v)}
           >
             <SelectTrigger className="w-[130px] border-white/20 bg-white/5">
               <SelectValue placeholder="All" />
             </SelectTrigger>
             <SelectContent>
-              {COMMITTEE_OPTIONS.map(o => (
+              {COMMITTEE_OPTIONS.map((o) => (
                 <SelectItem key={o.value} value={o.value}>
                   {o.label}
                 </SelectItem>
@@ -261,16 +261,16 @@ export function FirstRoundRegistrationsView() {
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">1st pref.</Label>
           <Select
-            value={firstPreferenceCommittee || "all"}
-            onValueChange={v =>
-              setFirstPreferenceCommittee(v === "all" ? "" : v)
+            value={firstPreferenceCommittee || 'all'}
+            onValueChange={(v) =>
+              setFirstPreferenceCommittee(v === 'all' ? '' : v)
             }
           >
             <SelectTrigger className="w-[130px] border-white/20 bg-white/5">
               <SelectValue placeholder="All" />
             </SelectTrigger>
             <SelectContent>
-              {COMMITTEE_OPTIONS.map(o => (
+              {COMMITTEE_OPTIONS.map((o) => (
                 <SelectItem key={o.value} value={o.value}>
                   {o.label}
                 </SelectItem>
@@ -283,7 +283,7 @@ export function FirstRoundRegistrationsView() {
           <Input
             placeholder="Any"
             value={country}
-            onChange={e => setCountry(e.target.value)}
+            onChange={(e) => setCountry(e.target.value)}
             className="w-[120px] border-white/20 bg-white/5 md:w-[140px]"
           />
         </div>
@@ -291,15 +291,15 @@ export function FirstRoundRegistrationsView() {
           <Label className="text-xs text-muted-foreground">College</Label>
           <div className="flex flex-col gap-1">
             <Select
-              value={collegeSelect || "all"}
-              onValueChange={v => setCollegeSelect(v === "all" ? "" : v)}
+              value={collegeSelect || 'all'}
+              onValueChange={(v) => setCollegeSelect(v === 'all' ? '' : v)}
             >
               <SelectTrigger className="w-[180px] border-white/20 bg-white/5 md:w-[200px]">
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
-                {INSTITUTION_OPTIONS.map(c => (
+                {INSTITUTION_OPTIONS.map((c) => (
                   <SelectItem key={c} value={c}>
                     {c}
                   </SelectItem>
@@ -309,7 +309,7 @@ export function FirstRoundRegistrationsView() {
             <Input
               placeholder="Or type to filter (any match)"
               value={collegeInput}
-              onChange={e => setCollegeInput(e.target.value)}
+              onChange={(e) => setCollegeInput(e.target.value)}
               className="w-[180px] border-white/20 bg-white/5 md:w-[200px]"
             />
           </div>
@@ -328,7 +328,7 @@ export function FirstRoundRegistrationsView() {
           disabled={refreshLoading || loading}
         >
           <RefreshCw
-            className={`mr-2 h-4 w-4 ${refreshLoading ? "animate-spin" : ""}`}
+            className={`mr-2 h-4 w-4 ${refreshLoading ? 'animate-spin' : ''}`}
           />
           Refresh
         </Button>
@@ -342,21 +342,21 @@ export function FirstRoundRegistrationsView() {
         <div className="glass-panel p-3 md:p-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-4">
             <p className="text-sm font-semibold text-gray-200">
-              Total Registrations:{" "}
+              Total Registrations:{' '}
               <span className="text-[var(--logo-gold-yellow)]">
                 {list.length}
               </span>
             </p>
             <p className="text-sm font-semibold text-gray-200">
-              Veg:{" "}
+              Veg:{' '}
               <span className="text-green-400">
-                {list.filter(r => r.foodPreference === "veg").length}
+                {list.filter((r) => r.foodPreference === 'veg').length}
               </span>
             </p>
             <p className="text-sm font-semibold text-gray-200">
-              Non-Veg:{" "}
+              Non-Veg:{' '}
               <span className="text-orange-400">
-                {list.filter(r => r.foodPreference === "nonveg").length}
+                {list.filter((r) => r.foodPreference === 'nonveg').length}
               </span>
             </p>
           </div>
@@ -364,7 +364,7 @@ export function FirstRoundRegistrationsView() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
               className="border-white/20"
             >
@@ -377,8 +377,8 @@ export function FirstRoundRegistrationsView() {
               variant="outline"
               size="sm"
               onClick={() =>
-                setCurrentPage(p =>
-                  Math.min(Math.ceil(list.length / itemsPerPage), p + 1),
+                setCurrentPage((p) =>
+                  Math.min(Math.ceil(list.length / itemsPerPage), p + 1)
                 )
               }
               disabled={currentPage >= Math.ceil(list.length / itemsPerPage)}
@@ -395,7 +395,7 @@ export function FirstRoundRegistrationsView() {
           <div className="min-w-[600px] sm:min-w-[700px] md:min-w-[800px]">
             {loading && list.length === 0 ? (
               <div className="space-y-2 p-4">
-                {[1, 2, 3, 4, 5].map(i => (
+                {[1, 2, 3, 4, 5].map((i) => (
                   <Skeleton
                     key={i}
                     className="h-10 w-full rounded border border-white/10"
@@ -440,34 +440,34 @@ export function FirstRoundRegistrationsView() {
                   {list
                     .slice(
                       (currentPage - 1) * itemsPerPage,
-                      currentPage * itemsPerPage,
+                      currentPage * itemsPerPage
                     )
-                    .map(row => (
+                    .map((row) => (
                       <TableRow
                         key={normalizeId(row._id)}
                         className="border-white/10 hover:bg-white/10"
                       >
                         <TableCell className="font-medium">
-                          {row.name ?? "—"}
+                          {row.name ?? '—'}
                         </TableCell>
                         <TableCell className="text-muted-foreground">
-                          {row.email ?? "—"}
+                          {row.email ?? '—'}
                         </TableCell>
-                        <TableCell>{row.phone ?? "—"}</TableCell>
+                        <TableCell>{row.phone ?? '—'}</TableCell>
                         <TableCell>
-                          {row.institution ?? row.otherInstitution ?? "—"}
+                          {row.institution ?? row.otherInstitution ?? '—'}
                         </TableCell>
                         <TableCell>
                           <Badge
                             variant="secondary"
                             className="border-white/20 bg-white/10"
                           >
-                            {row.targetAudience ?? "—"}
+                            {row.targetAudience ?? '—'}
                           </Badge>
                         </TableCell>
                         <TableCell className="max-w-[220px]">
                           <div className="flex flex-wrap gap-1">
-                            {getCommitteePreferenceItems(row).map(p => (
+                            {getCommitteePreferenceItems(row).map((p) => (
                               <Badge
                                 key={`${p.rank}-${p.committee}`}
                                 variant="outline"
@@ -477,11 +477,11 @@ export function FirstRoundRegistrationsView() {
                               </Badge>
                             ))}
                             {getCommitteePreferenceItems(row).length === 0 &&
-                              "—"}
+                              '—'}
                           </div>
                         </TableCell>
                         <TableCell className="font-mono text-xs">
-                          {row.transactionId ?? "—"}
+                          {row.transactionId ?? '—'}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-xs">
                           {formatAdminDate(row.registeredAt)}

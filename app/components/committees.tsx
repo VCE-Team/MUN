@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import { useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { motion, useInView } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { CommitteesMobile } from "./committees-mobile";
+import { useRef, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion, useInView } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { CommitteesMobile } from './committees-mobile';
 
 export const committees = [
   {
-    title: "DISEC",
-    description: "Disarmament and International Security",
-    href: "/committees/disec",
-    url: "/images/committees/diseccopy.jpg",
+    title: 'DISEC',
+    description: 'Disarmament and International Security',
+    href: '/committees/disec',
+    url: '/images/committees/diseccopy.jpg',
   },
   {
-    title: "UNHRC",
-    description: "Human Rights Council",
-    href: "/committees/unhrc",
-    url: "/images/committees/unhrc.jpg",
+    title: 'UNHRC',
+    description: 'Human Rights Council',
+    href: '/committees/unhrc',
+    url: '/images/committees/unhrc.jpg',
   },
   {
-    title: "AIPPM",
-    description: "All India Political Parties Meet",
-    href: "/committees/aippm",
-    url: "/images/committees/aippm.jpeg",
+    title: 'AIPPM',
+    description: 'All India Political Parties Meet',
+    href: '/committees/aippm',
+    url: '/images/committees/aippm.jpeg',
   },
   {
-    title: "International Press (IP)",
-    description: "Press and Media",
-    href: "/committees/internationalpress",
-    url: "/images/committees/ip-bw.jpg",
+    title: 'International Press (IP)',
+    description: 'Press and Media',
+    href: '/committees/internationalpress',
+    url: '/images/committees/ip-bw.jpg',
   },
 ];
 
@@ -47,7 +47,7 @@ export function Committees() {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring" as const,
+        type: 'spring' as const,
         stiffness: 50,
         damping: 20,
         duration: 0.8,
@@ -61,7 +61,7 @@ export function Committees() {
       y: -14,
       opacity: 1,
       transition: {
-        type: "spring" as const,
+        type: 'spring' as const,
         stiffness: 50,
         damping: 20,
         duration: 0.8,
@@ -92,7 +92,7 @@ export function Committees() {
                     height={220}
                     className="absolute w-2/3 h-2/3 object-contain mb-[5vh]"
                     initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
+                    animate={isInView ? 'visible' : 'hidden'}
                     variants={shieldVariants}
                   />
                   <MotionImage
@@ -102,7 +102,7 @@ export function Committees() {
                     height={300}
                     className="relative w-full h-full object-contain mt-[3.2vh]"
                     initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
+                    animate={isInView ? 'visible' : 'hidden'}
                     variants={wingsVariants}
                   />
                 </div>
@@ -117,22 +117,22 @@ export function Committees() {
                     key={committee.title}
                     href={committee.href}
                     className={cn(
-                      "absolute overflow-hidden transition-all duration-700 cursor-pointer z-30",
-                      "w-64 h-48 sm:w-80 sm:h-56 md:w-96 md:h-60",
-                      "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity before:pointer-events-none",
+                      'absolute overflow-hidden transition-all duration-700 cursor-pointer z-30',
+                      'w-64 h-48 sm:w-80 sm:h-56 md:w-96 md:h-60',
+                      'before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity before:pointer-events-none',
                       isActive
-                        ? "scale-110 before:opacity-30"
-                        : "hover:scale-95 before:opacity-60",
+                        ? 'scale-110 before:opacity-30'
+                        : 'hover:scale-95 before:opacity-60'
                     )}
                     style={{
                       transform: `rotate(${angle}deg) translateX(calc(300px + 2vw)) rotate(-${angle}deg)`,
-                      pointerEvents: "auto",
+                      pointerEvents: 'auto',
                     }}
                     onMouseEnter={() => setActiveIndex(index)}
                     onMouseLeave={() => setActiveIndex(null)}
                   >
                     <Image
-                      src={committee.url || "/placeholder.svg"}
+                      src={committee.url || '/placeholder.svg'}
                       alt={committee.title}
                       fill
                       className="object-cover transition-transform duration-700 pointer-events-none"
