@@ -64,7 +64,7 @@ function getCommitteeBadgeClass(committee: string): string {
 function buildPastQueryKey(
   committee: string,
   country: string,
-  collegeFilter: string
+  collegeFilter: string,
 ): string {
   return [committee, country.trim(), collegeFilter].join("|");
 }
@@ -83,10 +83,14 @@ export function PastRegistrationsView() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [revalidateError, setRevalidateError] = useState<string | null>(null);
   const [refreshLoading, setRefreshLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20);
   const mountedRef = useRef(true);
 
   const collegeFilter = (
-    collegeInput.trim().replace(/\s+/g, " ") || collegeSelect || ""
+    collegeInput.trim().replace(/\s+/g, " ") ||
+    collegeSelect ||
+    ""
   ).trim();
 
   const queryKey = buildPastQueryKey(committee, country, collegeFilter);
@@ -101,7 +105,7 @@ export function PastRegistrationsView() {
       const currentKey = pastListKey(queryKey);
 
       fetch(url, { headers: getAdminHeaders() })
-        .then((r) => {
+        .then(r => {
           if (r.status === 401) {
             invalidateAll();
             if (typeof localStorage !== "undefined")
@@ -133,7 +137,7 @@ export function PastRegistrationsView() {
           }
         });
     },
-    [committee, country, collegeFilter, queryKey, router, secretPath]
+    [committee, country, collegeFilter, queryKey, router, secretPath],
   );
 
   useEffect(() => {
@@ -165,16 +169,14 @@ export function PastRegistrationsView() {
   }, [queryKey, performFetch]);
 
   const handleApplyFilters = useCallback(() => {
-    setApplyKey((k) => k + 1);
+    setCurrentPage(1);
+    setApplyKey(k => k + 1);
   }, []);
 
   if (selectedId) {
     return (
       <div className="space-y-4">
-        <PastDetailView
-          id={selectedId}
-          onBack={() => setSelectedId(null)}
-        />
+        <PastDetailView id={selectedId} onBack={() => setSelectedId(null)} />
       </div>
     );
   }
@@ -186,13 +188,13 @@ export function PastRegistrationsView() {
           <Label className="text-xs text-muted-foreground">Committee</Label>
           <Select
             value={committee || "all"}
-            onValueChange={(v) => setCommittee(v === "all" ? "" : v)}
+            onValueChange={v => setCommittee(v === "all" ? "" : v)}
           >
             <SelectTrigger className="w-[130px] border-white/20 bg-white/5">
               <SelectValue placeholder="All" />
             </SelectTrigger>
             <SelectContent>
-              {COMMITTEE_OPTIONS.map((o) => (
+              {COMMITTEE_OPTIONS.map(o => (
                 <SelectItem key={o.value} value={o.value}>
                   {o.label}
                 </SelectItem>
@@ -205,7 +207,7 @@ export function PastRegistrationsView() {
           <Input
             placeholder="Any"
             value={country}
-            onChange={(e) => setCountry(e.target.value)}
+            onChange={e => setCountry(e.target.value)}
             className="w-[120px] border-white/20 bg-white/5 md:w-[140px]"
           />
         </div>
@@ -214,14 +216,14 @@ export function PastRegistrationsView() {
           <div className="flex flex-col gap-1">
             <Select
               value={collegeSelect || "all"}
-              onValueChange={(v) => setCollegeSelect(v === "all" ? "" : v)}
+              onValueChange={v => setCollegeSelect(v === "all" ? "" : v)}
             >
               <SelectTrigger className="w-[180px] border-white/20 bg-white/5 md:w-[200px]">
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
-                {INSTITUTION_OPTIONS.map((c) => (
+                {INSTITUTION_OPTIONS.map(c => (
                   <SelectItem key={c} value={c}>
                     {c}
                   </SelectItem>
@@ -231,7 +233,7 @@ export function PastRegistrationsView() {
             <Input
               placeholder="Or type to filter (any match)"
               value={collegeInput}
-              onChange={(e) => setCollegeInput(e.target.value)}
+              onChange={e => setCollegeInput(e.target.value)}
               className="w-[180px] border-white/20 bg-white/5 md:w-[200px]"
             />
           </div>
@@ -260,12 +262,64 @@ export function PastRegistrationsView() {
         <p className="text-sm text-amber-500/90">{revalidateError}</p>
       )}
 
+      {!loading && list.length > 0 && (
+        <div className="glass-panel p-3 md:p-4 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-4">
+            <p className="text-sm font-semibold text-gray-200">
+              Total Registrations:{" "}
+              <span className="text-[var(--logo-gold-yellow)]">
+                {list.length}
+              </span>
+            </p>
+            <p className="text-sm font-semibold text-gray-200">
+              Veg:{" "}
+              <span className="text-green-400">
+                {list.filter(r => r.foodPreference === "veg").length}
+              </span>
+            </p>
+            <p className="text-sm font-semibold text-gray-200">
+              Non-Veg:{" "}
+              <span className="text-orange-400">
+                {list.filter(r => r.foodPreference === "nonveg").length}
+              </span>
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="border-white/20"
+            >
+              Previous
+            </Button>
+            <span className="text-xs text-muted-foreground px-2">
+              Page {currentPage} of {Math.ceil(list.length / itemsPerPage)}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setCurrentPage(p =>
+                  Math.min(Math.ceil(list.length / itemsPerPage), p + 1),
+                )
+              }
+              disabled={currentPage >= Math.ceil(list.length / itemsPerPage)}
+              className="border-white/20"
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
+
       <div className="glass-panel overflow-hidden w-full max-w-full">
         <ScrollArea className="w-full">
           <div className="min-w-[600px] sm:min-w-[700px]">
             {loading && list.length === 0 ? (
               <div className="space-y-2 p-4">
-                {[1, 2, 3, 4, 5].map((i) => (
+                {[1, 2, 3, 4, 5].map(i => (
                   <Skeleton
                     key={i}
                     className="h-10 w-full rounded border border-white/10"
@@ -280,69 +334,96 @@ export function PastRegistrationsView() {
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10 hover:bg-white/5">
-                    <TableHead className="text-muted-foreground">Name</TableHead>
-                    <TableHead className="text-muted-foreground">Email</TableHead>
-                    <TableHead className="text-muted-foreground">Phone</TableHead>
-                    <TableHead className="text-muted-foreground">Committee</TableHead>
-                    <TableHead className="text-muted-foreground">Countries</TableHead>
-                    <TableHead className="text-muted-foreground">Institution</TableHead>
-                    <TableHead className="text-muted-foreground">Txn ID</TableHead>
-                    <TableHead className="text-muted-foreground">Registered</TableHead>
-                    <TableHead className="text-muted-foreground">Group / QR</TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Name
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Email
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Phone
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Committee
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Countries
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Institution
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Txn ID
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Registered
+                    </TableHead>
+                    <TableHead className="text-muted-foreground">
+                      Group / QR
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {list.map((row) => (
-                    <TableRow
-                      key={normalizeId(row._id)}
-                      className="cursor-pointer border-white/10 hover:bg-white/10"
-                      onClick={() => {
-                        const id = normalizeId(row._id);
-                        if (id) setSelectedId(id);
-                      }}
-                    >
-                      <TableCell className="font-medium">
-                        {row.name ?? "—"}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {row.email ?? "—"}
-                      </TableCell>
-                      <TableCell>{row.phone ?? "—"}</TableCell>
-                      <TableCell>
-                        <Badge
-                          variant="outline"
-                          className={getCommitteeBadgeClass(row.committee ?? "")}
-                        >
-                          {row.committee ?? "—"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="max-w-[180px] truncate text-xs">
-                        {[
-                          row.firstPreferenceCountry,
-                          row.secondPreferenceCountry,
-                          row.thirdPreferenceCountry,
-                        ]
-                          .filter(Boolean)
-                          .join(" / ") || "—"}
-                      </TableCell>
-                      <TableCell>
-                        {row.institution ?? row.otherInstitution ?? "—"}
-                      </TableCell>
-                      <TableCell className="font-mono text-xs">
-                        {row.transactionId ?? "—"}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-xs">
-                        {formatAdminDate(row.registeredAt)}
-                      </TableCell>
-                      <TableCell className="text-xs">
-                        {row.isGroupRegistration && (
-                          <span className="text-muted-foreground">Group </span>
-                        )}
-                        {row.qrUsed && <span>{row.qrUsed}</span>}
-                        {!row.isGroupRegistration && !row.qrUsed && "—"}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {list
+                    .slice(
+                      (currentPage - 1) * itemsPerPage,
+                      currentPage * itemsPerPage,
+                    )
+                    .map(row => (
+                      <TableRow
+                        key={normalizeId(row._id)}
+                        className="cursor-pointer border-white/10 hover:bg-white/10"
+                        onClick={() => {
+                          const id = normalizeId(row._id);
+                          if (id) setSelectedId(id);
+                        }}
+                      >
+                        <TableCell className="font-medium">
+                          {row.name ?? "—"}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {row.email ?? "—"}
+                        </TableCell>
+                        <TableCell>{row.phone ?? "—"}</TableCell>
+                        <TableCell>
+                          <Badge
+                            variant="outline"
+                            className={getCommitteeBadgeClass(
+                              row.committee ?? "",
+                            )}
+                          >
+                            {row.committee ?? "—"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="max-w-[180px] truncate text-xs">
+                          {[
+                            row.firstPreferenceCountry,
+                            row.secondPreferenceCountry,
+                            row.thirdPreferenceCountry,
+                          ]
+                            .filter(Boolean)
+                            .join(" / ") || "—"}
+                        </TableCell>
+                        <TableCell>
+                          {row.institution ?? row.otherInstitution ?? "—"}
+                        </TableCell>
+                        <TableCell className="font-mono text-xs">
+                          {row.transactionId ?? "—"}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-xs">
+                          {formatAdminDate(row.registeredAt)}
+                        </TableCell>
+                        <TableCell className="text-xs">
+                          {row.isGroupRegistration && (
+                            <span className="text-muted-foreground">
+                              Group{" "}
+                            </span>
+                          )}
+                          {row.qrUsed && <span>{row.qrUsed}</span>}
+                          {!row.isGroupRegistration && !row.qrUsed && "—"}
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             )}

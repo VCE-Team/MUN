@@ -68,7 +68,7 @@ export function PortfolioDownload({
             Download {label}
           </motion.button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-black border border-red-500/20 text-white">
+        <DialogContent className="w-[95vw] max-w-[425px] bg-black border border-red-500/20 text-white">
           <DialogHeader>
             <DialogTitle className="text-white">Download {label}</DialogTitle>
             <DialogDescription className="text-gray-400">
@@ -103,7 +103,7 @@ export function PortfolioDownload({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50"
+          className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-4 bg-red-600 text-white px-4 sm:px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50"
         >
           <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
             <svg

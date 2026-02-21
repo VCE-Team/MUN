@@ -59,7 +59,7 @@ export function CommitteeEBGrid({ title, members }: CommitteeEBGridProps) {
             variants={itemVariants}
             className="flex flex-col items-center"
           >
-            <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-2 border-red-500/30 shadow-lg mb-4 hover:border-red-500/60 transition-colors duration-300">
+            <div className="relative w-32 h-32 xs:w-40 xs:h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden shadow-lg mb-4">
               <Image
                 src={member.image}
                 alt={`${member.name} - ${member.position}`}

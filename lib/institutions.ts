@@ -11,6 +11,7 @@ export const INSTITUTION_OPTIONS = [
   "MVSR Engineering College",
   "Pragathi Central School",
   "Sreenidhi Institute of Science & Technology (SNIST)",
+  "Vardhaman College of Engineering",
   "Vsavi College of Engineering",
   "VNRVJIET",
 ] as const;

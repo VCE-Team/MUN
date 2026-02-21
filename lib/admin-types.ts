@@ -75,6 +75,7 @@ export interface PastRegistrationListItem {
   qrUsed?: string;
   role?: string | null;
   priorExperiences?: string;
+  foodPreference?: string;
 }
 
 /** Full past registration doc (by-id response) */
@@ -92,9 +93,7 @@ export interface ScreenshotResponse {
 }
 
 /** Type guard: is API response an error (has message and not array) */
-export function isApiError(
-  data: unknown
-): data is ApiError {
+export function isApiError(data: unknown): data is ApiError {
   return (
     typeof data === "object" &&
     data !== null &&
@@ -105,14 +104,14 @@ export function isApiError(
 
 /** Type guard: priority list response is array */
 export function isPriorityListResponse(
-  data: unknown
+  data: unknown,
 ): data is PriorityRegistrationListItem[] {
   return Array.isArray(data);
 }
 
 /** Type guard: past list response is array */
 export function isPastListResponse(
-  data: unknown
+  data: unknown,
 ): data is PastRegistrationListItem[] {
   return Array.isArray(data);
 }

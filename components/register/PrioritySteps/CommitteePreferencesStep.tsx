@@ -31,7 +31,10 @@ export function CommitteePreferencesStep({
   const thirdPreference = form.watch("thirdPreferenceCommittee");
 
   const committees = [
-    { value: "disec", label: "Disarmament and International Security Committee (DISEC)" },
+    {
+      value: "disec",
+      label: "Disarmament and International Security Committee (DISEC)",
+    },
     { value: "unhrc", label: "United Nations Human Rights Council (UNHRC)" },
     { value: "aippm", label: "All India Political Parties Meet (AIPPM)" },
     { value: "ip", label: "International Press (IP)" },
@@ -47,7 +50,7 @@ export function CommitteePreferencesStep({
         allocated based on availability.
       </p>
 
-      <div className="grid gap-6 sm:grid-cols-3">
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <FormField
           control={control}
           name="firstPreferenceCommittee"
@@ -56,17 +59,14 @@ export function CommitteePreferencesStep({
               <FormLabel className="text-foreground/80">
                 1st Preference Committee *
               </FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value || ""}
-              >
+              <Select onValueChange={field.onChange} value={field.value || ""}>
                 <FormControl>
                   <SelectTrigger className="border-primary/20 focus:border-primary">
                     <SelectValue placeholder="Select first preference" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {committees.map((committee) => {
+                  {committees.map(committee => {
                     const isDisabled =
                       committee.value === secondPreference ||
                       committee.value === thirdPreference;
@@ -95,17 +95,14 @@ export function CommitteePreferencesStep({
               <FormLabel className="text-foreground/80">
                 2nd Preference Committee *
               </FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value || ""}
-              >
+              <Select onValueChange={field.onChange} value={field.value || ""}>
                 <FormControl>
                   <SelectTrigger className="border-primary/20 focus:border-primary">
                     <SelectValue placeholder="Select second preference" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {committees.map((committee) => {
+                  {committees.map(committee => {
                     const isDisabled =
                       committee.value === firstPreference ||
                       committee.value === thirdPreference;
@@ -134,17 +131,14 @@ export function CommitteePreferencesStep({
               <FormLabel className="text-foreground/80">
                 3rd Preference Committee *
               </FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value || ""}
-              >
+              <Select onValueChange={field.onChange} value={field.value || ""}>
                 <FormControl>
                   <SelectTrigger className="border-primary/20 focus:border-primary">
                     <SelectValue placeholder="Select third preference" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {committees.map((committee) => {
+                  {committees.map(committee => {
                     const isDisabled =
                       committee.value === firstPreference ||
                       committee.value === secondPreference;
@@ -168,4 +162,3 @@ export function CommitteePreferencesStep({
     </div>
   );
 }
-

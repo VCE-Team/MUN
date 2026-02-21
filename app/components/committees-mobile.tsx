@@ -8,12 +8,12 @@ export function CommitteesMobile() {
       <h2 className="text-3xl font-bold text-center text-white mb-6">
         COMMITTEES
       </h2>
-      <div className="flex flex-col items-center space-y-6">
+      <div className="flex flex-col items-center space-y-6 px-4">
         {committees.map(committee => (
           <Link
             key={committee.title}
             href={committee.href}
-            className="w-full max-w-sm mx-auto"
+            className="w-full max-w-md mx-auto"
           >
             <div className="relative w-full h-48 overflow-hidden rounded-lg">
               <Image

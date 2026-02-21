@@ -33,37 +33,37 @@ export function PaymentStep({
   const compressImage = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
-      reader.onload = (e) => {
+
+      reader.onload = e => {
         const img = document.createElement("img");
         img.onload = () => {
           const canvas = document.createElement("canvas");
           let width = img.width;
           let height = img.height;
-          
+
           // Calculate new dimensions (max 1920px width, maintain aspect ratio)
           const maxWidth = 1920;
           if (width > maxWidth) {
             height = (height * maxWidth) / width;
             width = maxWidth;
           }
-          
+
           canvas.width = width;
           canvas.height = height;
-          
+
           const ctx = canvas.getContext("2d");
           if (!ctx) {
             reject(new Error("Failed to get canvas context"));
             return;
           }
-          
+
           // Draw image with compression
           ctx.drawImage(img, 0, 0, width, height);
-          
+
           // Convert to JPEG with quality 0.75 (good balance between quality and size)
           // This typically reduces file size by 60-80% while maintaining readability
           const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.75);
-          
+
           // Check if compressed size is reasonable (base64 is ~33% larger than binary)
           // Target: ~500KB base64 = ~375KB binary
           if (compressedDataUrl.length > 500 * 1024) {
@@ -74,11 +74,11 @@ export function PaymentStep({
             resolve(compressedDataUrl);
           }
         };
-        
+
         img.onerror = () => reject(new Error("Failed to load image"));
         img.src = e.target?.result as string;
       };
-      
+
       reader.onerror = () => reject(new Error("Failed to read file"));
       reader.readAsDataURL(file);
     });
@@ -119,7 +119,7 @@ export function PaymentStep({
     try {
       // Compress image before converting to base64
       const compressedDataUrl = await compressImage(file);
-      
+
       // Save compressed base64 data URL in form state
       form.setValue("paymentScreenshotUrl", compressedDataUrl, {
         shouldValidate: true,
@@ -129,7 +129,10 @@ export function PaymentStep({
     } catch (error) {
       form.setError("paymentScreenshotUrl", {
         type: "manual",
-        message: error instanceof Error ? error.message : "Failed to process image. Please try again.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to process image. Please try again.",
       });
     } finally {
       setIsUploading(false);
@@ -154,12 +157,13 @@ export function PaymentStep({
           Please scan the QR code to make the payment
         </p>
         <p className="text-sm text-primary">
-          Registration Fee: <span className="font-bold">₹{registrationFee}</span>
+          Registration Fee:{" "}
+          <span className="font-bold">₹{registrationFee}</span>
         </p>
       </div>
 
       <div className="flex items-center justify-center p-4 sm:p-6 bg-secondary/10 rounded-lg">
-        <div className="relative w-48 h-48 sm:w-56 sm:h-56">
+        <div className="relative w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56">
           <Image
             src="/images/payment/backupQR.jpeg"
             alt="Payment QR Code"
@@ -204,7 +208,7 @@ export function PaymentStep({
                 type="file"
                 accept="image/jpeg,image/jpg,image/png,image/webp"
                 className="border-primary/20 focus:border-primary cursor-pointer"
-                onChange={(e) => {
+                onChange={e => {
                   const file = e.target.files?.[0];
                   if (file) {
                     handleFileChange(file);
@@ -217,11 +221,11 @@ export function PaymentStep({
               />
             </FormControl>
             <p className="text-xs text-muted-foreground">
-              Upload a screenshot of your payment confirmation (Max 5MB, JPG/PNG/WebP).
-              The image will be securely stored via UploadThing.
+              Upload a screenshot of your payment confirmation (Max 5MB,
+              JPG/PNG/WebP). The image will be securely stored via UploadThing.
             </p>
             {previewUrl && (
-              <div className="mt-4 relative w-full max-w-md h-64 border rounded-lg overflow-hidden bg-gray-900/50">
+              <div className="mt-4 relative w-full max-w-md h-48 xs:h-56 sm:h-64 border rounded-lg overflow-hidden bg-gray-900/50">
                 <Image
                   src={previewUrl}
                   alt="Payment screenshot preview"

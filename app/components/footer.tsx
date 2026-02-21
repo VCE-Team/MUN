@@ -72,7 +72,7 @@ export function Footer() {
   return (
     <footer className="bg-black text-white">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           <div className="space-y-4">
             <h3 className="text-xl font-bold">
               Vardhaman College of Engineering
@@ -138,7 +138,7 @@ export function Footer() {
                       Country Matrix
                     </button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] bg-black text-white">
+                  <DialogContent className="w-[95vw] max-w-[425px] bg-black text-white border border-red-500/20">
                     <DialogHeader>
                       <DialogTitle>Download Countries List</DialogTitle>
                       <DialogDescription>
@@ -172,7 +172,7 @@ export function Footer() {
                       VCEMUN Handbook
                     </button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] bg-black text-white">
+                  <DialogContent className="w-[95vw] max-w-[425px] bg-black text-white border border-red-500/20">
                     <DialogHeader>
                       <DialogTitle>Download VCEMUN Handbook</DialogTitle>
                       <DialogDescription>

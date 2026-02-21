@@ -13,6 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "VCE Model United Nations",
   description: "Welcome to VCE Model United Nations - Advocate Aspire Achieve",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({

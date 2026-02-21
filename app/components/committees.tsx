@@ -13,32 +13,24 @@ export const committees = [
     description: "Disarmament and International Security",
     href: "/committees/disec",
     url: "/images/committees/diseccopy.jpg",
-    width: "350px",
-    height: "200px",
   },
   {
     title: "UNHRC",
     description: "Human Rights Council",
     href: "/committees/unhrc",
     url: "/images/committees/unhrc.jpg",
-    width: "350px",
-    height: "200px",
   },
   {
     title: "AIPPM",
     description: "All India Political Parties Meet",
     href: "/committees/aippm",
     url: "/images/committees/aippm.jpeg",
-    width: "350px",
-    height: "200px",
   },
   {
     title: "International Press (IP)",
     description: "Press and Media",
     href: "/committees/internationalpress",
     url: "/images/committees/ip-bw.jpg",
-    width: "350px",
-    height: "200px",
   },
 ];
 
@@ -127,16 +119,15 @@ export function Committees() {
                     href={committee.href}
                     className={cn(
                       "absolute overflow-hidden transition-all duration-700 cursor-pointer z-30",
+                      "w-64 h-48 sm:w-80 sm:h-56 md:w-96 md:h-60",
                       "before:absolute before:inset-0 before:bg-black/60 before:z-10 before:transition-opacity before:pointer-events-none",
                       isActive
                         ? "scale-110 before:opacity-30"
-                        : "hover:scale-95 before:opacity-60"
+                        : "hover:scale-95 before:opacity-60",
                     )}
                     style={{
-                      transform: `rotate(${angle}deg) translateX(325px) rotate(-${angle}deg)`,
+                      transform: `rotate(${angle}deg) translateX(calc(300px + 2vw)) rotate(-${angle}deg)`,
                       pointerEvents: "auto",
-                      width: committee.width,
-                      height: committee.height,
                     }}
                     onMouseEnter={() => setActiveIndex(index)}
                     onMouseLeave={() => setActiveIndex(null)}

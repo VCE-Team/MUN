@@ -31,13 +31,8 @@ function ChairCard({
         {title}
       </h2>
       <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
-        <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border border-white/15 shadow-lg flex-shrink-0">
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            fill
-            className="object-cover"
-          />
+        <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden shadow-lg flex-shrink-0">
+          <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
         </div>
         <div className="space-y-3 text-center sm:text-left">
           <div>

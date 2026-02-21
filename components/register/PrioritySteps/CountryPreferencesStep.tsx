@@ -81,7 +81,8 @@ export function CountryPreferencesStep({
           Allocation Preferences
         </h3>
         <p className="text-sm text-muted-foreground">
-          Select your allocation preferences for each committee in order of priority.
+          Select your allocation preferences for each committee in order of
+          priority.
         </p>
       </div>
 
@@ -90,7 +91,11 @@ export function CountryPreferencesStep({
         <CardHeader className="pb-3">
           <CardTitle className="text-sm sm:text-base break-words">
             <span className="block sm:inline">1st Preference Committee:</span>{" "}
-            <span className="font-semibold">{firstCommittee ? committeeNames[firstCommittee] || firstCommittee : "Not selected"}</span>
+            <span className="font-semibold">
+              {firstCommittee
+                ? committeeNames[firstCommittee] || firstCommittee
+                : "Not selected"}
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -113,7 +118,7 @@ export function CountryPreferencesStep({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {IP_ROLES.map((role) => (
+                      {IP_ROLES.map(role => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
                         </SelectItem>
@@ -125,7 +130,7 @@ export function CountryPreferencesStep({
               )}
             />
           ) : (
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               <FormField
                 control={control}
                 name="firstPreferenceCommittee1stCountry"
@@ -193,7 +198,11 @@ export function CountryPreferencesStep({
         <CardHeader className="pb-3">
           <CardTitle className="text-sm sm:text-base break-words">
             <span className="block sm:inline">2nd Preference Committee:</span>{" "}
-            <span className="font-semibold">{secondCommittee ? committeeNames[secondCommittee] || secondCommittee : "Not selected"}</span>
+            <span className="font-semibold">
+              {secondCommittee
+                ? committeeNames[secondCommittee] || secondCommittee
+                : "Not selected"}
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -216,7 +225,7 @@ export function CountryPreferencesStep({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {IP_ROLES.map((role) => (
+                      {IP_ROLES.map(role => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
                         </SelectItem>
@@ -228,7 +237,7 @@ export function CountryPreferencesStep({
               )}
             />
           ) : (
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               <FormField
                 control={control}
                 name="secondPreferenceCommittee1stCountry"
@@ -296,7 +305,11 @@ export function CountryPreferencesStep({
         <CardHeader className="pb-3">
           <CardTitle className="text-sm sm:text-base break-words">
             <span className="block sm:inline">3rd Preference Committee:</span>{" "}
-            <span className="font-semibold">{thirdCommittee ? committeeNames[thirdCommittee] || thirdCommittee : "Not selected"}</span>
+            <span className="font-semibold">
+              {thirdCommittee
+                ? committeeNames[thirdCommittee] || thirdCommittee
+                : "Not selected"}
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -319,7 +332,7 @@ export function CountryPreferencesStep({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {IP_ROLES.map((role) => (
+                      {IP_ROLES.map(role => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
                         </SelectItem>
@@ -331,7 +344,7 @@ export function CountryPreferencesStep({
               )}
             />
           ) : (
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               <FormField
                 control={control}
                 name="thirdPreferenceCommittee1stCountry"
