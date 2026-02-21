@@ -321,7 +321,7 @@ export function PriorityRegistrationForm() {
             Priority Round Registration
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground">
-            Closing Date: 21 February 2026
+            Closing Date: 21 February 2026 at 10:00 PM
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground">
             Step {step} of 4: {getStepTitle()}

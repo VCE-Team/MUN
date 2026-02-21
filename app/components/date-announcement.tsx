@@ -15,7 +15,7 @@ const DateAnnouncement: React.FC = () => {
   const elementRef = useRef<HTMLDivElement>(null);
   const fullMainText = "VCEMUN will be held on February 27th & 28th, 2026.";
   const fullPromotionText =
-    "Priority Round registrations close on 21 Feb 2026.";
+    "Priority Round registrations close on 21 Feb 2026 at 10:00 PM.";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -102,7 +102,7 @@ const DateAnnouncement: React.FC = () => {
       <div className="mt-8 w-full flex justify-center px-4">
         <Link href="/register">
           <Button className="w-full max-w-xs sm:max-w-md px-6 py-2 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold bg-red-600 hover:bg-red-700 rounded-full shadow-lg whitespace-normal text-center leading-snug">
-            Priority Round Registration closes on 21 Feb 2026
+            Register Now
           </Button>
         </Link>
       </div>
