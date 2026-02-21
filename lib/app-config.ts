@@ -4,7 +4,10 @@
  */
 export const appConfig = {
   /** Backend API base URL (registration + admin APIs) */
-  backendUrl: "https://munvcebackend.vercel.app",
+  backendUrl:
+    process.env.NEXT_PUBLIC_BACKEND_URL || "https://munvcebackend.vercel.app",
   /** Secret path segment for admin login. URL: /admin/<adminSecretPath> */
-  adminSecretPath: "admin-path-only-for-vce-mun-adminstrators",
+  adminSecretPath:
+    process.env.ADMIN_SECRET_PATH ||
+    "admin-secret-path-change-this-to-something-unique-and-secret",
 } as const;

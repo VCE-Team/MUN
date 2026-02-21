@@ -73,6 +73,10 @@ export function priorityListKey(queryKey: string): string {
   return `priority-list:${queryKey}`;
 }
 
+export function firstRoundListKey(queryKey: string): string {
+  return `first-round-list:${queryKey}`;
+}
+
 export function pastListKey(queryKey: string): string {
   return `past-list:${queryKey}`;
 }
@@ -81,12 +85,20 @@ export function priorityDocKey(id: string): string {
   return `priority-doc:${id}`;
 }
 
+export function firstRoundDocKey(id: string): string {
+  return `first-round-doc:${id}`;
+}
+
 export function pastDocKey(id: string): string {
   return `past-doc:${id}`;
 }
 
 export function priorityScreenshotKey(id: string): string {
   return `priority-screenshot:${id}`;
+}
+
+export function firstRoundScreenshotKey(id: string): string {
+  return `first-round-screenshot:${id}`;
 }
 
 // TTLs for callers

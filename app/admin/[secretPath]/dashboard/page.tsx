@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
+import { FirstRoundRegistrationsView } from "@/app/admin/[secretPath]/dashboard/first-round-registrations-view";
 import { PriorityRegistrationsView } from "@/app/admin/[secretPath]/dashboard/priority-registrations-view";
 import { PastRegistrationsView } from "@/app/admin/[secretPath]/dashboard/past-registrations-view";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,7 +20,9 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     const token =
-      typeof localStorage !== "undefined" ? localStorage.getItem("adminToken") : null;
+      typeof localStorage !== "undefined"
+        ? localStorage.getItem("adminToken")
+        : null;
     if (!token) {
       setAuthOk(false);
       return;
@@ -27,7 +30,7 @@ export default function AdminDashboardPage() {
     fetch(`${appConfig.backendUrl}/api/admin/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then((r) => {
+      .then(r => {
         if (r.ok) setAuthOk(true);
         else setAuthOk(false);
       })
@@ -79,21 +82,30 @@ export default function AdminDashboardPage() {
       </header>
       <main className="flex-1 p-4 md:p-6 min-w-0 overflow-x-hidden">
         <ErrorBoundary>
-          <Tabs defaultValue="priority" className="w-full min-w-0">
-            <TabsList className="mb-4 h-12 w-full max-w-full sm:max-w-md border border-white/10 bg-black/40 p-1 backdrop-blur-sm md:max-w-sm">
+          <Tabs defaultValue="firstRound" className="w-full min-w-0">
+            <TabsList className="mb-4 h-12 w-full max-w-full sm:max-w-3xl border border-white/10 bg-black/40 p-1 backdrop-blur-sm md:max-w-4xl flex-wrap">
+              <TabsTrigger
+                value="firstRound"
+                className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
+              >
+                First Round (2026)
+              </TabsTrigger>
               <TabsTrigger
                 value="priority"
                 className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
               >
-                Priority (VCEMUN 2026)
+                Priority Round (2026)
               </TabsTrigger>
               <TabsTrigger
                 value="past"
                 className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
               >
-                Past registrations
+                Past registrations (2025)
               </TabsTrigger>
             </TabsList>
+            <TabsContent value="firstRound" className="mt-0">
+              <FirstRoundRegistrationsView />
+            </TabsContent>
             <TabsContent value="priority" className="mt-0">
               <PriorityRegistrationsView />
             </TabsContent>

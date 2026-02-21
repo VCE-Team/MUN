@@ -71,11 +71,10 @@ export function Committees() {
   };
 
   return (
-    <>
+    <div id="committees" className="scroll-mt-20">
       <div className="hidden md:block">
         <section
           ref={containerRef}
-          id="committees"
           className="relative pt-[6vh] pb-[6vh] bg-black flex flex-col items-center justify-center overflow-hidden"
         >
           <div className="flex flex-col items-center w-full">
@@ -156,6 +155,6 @@ export function Committees() {
         </section>
       </div>
       <CommitteesMobile />
-    </>
+    </div>
   );
 }

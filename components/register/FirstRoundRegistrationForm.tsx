@@ -4,30 +4,44 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, ArrowRight, ArrowLeft, Edit2, Check } from "lucide-react";
+import { Loader2, ArrowRight, ArrowLeft, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
-  PriorityRegistrationSchema,
-  priorityRegistrationSchema,
-} from "@/schemas/priorityRegistrationForm";
-import { PersonalDetailsStep } from "./PrioritySteps/PersonalDetailsStep";
-import { CommitteePreferencesStep } from "./PrioritySteps/CommitteePreferencesStep";
-import { CountryPreferencesStep } from "./PrioritySteps/CountryPreferencesStep";
-import { PriorExperienceStep } from "./PrioritySteps/PriorExperienceStep";
-import { PaymentStep } from "./PrioritySteps/PaymentStep";
-import { ReviewStep } from "./PrioritySteps/ReviewStep";
+  FirstRoundRegistrationSchema,
+  firstRoundRegistrationSchema,
+} from "@/schemas/firstRoundRegistrationForm";
+import { PersonalDetailsStep } from "./FirstRoundSteps/PersonalDetailsStep";
+import { CommitteePreferencesStep } from "./FirstRoundSteps/CommitteePreferencesStep";
+import { CountryPreferencesStep } from "./FirstRoundSteps/CountryPreferencesStep";
+import { PriorExperienceStep } from "./FirstRoundSteps/PriorExperienceStep";
+import { PaymentStep } from "./FirstRoundSteps/PaymentStep";
+import { ReviewStep } from "./FirstRoundSteps/ReviewStep";
 import { appConfig } from "@/lib/app-config";
 
-export function PriorityRegistrationForm() {
+/**
+ * First Round Registration Form Component
+ *
+ * Handles multi-step registration for First Round participants:
+ * - Step 1: Personal Details (name, email, phone, institution)
+ * - Step 2: Committee Preferences (1st, 2nd, 3rd choice committees)
+ * - Step 3: Allocation Preferences & Experience (countries/IP roles + prior experience)
+ * - Step 4: Review & Confirm (payment details verification)
+ * - Step 5: Final Submission
+ *
+ * Registration Fees:
+ * - In-House (VCE): ₹800
+ * - Other Colleges: ₹1300
+ */
+export function FirstRoundRegistrationForm() {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isReviewMode, setIsReviewMode] = useState(false);
   const router = useRouter();
 
-  const form = useForm<PriorityRegistrationSchema>({
-    resolver: zodResolver(priorityRegistrationSchema),
+  const form = useForm<FirstRoundRegistrationSchema>({
+    resolver: zodResolver(firstRoundRegistrationSchema),
     defaultValues: {
       targetAudience: undefined,
       name: "",
@@ -60,9 +74,13 @@ export function PriorityRegistrationForm() {
   });
 
   const targetAudience = form.watch("targetAudience");
+  // First Round pricing: inHouse = ₹800, otherColleges = ₹1300
   const registrationFee = targetAudience === "inHouse" ? 800 : 1300;
 
-  const checkEmailExists = async (email: string) => {
+  /**
+   * Check if email already exists in First Round or past registrations
+   */
+  const checkEmailExists = async (email: string): Promise<boolean> => {
     try {
       const normalizedEmail = email.trim().toLowerCase();
       const response = await fetch(
@@ -79,13 +97,17 @@ export function PriorityRegistrationForm() {
       const data = await response.json();
       return data.exists || false;
     } catch (error) {
-      // On any network/CORS error, just treat as "not existing"
+      // On any network/CORS error, treat as "not existing" to allow retry
+      console.error("Email check error:", error);
       return false;
     }
   };
 
+  /**
+   * Validate specific step fields
+   */
   const validateStep = async (stepNumber: number): Promise<boolean> => {
-    let fieldsToValidate: (keyof PriorityRegistrationSchema)[] = [];
+    let fieldsToValidate: (keyof FirstRoundRegistrationSchema)[] = [];
 
     switch (stepNumber) {
       // Step 1: Personal details only
@@ -107,6 +129,7 @@ export function PriorityRegistrationForm() {
           }
         }
         break;
+
       // Step 2: Committees + allocation preferences + prior experience
       case 2:
         fieldsToValidate = [
@@ -128,6 +151,7 @@ export function PriorityRegistrationForm() {
           "priorMUNExperience",
         ];
         break;
+
       // Step 3: Payment
       case 3:
         fieldsToValidate = ["transactionId", "paymentScreenshotUrl"];
@@ -187,7 +211,10 @@ export function PriorityRegistrationForm() {
     setStep(stepNumber);
   };
 
-  async function onSubmit(values: PriorityRegistrationSchema) {
+  /**
+   * Submit First Round registration
+   */
+  async function onSubmit(values: FirstRoundRegistrationSchema) {
     setIsLoading(true);
     try {
       // For in-house, institution is automatically set to VCE
@@ -241,7 +268,7 @@ export function PriorityRegistrationForm() {
       };
 
       const response = await fetch(
-        `${appConfig.backendUrl}/api/priority-register`,
+        `${appConfig.backendUrl}/api/first-round-register`,
         {
           method: "POST",
           headers: {
@@ -274,7 +301,7 @@ export function PriorityRegistrationForm() {
         throw new Error(data.message || "Registration failed");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Error during First Round registration:", error);
       let errorMessage =
         "There was an error processing your registration. Please try again.";
 
@@ -305,11 +332,13 @@ export function PriorityRegistrationForm() {
       case 1:
         return "Personal Details";
       case 2:
-        return "Committees, Countries & Experience";
+        return "Committee Preferences";
       case 3:
+        return "Payment Details";
+      case 4:
         return "Review & Confirm";
       default:
-        return "Registration";
+        return "First Round Registration";
     }
   };
 
@@ -317,9 +346,6 @@ export function PriorityRegistrationForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="text-center space-y-2 mb-6 px-4">
-          {/* <p className="text-xs sm:text-sm text-muted-foreground">
-            First Round is now open!
-          </p> */}
           <p className="text-xs sm:text-sm text-muted-foreground">
             Step {step} of 4: {getStepTitle()}
           </p>
