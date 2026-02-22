@@ -67,9 +67,8 @@ export function Hero() {
       <ScrollReset />
       <section ref={sectionRef} className="relative w-full overflow-hidden">
         <div
-          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-            bgLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${bgLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
           style={{ backgroundColor: '#000' }}
         />
         {bgLoaded && (
@@ -105,12 +104,6 @@ export function Hero() {
             )}
           </div>
         )}
-        <Button
-          onClick={toggleMute}
-          className="absolute top-4 left-4 z-10 rounded-full p-2 shadow-md"
-        >
-          {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
-        </Button>
       </section>
     </>
   );

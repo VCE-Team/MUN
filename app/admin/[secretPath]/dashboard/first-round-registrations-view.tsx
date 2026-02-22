@@ -26,6 +26,7 @@ import { Badge } from '@/components/ui/badge';
 import { RefreshCw } from 'lucide-react';
 import { appConfig } from '@/lib/app-config';
 import { INSTITUTION_OPTIONS } from '@/lib/institutions';
+import { FirstRoundDetailView } from '@/app/admin/[secretPath]/dashboard/first-round-detail-view';
 import type { PriorityRegistrationListItem } from '@/lib/admin-types';
 import { normalizeId, isPriorityListResponse } from '@/lib/admin-types';
 import { getAdminHeaders, formatAdminDate } from '@/lib/admin-utils';
@@ -41,6 +42,11 @@ import {
 function getCommitteePreferenceItems(
   doc: PriorityRegistrationListItem
 ): { rank: number; committee: string }[] {
+  if (doc.committeePreferences && Array.isArray(doc.committeePreferences)) {
+    return doc.committeePreferences
+      .sort((a, b) => a.rank - b.rank)
+      .map((p) => ({ rank: p.rank, committee: p.committee }));
+  }
   return [
     { rank: 1, committee: doc.firstPreferenceCommittee ?? '' },
     { rank: 2, committee: doc.secondPreferenceCommittee ?? '' },
@@ -102,6 +108,7 @@ export function FirstRoundRegistrationsView() {
   const [list, setList] = useState<PriorityRegistrationListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [applyKey, setApplyKey] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [revalidateError, setRevalidateError] = useState<string | null>(null);
   const [refreshLoading, setRefreshLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -218,6 +225,17 @@ export function FirstRoundRegistrationsView() {
     setCurrentPage(1);
     setApplyKey((k) => k + 1);
   }, []);
+
+  if (selectedId) {
+    return (
+      <div className="space-y-4">
+        <FirstRoundDetailView
+          id={selectedId}
+          onBack={() => setSelectedId(null)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -445,7 +463,11 @@ export function FirstRoundRegistrationsView() {
                     .map((row) => (
                       <TableRow
                         key={normalizeId(row._id)}
-                        className="border-white/10 hover:bg-white/10"
+                        className="cursor-pointer border-white/10 hover:bg-white/10"
+                        onClick={() => {
+                          const id = normalizeId(row._id);
+                          if (id) setSelectedId(id);
+                        }}
                       >
                         <TableCell className="font-medium">
                           {row.name ?? '—'}
