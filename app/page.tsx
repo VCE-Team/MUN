@@ -7,6 +7,7 @@ import { LoadingScreen } from './components/loading-screen';
 import DateAnnouncement from './components/date-announcement';
 import { RouteLoading } from './components/route-loading';
 import { CountdownTimer } from './components/countdown-timer';
+import { Secretariat } from './components/secretariat';
 
 export default function Home() {
   return (
@@ -22,6 +23,9 @@ export default function Home() {
       </RevealAnimation>
       <RevealAnimation>
         <Committees />
+      </RevealAnimation>
+      <RevealAnimation>
+        <Secretariat />
       </RevealAnimation>
       <RevealAnimation>
         <Partners />
