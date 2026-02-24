@@ -15,7 +15,7 @@ const DateAnnouncement: React.FC = () => {
   const elementRef = useRef<HTMLDivElement>(null);
   const fullMainText = 'VCEMUN will be held on February 27th & 28th, 2026.';
   const fullPromotionText =
-    'Priority Round is finished, now the First Round registrations are open!';
+    'LAST DAY! First Round registrations close TONIGHT - Register now!';
 
   useEffect(() => {
     const observer = new IntersectionObserver(
