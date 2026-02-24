@@ -9,17 +9,12 @@ export default function RegisterPage() {
       <div className="container max-w-3xl mx-auto pt-10">
         <Card className="border-gray-800 shadow-xl bg-gray-900/80 backdrop-blur">
           <CardHeader className="text-center space-y-3">
-            <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 mb-3">
-              <p className="text-red-400 font-bold text-base sm:text-lg">
-                ⚠️ LAST DAY! First Round Registrations Close Tonight ⚠️
-              </p>
-            </div>
             <CardTitle className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
               First Round Registration
             </CardTitle>
             <p className="text-gray-300 text-sm sm:text-base">
-              Register now for the First Round! Prices: In-House ₹800, Other
-              Colleges ₹1300
+              Last day! First Round registrations close tonight. Prices:
+              In-House ₹800, Other Colleges ₹1300
             </p>
           </CardHeader>
 
