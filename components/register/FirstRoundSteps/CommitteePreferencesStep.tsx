@@ -42,7 +42,7 @@ export function CommitteePreferencesStep({
     },
     { value: 'unhrc', label: 'United Nations Human Rights Council (UNHRC)' },
     { value: 'aippm', label: 'All India Political Parties Meet (AIPPM)' },
-    { value: 'ip', label: 'International Press (IP)' },
+    { value: 'ip', label: 'International Press (IP) (closed)', disabled: true },
   ];
 
   return (
@@ -76,7 +76,8 @@ export function CommitteePreferencesStep({
                   {committees.map((committee) => {
                     const isDisabled =
                       committee.value === secondPreference ||
-                      committee.value === thirdPreference;
+                      committee.value === thirdPreference ||
+                      committee.disabled;
                     return (
                       <SelectItem
                         key={committee.value}
@@ -112,7 +113,8 @@ export function CommitteePreferencesStep({
                   {committees.map((committee) => {
                     const isDisabled =
                       committee.value === firstPreference ||
-                      committee.value === thirdPreference;
+                      committee.value === thirdPreference ||
+                      committee.disabled;
                     return (
                       <SelectItem
                         key={committee.value}
@@ -148,7 +150,8 @@ export function CommitteePreferencesStep({
                   {committees.map((committee) => {
                     const isDisabled =
                       committee.value === firstPreference ||
-                      committee.value === secondPreference;
+                      committee.value === secondPreference ||
+                      committee.disabled;
                     return (
                       <SelectItem
                         key={committee.value}
