@@ -175,6 +175,17 @@ export function PaymentStep({
         </div>
       </div>
 
+      <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+        <p className="text-sm font-semibold text-amber-700 dark:text-amber-300">
+          Refund Policy
+        </p>
+        <p className="text-sm text-amber-700/90 dark:text-amber-300/90 mt-2">
+          Please note that no refunds will be provided once the registration
+          payment has been processed. We encourage you to review all
+          registration details carefully before completing your payment.
+        </p>
+      </div>
+
       <FormField
         control={control}
         name="transactionId"
