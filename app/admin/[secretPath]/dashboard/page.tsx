@@ -83,8 +83,14 @@ export default function AdminDashboardPage() {
       </header>
       <main className="flex-1 p-4 md:p-6 min-w-0 overflow-x-hidden">
         <ErrorBoundary>
-          <Tabs defaultValue="firstRound" className="w-full min-w-0">
+          <Tabs defaultValue="dynamicRound" className="w-full min-w-0">
             <TabsList className="mb-4 h-12 w-full max-w-full sm:max-w-3xl border border-white/10 bg-black/40 p-1 backdrop-blur-sm md:max-w-4xl flex-wrap">
+              <TabsTrigger
+                value="dynamicRound"
+                className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
+              >
+                Dynamic Round (2026)
+              </TabsTrigger>
               <TabsTrigger
                 value="firstRound"
                 className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
@@ -98,26 +104,20 @@ export default function AdminDashboardPage() {
                 Priority Round (2026)
               </TabsTrigger>
               <TabsTrigger
-                value="dynamicRound"
-                className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
-              >
-                Dynamic Round (2026)
-              </TabsTrigger>
-              <TabsTrigger
                 value="past"
                 className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
               >
                 Past registrations (2025)
               </TabsTrigger>
             </TabsList>
+            <TabsContent value="dynamicRound" className="mt-0">
+              <DynamicRoundRegistrationsView />
+            </TabsContent>
             <TabsContent value="firstRound" className="mt-0">
               <FirstRoundRegistrationsView />
             </TabsContent>
             <TabsContent value="priority" className="mt-0">
               <PriorityRegistrationsView />
-            </TabsContent>
-            <TabsContent value="dynamicRound" className="mt-0">
-              <DynamicRoundRegistrationsView />
             </TabsContent>
             <TabsContent value="past" className="mt-0">
               <PastRegistrationsView />
