@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import { FirstRoundRegistrationsView } from '@/app/admin/[secretPath]/dashboard/first-round-registrations-view';
 import { PriorityRegistrationsView } from '@/app/admin/[secretPath]/dashboard/priority-registrations-view';
+import { DynamicRoundRegistrationsView } from '@/app/admin/[secretPath]/dashboard/dynamic-round-registrations-view';
 import { PastRegistrationsView } from '@/app/admin/[secretPath]/dashboard/past-registrations-view';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -97,6 +98,12 @@ export default function AdminDashboardPage() {
                 Priority Round (2026)
               </TabsTrigger>
               <TabsTrigger
+                value="dynamicRound"
+                className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
+              >
+                Dynamic Round (2026)
+              </TabsTrigger>
+              <TabsTrigger
                 value="past"
                 className="flex-1 min-w-0 text-xs sm:text-sm truncate data-[state=active]:bg-[var(--logo-gold-yellow)] data-[state=active]:text-black"
               >
@@ -108,6 +115,9 @@ export default function AdminDashboardPage() {
             </TabsContent>
             <TabsContent value="priority" className="mt-0">
               <PriorityRegistrationsView />
+            </TabsContent>
+            <TabsContent value="dynamicRound" className="mt-0">
+              <DynamicRoundRegistrationsView />
             </TabsContent>
             <TabsContent value="past" className="mt-0">
               <PastRegistrationsView />

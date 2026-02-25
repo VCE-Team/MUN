@@ -25,6 +25,7 @@ import { INSTITUTION_OPTIONS } from '@/lib/institutions';
 interface PersonalDetailsStepProps {
   control: Control<FirstRoundRegistrationSchema>;
   form: UseFormReturn<FirstRoundRegistrationSchema>;
+  otherCollegeFee?: number; // Default: 1300 (for First Round), can be overridden to 1500 (for Dynamic Round)
 }
 
 /**
@@ -34,6 +35,7 @@ interface PersonalDetailsStepProps {
 export function PersonalDetailsStep({
   control,
   form,
+  otherCollegeFee = 1300,
 }: PersonalDetailsStepProps) {
   const targetAudience = form.watch('targetAudience');
   const institution = form.watch('institution');
@@ -104,7 +106,7 @@ export function PersonalDetailsStep({
                       htmlFor="otherCollege"
                       className="font-normal cursor-pointer text-sm"
                     >
-                      Other Colleges - ₹1300
+                      Other Colleges - ₹{otherCollegeFee}
                     </Label>
                   </div>
                 </RadioGroup>
