@@ -22,6 +22,7 @@ export function Footer() {
   const [openHandbook, setOpenHandbook] = useState(false);
   const [openAIPPMGuide, setOpenAIPPMGuide] = useState(false);
   const [openUNHRCGuide, setOpenUNHRCGuide] = useState(false);
+  const [openIPGuide, setOpenIPGuide] = useState(false);
 
   const handleDownload = (fileUrl: string) => {
     const link = document.createElement('a');
@@ -30,6 +31,9 @@ export function Footer() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    // Open in new tab
+    window.open(fileUrl, '_blank');
   };
 
   useEffect(() => {
@@ -155,11 +159,12 @@ export function Footer() {
                       </Button>
                       <Button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           handleDownload(
                             '/Background Guides/AIPPM Background Guide.pdf'
-                          )
-                        }
+                          );
+                          setOpenAIPPMGuide(false);
+                        }}
                       >
                         Download
                       </Button>
@@ -192,11 +197,47 @@ export function Footer() {
                       </Button>
                       <Button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           handleDownload(
                             '/Background Guides/UNHRC Background Guide.pdf'
-                          )
-                        }
+                          );
+                          setOpenUNHRCGuide(false);
+                        }}
+                      >
+                        Download
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </li>
+              <li>
+                <Dialog open={openIPGuide} onOpenChange={setOpenIPGuide}>
+                  <DialogTrigger asChild>
+                    <button className="text-gray-400 hover:text-white uppercase">
+                      IP Handbook
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[95vw] max-w-[425px] bg-black text-white border border-red-500/20">
+                    <DialogHeader>
+                      <DialogTitle>Download IP Handbook</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to download the IP Handbook?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        onClick={() => setOpenIPGuide(false)}
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          handleDownload('/Background Guides/IP Handbook.pdf');
+                          setOpenIPGuide(false);
+                        }}
                       >
                         Download
                       </Button>

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { PortfolioDownload } from '@/app/components/portfolio-download';
 import { CommitteeEBGrid } from '@/app/components/committee-eb-grid';
 
 export default function InternationalPressPage() {
@@ -66,6 +67,14 @@ export default function InternationalPressPage() {
             interviews, and capture moments that define the conference, bringing
             every committee to life through their lens and words.
           </p>
+        </div>
+
+        <div className="flex justify-center pt-8">
+          <PortfolioDownload
+            filename="IP Handbook.pdf"
+            fileUrl="/Background Guides/IP Handbook.pdf"
+            label="Handbook"
+          />
         </div>
       </motion.section>
 
