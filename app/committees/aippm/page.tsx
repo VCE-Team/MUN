@@ -63,10 +63,16 @@ export default function AIPPMPage() {
           </p>
         </div>
 
-        <div className="flex justify-center pt-8">
+        <div className="flex flex-col items-center gap-4 pt-8">
           <PortfolioDownload
             filename="AIPPM_Portfolios.xlsx"
             fileUrl="/spreadsheet/AIPPM_Portfolios.xlsx"
+            label="Portfolio Matrix"
+          />
+          <PortfolioDownload
+            filename="AIPPM Background Guide.pdf"
+            fileUrl="/Background Guides/AIPPM Background Guide.pdf"
+            label="Background Guide"
           />
         </div>
       </motion.section>

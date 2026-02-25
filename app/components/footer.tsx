@@ -20,6 +20,8 @@ export function Footer() {
   const pathname = usePathname();
   const [openCountryMatrix, setOpenCountryMatrix] = useState(false);
   const [openHandbook, setOpenHandbook] = useState(false);
+  const [openAIPPMGuide, setOpenAIPPMGuide] = useState(false);
+  const [openUNHRCGuide, setOpenUNHRCGuide] = useState(false);
 
   const handleDownload = (fileUrl: string) => {
     const link = document.createElement('a');
@@ -104,6 +106,14 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-4">Useful Links</h4>
             <ul className="space-y-2">
               <li>
+                <Link
+                  href="/chairs"
+                  className="text-gray-400 hover:text-white uppercase"
+                >
+                  Chairs
+                </Link>
+              </li>
+              <li>
                 <a
                   href="/#committees"
                   onClick={handleCommitteesClick}
@@ -121,12 +131,78 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/chairs"
-                  className="text-gray-400 hover:text-white uppercase"
-                >
-                  Chairs
-                </Link>
+                <Dialog open={openAIPPMGuide} onOpenChange={setOpenAIPPMGuide}>
+                  <DialogTrigger asChild>
+                    <button className="text-gray-400 hover:text-white uppercase">
+                      AIPPM Background Guide
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[95vw] max-w-[425px] bg-black text-white border border-red-500/20">
+                    <DialogHeader>
+                      <DialogTitle>Download AIPPM Background Guide</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to download the AIPPM Background
+                        Guide?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        onClick={() => setOpenAIPPMGuide(false)}
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() =>
+                          handleDownload(
+                            '/Background Guides/AIPPM Background Guide.pdf'
+                          )
+                        }
+                      >
+                        Download
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </li>
+              <li>
+                <Dialog open={openUNHRCGuide} onOpenChange={setOpenUNHRCGuide}>
+                  <DialogTrigger asChild>
+                    <button className="text-gray-400 hover:text-white uppercase">
+                      UNHRC Background Guide
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[95vw] max-w-[425px] bg-black text-white border border-red-500/20">
+                    <DialogHeader>
+                      <DialogTitle>Download UNHRC Background Guide</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to download the UNHRC Background
+                        Guide?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        onClick={() => setOpenUNHRCGuide(false)}
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() =>
+                          handleDownload(
+                            '/Background Guides/UNHRC Background Guide.pdf'
+                          )
+                        }
+                      >
+                        Download
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </li>
               {/* <li>
                 <Dialog

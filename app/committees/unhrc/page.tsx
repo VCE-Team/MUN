@@ -56,10 +56,16 @@ export default function UNHRCPage() {
           </p>
         </div>
 
-        <div className="flex justify-center pt-8">
+        <div className="flex flex-col items-center gap-4 pt-8">
           <PortfolioDownload
             filename="UNHRC_Portfolio.xlsx"
             fileUrl="/spreadsheet/UNHRC_Portfolio.xlsx"
+            label="Portfolio Matrix"
+          />
+          <PortfolioDownload
+            filename="UNHRC Background Guide.pdf"
+            fileUrl="/Background Guides/UNHRC Background Guide.pdf"
+            label="Background Guide"
           />
         </div>
       </motion.section>
