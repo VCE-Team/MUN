@@ -22,6 +22,7 @@ export function Footer() {
   const [openHandbook, setOpenHandbook] = useState(false);
   const [openAIPPMGuide, setOpenAIPPMGuide] = useState(false);
   const [openUNHRCGuide, setOpenUNHRCGuide] = useState(false);
+  const [openDISECGuide, setOpenDISECGuide] = useState(false);
   const [openIPGuide, setOpenIPGuide] = useState(false);
 
   const handleDownload = (fileUrl: string) => {
@@ -202,6 +203,44 @@ export function Footer() {
                             '/Background Guides/UNHRC Background Guide.pdf'
                           );
                           setOpenUNHRCGuide(false);
+                        }}
+                      >
+                        Download
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </li>
+              <li>
+                <Dialog open={openDISECGuide} onOpenChange={setOpenDISECGuide}>
+                  <DialogTrigger asChild>
+                    <button className="text-gray-400 hover:text-white uppercase">
+                      DISEC Background Guide
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[95vw] max-w-[425px] bg-black text-white border border-red-500/20">
+                    <DialogHeader>
+                      <DialogTitle>Download DISEC Background Guide</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to download the DISEC Background
+                        Guide?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        type="button"
+                        onClick={() => setOpenDISECGuide(false)}
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          handleDownload(
+                            '/Background Guides/DISEC Background Guide.pdf'
+                          );
+                          setOpenDISECGuide(false);
                         }}
                       >
                         Download
