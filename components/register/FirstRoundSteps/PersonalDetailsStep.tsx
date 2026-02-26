@@ -44,15 +44,27 @@ export function PersonalDetailsStep({
   // Auto-set institution for in-house users
   useEffect(() => {
     if (targetAudience === 'inHouse') {
-      form.setValue('institution', 'Vardhaman College of Engineering');
-      form.setValue('otherInstitution', '');
+      form.setValue('institution', 'Vardhaman College of Engineering', {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      form.setValue('otherInstitution', '', {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       setShowCustomInput(false);
     } else if (
       targetAudience === 'otherCollege' &&
       institution === 'Vardhaman College of Engineering'
     ) {
-      form.setValue('institution', '');
-      form.setValue('otherInstitution', '');
+      form.setValue('institution', '', {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      form.setValue('otherInstitution', '', {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       setShowCustomInput(false);
     }
   }, [targetAudience, form, institution]);
@@ -87,7 +99,28 @@ export function PersonalDetailsStep({
             <FormItem>
               <FormControl>
                 <RadioGroup
-                  onValueChange={field.onChange}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    if (value === 'inHouse') {
+                      form.setValue(
+                        'institution',
+                        'Vardhaman College of Engineering',
+                        { shouldValidate: true, shouldDirty: true }
+                      );
+                      form.setValue('otherInstitution', '');
+                      setShowCustomInput(false);
+                    } else if (
+                      form.getValues('institution') ===
+                      'Vardhaman College of Engineering'
+                    ) {
+                      form.setValue('institution', '', {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                      form.setValue('otherInstitution', '');
+                      setShowCustomInput(false);
+                    }
+                  }}
                   value={field.value ?? ''}
                   className="flex flex-col gap-3 xs:flex-row xs:gap-6"
                 >
@@ -189,9 +222,10 @@ export function PersonalDetailsStep({
                 <FormControl>
                   <Input
                     className="border-primary/20 focus:border-primary bg-muted"
-                    value="Vardhaman College of Engineering"
                     disabled
                     readOnly
+                    {...field}
+                    value={field.value || 'Vardhaman College of Engineering'}
                   />
                 </FormControl>
               ) : (
