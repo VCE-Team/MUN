@@ -10,7 +10,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -119,11 +118,6 @@ export function Header() {
                       Chairs
                     </Link>
                   </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/register">
-                    <Button>Register</Button>
-                  </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>

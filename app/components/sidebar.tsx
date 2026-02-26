@@ -64,9 +64,6 @@ export function Sidebar() {
             <Link href="/chairs" onClick={() => setIsOpen(false)}>
               Chairs
             </Link>
-            <Link href="/register" onClick={() => setIsOpen(false)}>
-              <Button className="w-full">Register</Button>
-            </Link>
           </nav>
         </SheetContent>
       </Sheet>

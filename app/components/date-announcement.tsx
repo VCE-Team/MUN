@@ -1,9 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 import '../DateAnnouncement.css';
 
 const DateAnnouncement: React.FC = () => {
@@ -14,7 +12,8 @@ const DateAnnouncement: React.FC = () => {
   const [allTextComplete, setAllTextComplete] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const fullMainText = 'VCEMUN will be held on February 27th & 28th, 2026.';
-  const fullPromotionText = 'First round closed and Dynamic Round opened!';
+  const fullPromotionText =
+    'Registrations are now closed. See you at the conference!';
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -98,13 +97,6 @@ const DateAnnouncement: React.FC = () => {
           </div>
         )}
       </motion.div>
-      <div className="mt-8 w-full flex justify-center px-4">
-        <Link href="/register">
-          <Button className="w-full max-w-xs sm:max-w-md px-6 py-2 sm:px-8 sm:py-3 text-sm sm:text-base font-semibold bg-red-600 hover:bg-red-700 rounded-full shadow-lg whitespace-normal text-center leading-snug">
-            Register Now
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 };

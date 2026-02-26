@@ -20,24 +20,6 @@ export default function InternationalPressPage() {
   ];
   return (
     <div className="py-12 sm:py-16 md:py-24 space-y-16 sm:space-y-20 md:space-y-24 px-4">
-      {/* Registration Closed Notice */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="max-w-4xl mx-auto px-4"
-      >
-        <div className="bg-red-900/30 border border-red-500/50 rounded-lg p-4 sm:p-6 text-center">
-          <h3 className="text-lg sm:text-xl font-bold text-red-400 mb-2">
-            Registrations Closed
-          </h3>
-          <p className="text-sm sm:text-base text-gray-300">
-            Registrations for the International Press committee have been
-            closed.
-          </p>
-        </div>
-      </motion.div>
-
       {/* Agenda (not agenda-based, so we highlight mandate) + Description */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
