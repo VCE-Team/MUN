@@ -52,7 +52,7 @@
     "@types/webidl-conversions": "^7.0.3",
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.5",
-    "postcss": "^8.5.6",
+    "postcss": "^8.5.18",
     "prettier": "^3.8.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.9.3"
